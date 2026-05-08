@@ -1,0 +1,2058 @@
+<!---->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSRTC Fare Finder - Check Your Bus Fare Instantly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --card-hover-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 50%, #fce7f3 100%);
+            min-height: 100vh;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 6px;
+            background: #f3f4f6;
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #6b7280;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #374151;
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            padding-top: 90px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+        }
+
+        .greeting {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Search Card */
+        .search-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .search-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-title::before {
+            content: "🚌";
+            font-size: 1.8rem;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .search-input-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-input-wrapper .icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 1.2rem;
+        }
+
+        .live-search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            margin-top: 4px;
+        }
+
+        .live-search-results.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .search-result-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-result-item:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-stop-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .swap-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2px;
+        }
+
+        .swap-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(180deg);
+        }
+
+        .search-btn {
+            grid-column: 1 / -1;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .search-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Results Section */
+        .results-section {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .route-info-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .route-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .route-point {
+            text-align: center;
+        }
+
+        .route-point-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .route-point-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .route-arrow {
+            font-size: 2rem;
+            color: var(--secondary);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        .route-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        /* Route Map / Intermediate Stops */
+        .intermediate-stops {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stops-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .stops-timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .stop-item {
+            position: relative;
+            padding: 12px 0 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stop-dot {
+            position: absolute;
+            left: -24px;
+            width: 28px;
+            height: 28px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .stop-item.start .stop-dot,
+        .stop-item.end .stop-dot {
+            background: var(--primary);
+            border-color: var(--primary);
+            width: 32px;
+            height: 32px;
+            left: -26px;
+        }
+
+        .stop-name {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .stop-bus-numbers {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .bus-number-badge {
+            padding: 4px 10px;
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Fare Cards */
+        .fare-cards-section {
+            margin-bottom: 2rem;
+        }
+
+        .fare-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .fare-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .fare-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .fare-card-header {
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fare-card.ordinary .fare-card-header {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        }
+
+        .fare-card.express .fare-card-header {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .fare-card.deluxe .fare-card-header {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        }
+
+        .bus-icon-bg {
+            position: absolute;
+            right: -20px;
+            bottom: -30px;
+            font-size: 8rem;
+            opacity: 0.15;
+        }
+
+        .bus-type {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1f2937;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bus-type-icon {
+            font-size: 2rem;
+            margin-right: 8px;
+        }
+
+        .fare-card-body {
+            padding: 1.5rem;
+        }
+
+        .fare-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .fare-description {
+            color: #6b7280;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .fare-features {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #4b5563;
+            margin-bottom: 6px;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        /* Overcharge Checker */
+        .overcharge-checker {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .checker-form {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .checker-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .checker-input:focus {
+            border-color: var(--warning);
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+        }
+
+        .check-btn {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .checker-result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .checker-result.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .checker-result.correct {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border: 2px solid var(--success);
+        }
+
+        .checker-result.overcharge {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border: 2px solid var(--danger);
+        }
+
+        .result-message {
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-message.correct {
+            color: #065f46;
+        }
+
+        .result-message.overcharge {
+            color: #991b1b;
+        }
+
+        /* All Stops Section */
+        .all-stops-section {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .stops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .stop-chip {
+            padding: 12px 16px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .stop-chip:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .stop-chip-icon {
+            width: 28px;
+            height: 28px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .stop-chip:hover .stop-chip-icon {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Pages Styling */
+        .page-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .about-hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .about-hero h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .info-card p {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .service-card h3 {
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1f2937, #374151);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-note {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            background: #1f2937;
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: var(--transition);
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .language-toggle {
+                order: -1;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .swap-btn {
+                margin: 0 auto;
+            }
+
+            .search-card {
+                padding: 1.5rem;
+            }
+
+            .route-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .route-arrow {
+                transform: rotate(90deg);
+            }
+
+            .fare-amount {
+                font-size: 2rem;
+            }
+
+            .checker-form {
+                flex-direction: column;
+            }
+
+            .checker-input,
+            .check-btn {
+                width: 100%;
+            }
+        }
+
+        /* Bus Selection Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1500;
+            padding: 1rem;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            color: #1f2937;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: #e5e7eb;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .bus-option {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bus-option:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.02);
+        }
+
+        .bus-option.selected {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .bus-option-radio {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .bus-option.selected .bus-option-radio {
+            border-color: var(--primary);
+        }
+
+        .bus-option.selected .bus-option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .bus-option-info h4 {
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .bus-option-info p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <div class="logo">TG</div>
+                <span class="brand-name" data-lang="brand">TSRTC</span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active" data-page="home" data-lang="nav_home">Home</a></li>
+                <li><a href="#" data-page="about" data-lang="nav_about">About</a></li>
+                <li><a href="#" data-page="services" data-lang="nav_services">Services</a></li>
+                <li><a href="#" data-page="fare" data-lang="nav_fare">Fare Finder</a></li>
+            </ul>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="language-toggle">
+                    <button class="lang-btn active" data-lang-code="en">EN</button>
+                    <button class="lang-btn" data-lang-code="te">తె</button>
+                    <button class="lang-btn" data-lang-code="hi">हि</button>
+                    <button class="lang-btn" data-lang-code="ur">اردو</button>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div class="page active" id="homePage">
+        <section class="hero">
+            <p class="greeting" id="greeting">👋 Welcome, Traveler! Safe journeys ahead!</p>
+            <h1 data-lang="hero_title">TSRTC Fare Finder</h1>
+            <p data-lang="hero_subtitle">Check your bus fare instantly across Hyderabad</p>
+        </section>
+
+        <!-- Search Card -->
+        <div class="search-container">
+            <div class="search-card">
+                <h2 class="search-title" data-lang="search_title">Plan Your Journey</h2>
+                <div class="search-form">
+                    <div class="form-group">
+                        <label data-lang="from_label">From Stop</label>
+                        <div class="search-input-wrapper">
+                            <span class="icon">📍</span>
+                            <input type="text" id="fromInput" placeholder="Search departure stop..." data-placeholder="from_placeholder">
+                            <div class="live-search-results" id="fromResults"></div>
+                        </div>
+                    </div>
+                    <button class="swap-btn" id="swapBtn" title="Swap locations">⇄</button>
+                    <div class="form-group">
+                        <label data-lang="to_label">To Stop</label>
+                        <div class="search-input-wrapper">
+                            <span class="icon">🎯</span>
+                            <input type="text" id="toInput" placeholder="Search destination stop..." data-placeholder="to_placeholder">
+                            <div class="live-search-results" id="toResults"></div>
+                        </div>
+                    </div>
+                    <button class="search-btn" id="searchBtn" data-lang="search_btn">🔍 Search Fare</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <!-- Route Info -->
+            <div class="route-info-card">
+                <div class="route-header">
+                    <div class="route-point">
+                        <div class="route-point-label" data-lang="from">From</div>
+                        <div class="route-point-name" id="resultFrom">-</div>
+                    </div>
+                    <div class="route-arrow">→</div>
+                    <div class="route-point">
+                        <div class="route-point-label" data-lang="to">To</div>
+                        <div class="route-point-name" id="resultTo">-</div>
+                    </div>
+                </div>
+                <div class="route-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="distanceValue">-</div>
+                        <div class="stat-label" data-lang="distance">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="timeValue">-</div>
+                        <div class="stat-label" data-lang="travel_time">Est. Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="busesValue">-</div>
+                        <div class="stat-label" data-lang="buses_available">Buses Available</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intermediate Stops -->
+            <div class="intermediate-stops">
+                <h3 class="section-title">🗺️ <span data-lang="route_stops">Route & Intermediate Stops</span></h3>
+                <div class="stops-timeline" id="stopsTimeline"></div>
+            </div>
+
+            <!-- Fare Cards -->
+            <div class="fare-cards-section">
+                <h3 class="section-title">💰 <span data-lang="fare_options">Fare Options</span></h3>
+                <div class="fare-cards-grid" id="fareCardsGrid"></div>
+            </div>
+
+            <!-- Overcharge Checker -->
+            <div class="overcharge-checker">
+                <h3 class="section-title">🔍 <span data-lang="overcharge_check">Am I Being Overcharged?</span></h3>
+                <div class="checker-form">
+                    <input type="number" class="checker-input" id="paidAmount" placeholder="Enter amount you paid (₹)" data-placeholder="paid_amount_placeholder">
+                    <button class="check-btn" id="checkOvercharge" data-lang="check_btn">Check Fare</button>
+                </div>
+                <div class="checker-result" id="checkerResult"></div>
+            </div>
+        </div>
+
+        <!-- All Stops Section -->
+        <div class="all-stops-section">
+            <h3 class="section-title">📍 <span data-lang="all_stops">All Available Stops</span></h3>
+            <div class="stops-grid" id="allStopsGrid"></div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div class="page" id="aboutPage">
+        <div class="page-content">
+            <div class="about-hero">
+                <h1 data-lang="about_title">About Telangana State Road Transport Corporation</h1>
+                <p data-lang="about_subtitle">Serving the people of Telangana since 2015</p>
+            </div>
+            <div class="about-content">
+                <div class="info-card">
+                    <h3>🏢 <span data-lang="about_who">Who We Are</span></h3>
+                    <p data-lang="about_who_text">Telangana State Road Transport Corporation (TSRTC) is the state-owned road transport corporation of Telangana. It operates buses connecting villages, towns, and cities across the state, providing affordable and reliable public transportation.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🎯 <span data-lang="about_mission">Our Mission</span></h3>
+                    <p data-lang="about_mission_text">To provide safe, reliable, comfortable, and affordable public transport services to the people of Telangana while ensuring operational efficiency and environmental sustainability.</p>
+                </div>
+                <div class="info-card">
+                    <h3>📊 <span data-lang="about_stats">Our Statistics</span></h3>
+                    <p><strong>10,000+</strong> Buses | <strong>3,000+</strong> Routes | <strong>50 Lakh+</strong> Daily Passengers | <strong>98%</strong> On-time Performance</p>
+                </div>
+                <div class="info-card">
+                    <h3>🌟 <span data-lang="about_achievements">Achievements</span></h3>
+                    <p data-lang="about_achievements_text">Awarded Best Transport Corporation, ISO Certified Operations, Pioneered Women Safety Initiatives, Introduced GPS Tracking in all buses.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Page -->
+    <div class="page" id="servicesPage">
+        <div class="page-content">
+            <div class="about-hero">
+                <h1 data-lang="services_title">Our Services</h1>
+                <p data-lang="services_subtitle">Comprehensive transport solutions for every need</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🚌</div>
+                    <h3 data-lang="service_city">City Bus Services</h3>
+                    <p data-lang="service_city_text">Extensive city bus network covering all major areas of Hyderabad, Secunderabad, and surrounding municipalities with frequent services.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚍</div>
+                    <h3 data-lang="service_intercity">Inter-City Services</h3>
+                    <p data-lang="service_intercity_text">Connect major cities across Telangana and neighboring states with comfortable Express and Deluxe buses.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎫</div>
+                    <h3 data-lang="service_pass">Pass Services</h3>
+                    <p data-lang="service_pass_text">Monthly and daily passes for regular commuters at discounted rates. Student, senior citizen, and employee passes available.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3 data-lang="service_app">Mobile App Booking</h3>
+                    <p data-lang="service_app_text">Book tickets online through TSRTC mobile app. Track buses in real-time, check schedules, and manage your journey digitally.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">♿</div>
+                    <h3 data-lang="service_accessibility">Accessibility Services</h3>
+                    <p data-lang="service_accessibility_text">Special facilities for differently-abled passengers including low-floor buses and reserved seating.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🌙</div>
+                    <h3 data-lang="service_night">Night Services</h3>
+                    <p data-lang="service_night_text">Safe overnight connectivity between major destinations with well-lit stops and security measures.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fare Page -->
+    <div class="page" id="farePage">
+        <div class="page-content">
+            <div class="about-hero">
+                <h1 data-lang="fare_page_title">Fare Information</h1>
+                <p data-lang="fare_page_subtitle">Transparent pricing for all our services</p>
+            </div>
+            <div class="about-content">
+                <div class="info-card">
+                    <h3>🚌 <span data-lang="fare_ordinary">Ordinary Buses</span></h3>
+                    <p data-lang="fare_ordinary_text">Starting from ₹5 for first 2 km + ₹2 per additional km. Most economical option for daily commuters. Non-AC basic service.</p>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ <span data-lang="fare_express">Express Buses</span></h3>
+                    <p data-lang="fare_express_text">Starting from ₹10 for first 5 km + ₹3 per additional km. Faster service with limited stops. Semi-luxury seating.</p>
+                </div>
+                <div class="info-card">
+                    <h3>✨ <span data-lang="fare_deluxe">Deluxe/Palair Level Buses</span></h3>
+                    <p data-lang="fare_deluxe_text">Starting from ₹15 for first 5 km + ₹5 per additional km. Push-back seats, AC available, premium comfort experience.</p>
+                </div>
+                <div class="info-card">
+                    <h3>💳 <span data-lang="fare_passes">Pass Options</span></h3>
+                    <p><strong>General Monthly:</strong> ₹2,200 | <strong>Student:</strong> ₹1,100 | <strong>Senior Citizen:</strong> ₹1,650 | <strong>Women Special:</strong> Free (up to certain routes)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bus Selection Modal -->
+    <div class="modal-overlay" id="busModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 data-lang="select_bus_type">Select Bus Type</h3>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="bus-option selected" data-bus="ordinary">
+                    <div class="bus-option-radio"></div>
+                    <div class="bus-option-info">
+                        <h4>🚌 Ordinary</h4>
+                        <p>Affordable • Non-AC • All Stops</p>
+                    </div>
+                </div>
+                <div class="bus-option" data-bus="express">
+                    <div class="bus-option-radio"></div>
+                    <div class="bus-option-info">
+                        <h4>⚡ Express</h4>
+                        <p>Faster • Limited Stops • Comfortable</p>
+                    </div>
+                </div>
+                <div class="bus-option" data-bus="deluxe">
+                    <div class="bus-option-radio"></div>
+                    <div class="bus-option-info">
+                        <h4>✨ Deluxe</h4>
+                        <p>Premium • AC Option • Luxury Seating</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">🚌 TSRTC Fare Finder</div>
+            <p data-lang="footer_text">Your trusted companion for hassle-free bus travel in Telangana</p>
+            <div class="footer-note">
+                ⚠️ <span data-lang="disclaimer">Fares shown are approximate and for demo purposes only. Please verify with official TSRTC sources for actual fares.</span>
+            </div>
+            <div class="footer-links">
+                <a href="#" data-lang="contact">Contact Us</a>
+                <a href="#" data-lang="privacy">Privacy Policy</a>
+                <a href="#" data-lang="terms">Terms of Service</a>
+                <a href="#">tsrtconline.in</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== DATA ====================
+        const busStops = [
+            { id: 1, name: "Ameerpet", nameTe: "అమీర్‌పేట్", nameHi: "अमीरपेट", nameUr: "امیرپٹ", area: "Central Hyderabad" },
+            { id: 2, name: "Kukatpally", nameTe: "కుకట్‌పల్లి", nameHi: "कुकटपल्ली", nameUr: "ککٹپلی", area: "West Hyderabad" },
+            { id: 3, name: "LB Nagar", nameTe: "ఎల్‌బీ నగర్", nameHi: "एलबी नगर", nameUr: "ایل بی نگر", area: "South-East Hyderabad" },
+            { id: 4, name: "Secunderabad", nameTe: "సికింద్రాబాద్", nameHi: "सिकंदराबाद", nameUr: "سکندرآباد", area: "North Hyderabad" },
+            { id: 5, name: "Gachibowli", nameTe: "గచిబౌలి", nameHi: "गचिबोली", nameUr: "گچیبولی", area: "IT Corridor/Hitech City" },
+            { id: 6, name: "Hitec City", nameTe: "హైటెక్ సిటీ", nameHi: "हाईटेक सिटी", nameUr: "ہائی ٹیک سٹی", area: "IT Hub" },
+            { id: 7, name: "Miyapur", nameTe: "మియాపూర్", nameHi: "मियापुर", nameUr: "میاپور", area: "North-West Hyderabad" },
+            { id: 8, name: "Uppal", nameTe: "ఉప్పల్", nameHi: "उप्पल", nameUr: "اپال", area: "East Hyderabad" },
+            { id: 9, name: "Tolichowki", nameTe: "తోలిచౌకి", nameHi: "तोलीचौकी", nameUr: "تولی چوکی", area: "Old City" },
+            { id: 10, name: "Koti", nameTe: "కోఠి", nameHi: "कोठी", nameUr: "کوٹھی", area: "Old City Center" },
+            { id: 11, name: "Nampally", nameTe: "నాంపల్లి", nameHi: "नामपल्ली", nameUr: "نمپلی", area: "Near Railway Station" },
+            { id: 12, name: "Khairatabad", nameTe: "ఖైరతాబాద్", nameHi: "खैरताबाद", nameUr: "خیرتاباد", area: "Central Business District" },
+            { id: 13, name: "Paradise", nameTe: "పారడైస్", nameHi: "पैराडाइज़", nameUr: "پراڈائز", area: "Secunderabad Area" },
+            { id: 14, name: "Bhel", nameTe: "భెల్", nameHi: "भेल", nameUr: "بھیل", area: "Industrial Area" },
+            { id: 15, name: "Lingampally", nameTe: "లింగంపల్లి", nameHi: "लिंगमपल्ली", nameUr: "لنگمپلی", area: "West Hyderabad/Metro Terminal" },
+            { id: 16, name: "Mehdipatnam", nameTe: "మెహదీపట్నం", nameHi: "महदीपटनम", nameUr: "مہدی پٹنم", area: "South Central" },
+            { id: 17, name: "Masab Tank", nameTe: "మాసాబ్ ట్యాంక్", nameHi: "मासाब टैंक", nameUr: "ماساب ٹینک", area: "Central Hyderabad" },
+            { id: 18, name: "Dilsukhnagar", nameTe: "దిల్‌సుఖ్‌నగర్", nameHi: "दिलसुखनगर", nameUr: "دلسخنگر", area: "East Hyderabad" },
+            { id: 19, name: "Tarnaka", nameTe: "తార్నాక", nameHi: "तारनाका", nameUr: "تارناکا", area: "East Hyderabad" },
+            { id: 20, name: "Charminar", nameTe: "చార్మినార్", nameHi: "चारमीनार", nameUr: "چار مینار", area: "Historic Old City" }
+        ];
+
+        const fareData = {
+            ordinary: { baseFare: 15, perKm: 2, description: "Affordable daily commute option", features: ["Economical pricing", "All stops covered", "High frequency"] },
+            express: { baseFare: 25, perKm: 3, description: "Faster travel with limited stops", features: ["Limited stops", "Comfortable seating", "Faster journey"] },
+            deluxe: { baseFare: 40, perKm: 5, description: "Premium AC travel experience", features: ["Air conditioned", "Push-back seats", "WiFi available"] }
+        };
+
+        const routeData = {
+            intermediateStops: [
+                "JNTU", "KPHB Colony", "Moosapet", "Bal Nagar", "Erragadda", 
+                "Amrpet X Roads", "Punjagutta", "Somajiguda", "Begumpet"
+            ],
+            busNumbers: ["10N", "10H", "10K", "10L", "16S", "222V", "229V"]
+        };
+
+        // Translations
+        const translations = {
+            en: {
+                brand: "TSRTC",
+                nav_home: "Home",
+                nav_about: "About",
+                nav_services: "Services",
+                nav_fare: "Fare Finder",
+                hero_title: "TSRTC Fare Finder",
+                hero_subtitle: "Check your bus fare instantly across Hyderabad",
+                greeting: "👋 Welcome, Traveler! Safe journeys ahead!",
+                search_title: "Plan Your Journey",
+                from_label: "From Stop",
+                to_label: "To Stop",
+                from_placeholder: "Search departure stop...",
+                to_placeholder: "Search destination stop...",
+                search_btn: "🔍 Search Fare",
+                from: "From",
+                to: "To",
+                distance: "Distance",
+                travel_time: "Est. Travel Time",
+                buses_available: "Buses Available",
+                route_stops: "Route & Intermediate Stops",
+                fare_options: "Fare Options",
+                overcharge_check: "Am I Being Overcharged?",
+                paid_amount_placeholder: "Enter amount you paid (₹)",
+                check_btn: "Check Fare",
+                all_stops: "All Available Stops",
+                about_title: "About Telangana State Road Transport Corporation",
+                about_subtitle: "Serving the people of Telangana since 2015",
+                about_who: "Who We Are",
+                about_who_text: "Telangana State Road Transport Corporation (TSRTC) is the state-owned road transport corporation of Telangana.",
+                about_mission: "Our Mission",
+                about_mission_text: "To provide safe, reliable, comfortable, and affordable public transport services.",
+                about_stats: "Our Statistics",
+                about_achievements: "Achievements",
+                about_achievements_text: "Awarded Best Transport Corporation, ISO Certified Operations.",
+                services_title: "Our Services",
+                services_subtitle: "Comprehensive transport solutions for every need",
+                service_city: "City Bus Services",
+                service_city_text: "Extensive city bus network covering all major areas of Hyderabad.",
+                service_intercity: "Inter-City Services",
+                service_intercity_text: "Connect major cities across Telangana and neighboring states.",
+                service_pass: "Pass Services",
+                service_pass_text: "Monthly and daily passes for regular commuters at discounted rates.",
+                service_app: "Mobile App Booking",
+                service_app_text: "Book tickets online through TSRTC mobile app.",
+                service_accessibility: "Accessibility Services",
+                service_accessibility_text: "Special facilities for differently-abled passengers.",
+                service_night: "Night Services",
+                service_night_text: "Safe overnight connectivity between major destinations.",
+                fare_page_title: "Fare Information",
+                fare_page_subtitle: "Transparent pricing for all our services",
+                fare_ordinary: "Ordinary Buses",
+                fare_ordinary_text: "Starting from ₹5 for first 2 km. Most economical option.",
+                fare_express: "Express Buses",
+                fare_express_text: "Starting from ₹10 for first 5 km. Faster service.",
+                fare_deluxe: "Deluxe/Palair Level Buses",
+                fare_deluxe_text: "Starting from ₹15 for first 5 km. Premium comfort.",
+                fare_passes: "Pass Options",
+                select_bus_type: "Select Bus Type",
+                footer_text: "Your trusted companion for hassle-free bus travel in Telangana",
+                disclaimer: "Fares shown are approximate and for demo purposes only.",
+                contact: "Contact Us",
+                privacy: "Privacy Policy",
+                terms: "Terms of Service",
+                ordinary: "Ordinary",
+                express: "Express",
+                deluxe: "Deluxe",
+                correct_fare: "✅ You paid the correct fare!",
+                overcharged: "⚠️ You may have been overcharged by ",
+                select_different: "Please select different source and destination",
+                select_both: "Please select both source and destination"
+            },
+            te: {
+                brand: "టీఎస్‌ఆర్‌టీసీ",
+                nav_home: "హోమ్",
+                nav_about: "గురించి",
+                nav_services: "సేవలు",
+                nav_fare: "ధర ఫైండర్",
+                hero_title: "టీఎస్‌ఆర్‌టీసీ ధర ఫైండర్",
+                hero_subtitle: "హైదరాబాద్ అంతటా మీ బస్ ధరను తక్షణమే తనిఖీ చేయండి",
+                greeting: "👋 స్వాగతం, ప్రయాణికా! సురక్షిత ప్రయాణాలు!",
+                search_title: "మీ ప్రయాణాన్ని ప్లాన్ చేయండి",
+                from_label: "నుండి స్టాప్",
+                to_label: "వరకు స్టాప్",
+                from_placeholder: "బయలుదేరు స్టాప్‌ను శోధించండి...",
+                to_placeholder: "గమ్యం స్టాప్‌ను శోధించండి...",
+                search_btn: "🔍 ధర శోధించండి",
+                from: "నుండి",
+                to: "వరకు",
+                distance: "దూరం",
+                travel_time: "అంచనా ప్రయాణ సమయం",
+                buses_available: "అందుబాటులో ఉన్న బస్సులు",
+                route_stops: "మార్గం & మధ్యంతర స్టాప్‌లు",
+                fare_options: "ధర ఎంపికలు",
+                overcharge_check: "నాకు ఎక్కువ ధర వసూలు చేశారా?",
+                paid_amount_placeholder: "మీరు చెల్లించిన మొత్తం నమోదు చేయండి (₹)",
+                check_btn: "ధర తనిఖీ చేయండి",
+                all_stops: "అందుబాటులో ఉన్న అన్ని స్టాప్‌లు",
+                about_title: "తెలంగాణ రాష్ట్ర రోడ్డు రవాణా సంస్థ గురించి",
+                about_subtitle: "2015 నుండి తెలంగాణ ప్రజలకు సేవలు అందిస్తోంది",
+                footer_text: "తెలంగాణలో సులభమైన బస్సు ప్రయాణానికి మీ విశ్వసనీయ సహచరుడు",
+                disclaimer: "చూపించిన ధరలు అంచనా మాత్రమే, డెమో ప్రయోజనాల కోసం.",
+                contact: "మమ్మల్ని సంప్రదించండి",
+                privacy: "గోప్యతా విధానం",
+                terms: "సేవా నిబంధనలు",
+                ordinary: "సాధారణ",
+                express: "ఎక్స్‌ప్రెస్",
+                deluxe: "డీలక్స్",
+                correct_fare: "✅ మీరు సరైన ధర చెల్లించారు!",
+                overcharged: "⚠️ మీకు ఎక్కువ ధర వసూలు చేయబడి ఉండవచ్చు: ",
+                select_different: "దయచేసి భిన్నమైన మూలం మరియు గమ్యాన్ని ఎంచుకోండి",
+                select_both: "దయచేసి మూలం మరియు గమ్యం రెంటినీ ఎంచుకోండి"
+            },
+            hi: {
+                brand: "टीएसआरटीसी",
+                nav_home: "होम",
+                nav_about: "के बारे में",
+                nav_services: "सेवाएं",
+                nav_fare: "किराया खोजक",
+                hero_title: "टीएसआरटीसी किराया खोजक",
+                hero_subtitle: "हैदराबाद में अपना बस किराया तुरंत जांचें",
+                greeting: "👋 स्वागत है, यात्री! सुरक्षित यात्राएं!",
+                search_title: "अपनी यात्रा की योजना बनाएं",
+                from_label: "से स्टॉप",
+                to_label: "तक स्टॉप",
+                from_placeholder: "प्रस्थान स्टॉप खोजें...",
+                to_placeholder: "गंतव्य स्टॉप खोजें...",
+                search_btn: "🔍 किराया खोजें",
+                from: "से",
+                to: "तक",
+                distance: "दूरी",
+                travel_time: "अनुमानित यात्रा समय",
+                buses_available: "उपलब्ध बसें",
+                route_stops: "मार्ग और मध्यवर्ती स्टॉप",
+                fare_options: "किराया विकल्प",
+                overcharge_check: "क्या मुझे अधिक किराया लिया गया?",
+                paid_amount_placeholder: "आपने जो राशि चुकाई (₹)",
+                check_btn: "किराया जांचें",
+                all_stops: "सभी उपलब्ध स्टॉप",
+                about_title: "तेलंगाना राज्य सड़क परिवहन निगम के बारे में",
+                about_subtitle: "2015 से तेलंगाना की जनता की सेवा में",
+                footer_text: "तेलंगाना में परेशानी मुक्त बस यात्रा के लिए आपका विश्वसनीय साथी",
+                disclaimer: "दिखाए गए किराये अनुमानित हैं और केवल डेमो उद्देश्यों के लिए हैं।",
+                contact: "संपर्क करें",
+                privacy: "गोपनीयता नीति",
+                terms: "सेवा की शर्तें",
+                ordinary: "साधारण",
+                express: "एक्सप्रेस",
+                deluxe: "डीलक्स",
+                correct_fare: "✅ आपने सही किराया चुकाया!",
+                overcharged: "⚠️ आपसे अधिक किराया लिया गया हो सकता है: ",
+                select_different: "कृपया अलग-अलग स्रोत और गंतव्य चुनें",
+                select_both: "कृपया स्रोत और गंतव्य दोनों चुनें"
+            },
+            ur: {
+                brand: "ٹی ایس آر ٹی سی",
+                nav_home: "ہوم",
+                nav_about: "کے بارے میں",
+                nav_services: "خدمات",
+                nav_fare: "کرایہ تلاش کار",
+                hero_title: "ٹی ایس آر ٹی سی کرایہ تلاش کار",
+                hero_subtitle: "حیدرآباد میں اپنا بس کرایہ فوری طور پر چیک کریں",
+                greeting: "👋 خوش آمدید، مسافر! محفوظ سفر!",
+                search_title: "اپنا سفر منصوبہ بنائیں",
+                from_label: "سے اسٹاپ",
+                to_label: "تک اسٹاپ",
+                from_placeholder: "روانگی اسٹاپ تلاش کریں...",
+                to_placeholder: "منزل مقصد اسٹاپ تلاش کریں...",
+                search_btn: "🔍 کرایہ تلاش کریں",
+                from: "سے",
+                to: "تک",
+                distance: "فاصلہ",
+                travel_time: "تخمینی سفر کا وقت",
+                buses_available: "دستیاب بسیں",
+                route_stops: "راستہ اور درمیانی اسٹاپس",
+                fare_options: "کرایے کے اختیارات",
+                overcharge_check: "کیا مجھ سے زیادہ کرایہ لیا گیا؟",
+                paid_amount_placeholder: "آپ نے جو رقم ادا کی (₹)",
+                check_btn: "کرایہ چیک کریں",
+                all_stops: "تمام دستیاب اسٹاپس",
+                about_title: "تلنگانا ریاستی روڈ ٹرانسپورٹ کارپوریشن کے بارے میں",
+                about_subtitle: "2015 سے تلنگانا کی عوام کی خدمت میں",
+                footer_text: "تلنگانا میں بغیر پریشانی کے بس سفر کے لیے آپ کا قابل اعتماد ساتھی",
+                disclaimer: "دکھائے گئے کرایے تخمینی ہیں اور صرف ڈیمو مقاصد کے لیے ہیں۔",
+                contact: "ہم سے رابطہ کریں",
+                privacy: "رازداری کی پالیسی",
+                terms: "خدمت کی شرائط",
+                ordinary: "عام",
+                express: "ایکسپرس",
+                deluxe: "ڈیلکس",
+                correct_fare: "✅ آپ نے صحیح کرایہ ادا کیا!",
+                overcharged: "⚠️ آپ سے زیادہ کرایہ لیا جا سکتا ہے: ",
+                select_different: "براہ کرم مختلف ماخذ اور منزل منتخب کریں",
+                select_both: "براہ کرم ماخذ اور منزل دونوں منتخب کریں"
+            }
+        };
+
+        // ==================== STATE ====================
+        let currentLang = 'en';
+        let selectedFromStop = null;
+        let selectedToStop = null;
+        let currentPage = 'home';
+
+        // ==================== DOM ELEMENTS ====================
+        const fromInput = document.getElementById('fromInput');
+        const toInput = document.getElementById('toInput');
+        const fromResults = document.getElementById('fromResults');
+        const toResults = document.getElementById('toResults');
+        const swapBtn = document.getElementById('swapBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultsSection = document.getElementById('resultsSection');
+        const paidAmountInput = document.getElementById('paidAmount');
+        const checkOverchargeBtn = document.getElementById('checkOvercharge');
+        const checkerResult = document.getElementById('checkerResult');
+        const toast = document.getElementById('toast');
+        const allStopsGrid = document.getElementById('allStopsGrid');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        // ==================== INITIALIZATION ====================
+        function init() {
+            renderAllStops();
+            setupEventListeners();
+            updateGreeting();
+        }
+
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greetingText = "";
+            
+            if (currentLang === 'en') {
+                if (hour < 12) greetingText = "🌅 Good Morning, Traveler! Start your day with a safe journey!";
+                else if (hour < 17) greetingText = "☀️ Good Afternoon, Traveler! Hope you're having a great day!";
+                else greetingText = "🌙 Good Evening, Traveler! Wishing you pleasant travels!";
+            } else if (currentLang === 'te') {
+                if (hour < 12) greetingText = "🌅 శుభోదయం, ప్రయాణికా! సురక్షిత ప్రయాణంతో మీ రోజును ప్రారంభించండి!";
+                else if (hour < 17) greetingText = "☀️ శుభ మధ్యాహ్నం, ప్రయాణికా!";
+                else greetingText = "🌙 శుభ సాయంత్రం, ప్రయాణికా!";
+            } else if (currentLang === 'hi') {
+                if (hour < 12) greetingText = "🌅 सुप्रभात, यात्री!";
+                else if (hour < 17) greetingText = "☀️ शुभ दोपहर, यात्री!";
+                else greetingText = "🌙 शुभ संध्या, यात्री!";
+            } else if (currentLang === 'ur') {
+                if (hour < 12) greetingText = "🌅 صبح بخیر، مسافر!";
+                else if (hour < 17) greetingText = "☀️ دوپہر بخیر، مسافر!";
+                else greetingText = "🌙 شام بخیر، مسافر!";
+            }
+            
+            document.getElementById('greeting').textContent = greetingText;
+        }
+
+        // ==================== RENDER FUNCTIONS ====================
+        function renderAllStops() {
+            allStopsGrid.innerHTML = busStops.map(stop => `
+                <div class="stop-chip" onclick="selectStop('${stop.name}', 'from')">
+                    <span class="stop-chip-icon">📍</span>
+                    <span>${getStopName(stop)}</span>
+                </div>
+            `).join('');
+        }
+
+        function getStopName(stop) {
+            switch(currentLang) {
+                case 'te': return stop.nameTe || stop.name;
+                case 'hi': return stop.nameHi || stop.name;
+                case 'ur': return stop.nameUr || stop.name;
+                default: return stop.name;
+            }
+        }
+
+        function renderSearchResults(query, resultsContainer, type) {
+            const queryLower = query.toLowerCase();
+            const filteredStops = busStops.filter(stop => {
+                const name = getStopName(stop).toLowerCase();
+                return name.includes(queryLower) && 
+                       (type === 'from' ? stop.name !== selectedToStop?.name : stop.name !== selectedFromStop?.name);
+            });
+
+            if (filteredStops.length === 0 || !query) {
+                resultsContainer.classList.remove('show');
+                return;
+            }
+
+            resultsContainer.innerHTML = filteredStops.map(stop => `
+                <div class="search-result-item" onclick="selectStop('${stop.name}', '${type}')">
+                    <span class="result-stop-icon">📍</span>
+                    <div>
+                        <div style="font-weight: 500;">${getStopName(stop)}</div>
+                        <div style="font-size: 0.85rem; color: #6b7280;">${stop.area}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            resultsContainer.classList.add('show');
+        }
+
+        function renderResults(from, to) {
+            // Calculate dummy values based on stops
+            const fromIndex = busStops.findIndex(s => s.name === from);
+            const toIndex = busStops.findIndex(s => s.name === to);
+            const distance = Math.abs(fromIndex - toIndex) * 3 + 5 + Math.floor(Math.random() * 10);
+            const time = distance * 3 + Math.floor(Math.random() * 10);
+            const numBuses = Math.floor(Math.random() * 15) + 5;
+
+            document.getElementById('resultFrom').textContent = getStopName(busStops.find(s => s.name === from));
+            document.getElementById('resultTo').textContent = getStopName(busStops.find(s => s.name === to));
+            document.getElementById('distanceValue').textContent = `${distance} km`;
+            document.getElementById('timeValue').textContent = `${time} mins`;
+            document.getElementById('busesValue').textContent = numBuses;
+
+            // Render intermediate stops
+            const startIdx = Math.min(fromIndex, toIndex);
+            const endIdx = Math.max(fromIndex, toIndex);
+            const intermediateStops = [];
+            
+            for (let i = startIdx + 1; i < endIdx; i++) {
+                if (i < busStops.length && i > startIdx && i < endIdx) {
+                    intermediateStops.push(busStops[i]);
+                }
+            }
+            
+            // Add some random intermediate stops
+            const randomIntermediate = routeData.intermediateStops.slice(0, Math.min(4, Math.abs(fromIndex - toIndex)));
+            
+            let stopsHTML = `
+                <div class="stop-item start">
+                    <div class="stop-dot"></div>
+                    <div>
+                        <div class="stop-name">${getStopName(busStops[fromIndex])}</div>
+                        <div class="stop-bus-numbers">${routeData.busNumbers.slice(0, 3).map(b => `<span class="bus-number-badge">${b}</span>`).join('')}</div>
+                    </div>
+                </div>
+            `;
+            
+            randomIntermediate.forEach((stop, idx) => {
+                stopsHTML += `
+                    <div class="stop-item">
+                        <div class="stop-dot"></div>
+                        <div>
+                            <div class="stop-name">${stop}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            stopsHTML += `
+                <div class="stop-item end">
+                    <div class="stop-dot"></div>
+                    <div>
+                        <div class="stop-name">${getStopName(busStops[toIndex])}</div>
+                        <div class="stop-bus-numbers">${routeData.busNumbers.slice(3).map(b => `<span class="bus-number-badge">${b}</span>`).join('')}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('stopsTimeline').innerHTML = stopsHTML;
+
+            // Render fare cards
+            const fares = calculateFares(distance);
+            renderFareCards(fares);
+
+            resultsSection.classList.add('show');
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function calculateFares(distance) {
+            return {
+                ordinary: fareData.ordinary.baseFare + (distance * fareData.ordinary.perKm),
+                express: fareData.express.baseFare + (distance * fareData.express.perKm),
+                deluxe: fareData.deluxe.baseFare + (distance * fareData.deluxe.perKm)
+            };
+        }
+
+        function renderFareCards(fares) {
+            const fareTypes = ['ordinary', 'express', 'deluxe'];
+            const busIcons = { ordinary: '🚌', express: '⚡', deluxe: '✨' };
+            const t = translations[currentLang];
+
+            document.getElementById('fareCardsGrid').innerHTML = fareTypes.map(type => `
+                <div class="fare-card ${type}" onclick="showBusModal()">
+                    <div class="fare-card-header">
+                        <span class="bus-type">${busIcons[type]} ${t[type]}</span>
+                        <span class="bus-icon-bg">${busIcons[type]}</span>
+                    </div>
+                    <div class="fare-card-body">
+                        <div class="fare-amount">₹${fares[type]}</div>
+                        <div class="fare-description">${fareData[type].description}</div>
+                        <div class="fare-features">
+                            ${fareData[type].features.map(f => `<div class="feature-item">${f}</div>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== EVENT HANDLERS ====================
+        function setupEventListeners() {
+            // Live search
+            fromInput.addEventListener('input', (e) => {
+                renderSearchResults(e.target.value, fromResults, 'from');
+            });
+
+            toInput.addEventListener('input', (e) => {
+                renderSearchResults(e.target.value, toResults, 'to');
+            });
+
+            // Close search results on outside click
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-input-wrapper')) {
+                    fromResults.classList.remove('show');
+                    toResults.classList.remove('show');
+                }
+            });
+
+            // Swap button
+            swapBtn.addEventListener('click', () => {
+                const temp = selectedFromStop;
+                selectedFromStop = selectedToStop;
+                selectedToStop = temp;
+                
+                const tempVal = fromInput.value;
+                fromInput.value = toInput.value;
+                toInput.value = tempVal;
+            });
+
+            // Search button
+            searchBtn.addEventListener('click', handleSearch);
+
+            // Overcharge checker
+            checkOverchargeBtn.addEventListener('click', handleOverchargeCheck);
+
+            // Language toggle
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentLang = btn.dataset.langCode;
+                    updateLanguage();
+                });
+            });
+
+            // Navigation
+            document.querySelectorAll('[data-page]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.dataset.page;
+                    navigateTo(page);
+                });
+            });
+
+            // Mobile menu
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('show');
+            });
+
+            // Bus modal
+            document.querySelectorAll('.bus-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.bus-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                });
+            });
+
+            document.getElementById('closeModal').addEventListener('click', () => {
+                document.getElementById('busModal').classList.remove('show');
+            });
+
+            document.getElementById('busModal').addEventListener('click', (e) => {
+                if (e.target.id === 'busModal') {
+                    document.getElementById('busModal').classList.remove('show');
+                }
+            });
+        }
+
+        function selectStop(name, type) {
+            const stop = busStops.find(s => s.name === name);
+            if (!stop) return;
+
+            if (type === 'from') {
+                if (selectedToStop?.name === name) {
+                    showToast(translations[currentLang].select_different, 'error');
+                    return;
+                }
+                selectedFromStop = stop;
+                fromInput.value = getStopName(stop);
+                fromResults.classList.remove('show');
+            } else {
+                if (selectedFromStop?.name === name) {
+                    showToast(translations[currentLang].select_different, 'error');
+                    return;
+                }
+                selectedToStop = stop;
+                toInput.value = getStopName(stop);
+                toResults.classList.remove('show');
+            }
+        }
+
+        function handleSearch() {
+            const t = translations[currentLang];
+            
+            if (!selectedFromStop || !selectedToStop) {
+                showToast(t.select_both, 'error');
+                return;
+            }
+
+            if (selectedFromStop.name === selectedToStop.name) {
+                showToast(t.select_different, 'error');
+                return;
+            }
+
+            renderResults(selectedFromStop.name, selectedToStop.name);
+            showToast(`Route found: ${getStopName(selectedFromStop)} → ${getStopName(selectedToStop)}`);
+        }
+
+        function handleOverchargeCheck() {
+            const paidAmount = parseFloat(paidAmountInput.value);
+            if (isNaN(paidAmount)) {
+                showToast('Please enter a valid amount', 'error');
+                return;
+            }
+
+            // Get the ordinary fare as expected
+            const fromIndex = busStops.findIndex(s => s.name === selectedFromStop?.name);
+            const toIndex = busStops.findIndex(s => s.name === selectedToStop?.name);
+            const distance = Math.abs(fromIndex - toIndex) * 3 + 5;
+            const expectedFare = fareData.ordinary.baseFare + (distance * fareData.ordinary.perKm);
+
+            const t = translations[currentLang];
+            checkerResult.classList.add('show');
+            checkerResult.classList.remove('correct', 'overcharge');
+
+            if (paidAmount <= expectedFare + 5) {
+                checkerResult.classList.add('correct');
+                checkerResult.innerHTML = `<div class="result-message correct">${t.correct_fare}<br><small>Expected: ₹${expectedFare} | Paid: ₹${paidAmount}</small></div>`;
+            } else {
+                const diff = paidAmount - expectedFare;
+                checkerResult.classList.add('overcharge');
+                checkerResult.innerHTML = `<div class="result-message overcharge">${t.overcharged} ₹${diff}<br><small>Expected: ₹${expectedFare} | Paid: ₹${paidAmount}</small></div>`;
+            }
+        }
+
+        function showBusModal() {
+            document.getElementById('busModal').classList.add('show');
+        }
+
+        function navigateTo(page) {
+            currentPage = page;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`${page}Page`).classList.add('active');
+            
+            document.querySelectorAll('[data-page]').forEach(link => {
+                link.classList.toggle('active', link.dataset.page === page);
+            });
+            
+            navLinks.classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateLanguage() {
+            const t = translations[currentLang];
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.dataset.lang;
+                if (t[key]) {
+                    el.textContent = t[key];
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-placeholder]').forEach(el => {
+                const key = el.dataset.placeholder;
+                if (t[key]) {
+                    el.placeholder = t[key];
+                }
+            });
+
+            // Update greeting
+            updateGreeting();
+
+            // Re-render stops
+            renderAllStops();
+
+            // If results are showing, re-render them
+            if (resultsSection.classList.contains('show') && selectedFromStop && selectedToStop) {
+                renderResults(selectedFromStop.name, selectedToStop.name);
+            }
+
+            // Update input values if stops are selected
+            if (selectedFromStop) fromInput.value = getStopName(selectedFromStop);
+            if (selectedToStop) toInput.value = getStopName(selectedToStop);
+        }
+
+        function showToast(message, type = '') {
+            toast.textContent = message;
+            toast.className = 'toast show' + (type ? ` ${type}` : '');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize app
+        init();
+    </script>
+</body>
+</html>

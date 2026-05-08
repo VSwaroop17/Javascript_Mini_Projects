@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Veeramalla Sai Swaroop — ECE Student, IoT Developer & UI/UX Enthusiast. Portfolio showcasing embedded systems, IoT projects, and design work.">
+    <meta name="keywords" content="IoT, Embedded Systems, UI/UX, ECE, Portfolio, Electronics, Arduino, ESP32">
+    <meta property="og:title" content="Veeramalla Sai Swaroop — Portfolio">
+    <meta property="og:description" content="ECE Student | IoT Developer | UI/UX Enthusiast">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#06060a">
+    <title>Veeramalla Sai Swaroop — Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ===== THEME VARIABLES ===== */
+        [data-theme="dark"] {
+            --bg: #06060a; --bg2: #0b0b12; --card: #0f0f18;
+            --border: #1a1a28; --fg: #e4e4ef; --fg2: #8888a0;
+            --accent: #00e5ff; --accent2: #ff3860; --accent3: #39ff14;
+            --accent-dim: rgba(0,229,255,0.08); --accent-glow: rgba(0,229,255,0.2);
+            --accent2-dim: rgba(255,56,96,0.08); --accent3-dim: rgba(57,255,20,0.08);
+            --radius: 14px; --shadow: 0 8px 40px rgba(0,0,0,0.5);
+            --nav-bg: rgba(6,6,10,0.8); --loader-bg: #06060a;
+        }
+        [data-theme="light"] {
+            --bg: #f6f2ec; --bg2: #ede8e0; --card: #ffffff;
+            --border: #ddd5c8; --fg: #1a1814; --fg2: #7a7468;
+            --accent: #0d7c5f; --accent2: #c7522a; --accent3: #b8860b;
+            --accent-dim: rgba(13,124,95,0.07); --accent-glow: rgba(13,124,95,0.12);
+            --accent2-dim: rgba(199,82,42,0.07); --accent3-dim: rgba(184,134,11,0.07);
+            --radius: 22px; --shadow: 0 8px 40px rgba(0,0,0,0.06);
+            --nav-bg: rgba(246,242,236,0.82); --loader-bg: #f6f2ec;
+        }
+        /* ===== BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--fg);
+            overflow-x: hidden; line-height: 1.7;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        h1,h2,h3,h4,h5,h6,.fh { font-family: 'Syne', sans-serif; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+        a { color: inherit; text-decoration: none; }
+
+        /* Theme transitions for key elements */
+        .card, .nav-bar, .form-input, .slide-panel, .chatbot-panel, .tag, .btn-p, .btn-o,
+        .section-pill, .tl-item, .brain-card, .int-card, footer {
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        /* ===== LOADER ===== */
+        #loader {
+            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center;
+            justify-content: center; background: var(--loader-bg);
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #loader.hidden { opacity: 0; visibility: hidden; }
+        .loader-bar { height: 2px; width: 0; background: var(--accent); border-radius: 2px; transition: width 0.2s ease; }
+
+        /* ===== SCROLL PROGRESS ===== */
+        #scrollProg {
+            position: fixed; top: 0; left: 0; height: 3px; z-index: 1001;
+            background: var(--accent); width: 0; transition: width 0.05s linear;
+        }
+
+        /* ===== CURSOR ===== */
+        #cursor {
+            position: fixed; width: 280px; height: 280px; border-radius: 50%;
+            pointer-events: none; z-index: 1; transform: translate(-50%,-50%);
+            transition: opacity 0.3s ease; opacity: 0.25;
+        }
+        [data-theme="dark"] #cursor {
+            background: radial-gradient(circle, rgba(0,229,255,0.18) 0%, transparent 70%);
+        }
+        [data-theme="light"] #cursor {
+            background: radial-gradient(circle, rgba(13,124,95,0.1) 0%, transparent 70%);
+        }
+        @media(max-width:768px) { #cursor { display:none; } }
+
+        /* ===== SIDE DOTS ===== */
+        .side-dots {
+            position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%);
+            z-index: 90; display: flex; flex-direction: column; gap: 0.9rem;
+        }
+        .sdot {
+            width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--border);
+            background: transparent; cursor: pointer; transition: all 0.35s ease; position: relative;
+        }
+        .sdot.active { border-color: var(--accent); background: var(--accent); }
+        .sdot::after {
+            content: attr(data-label); position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+            font-family: 'Syne',sans-serif; font-size: 0.65rem; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg2);
+            white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.3s ease, right 0.3s ease;
+        }
+        .sdot:hover::after { opacity: 1; right: 24px; }
+        @media(max-width:1024px) { .side-dots { display:none; } }
+
+        /* ===== NAV ===== */
+        .nav-bar {
+            position: fixed; top: 3px; left: 0; right: 0; z-index: 100;
+            backdrop-filter: blur(24px) saturate(1.8); -webkit-backdrop-filter: blur(24px) saturate(1.8);
+            background: var(--nav-bg); border-bottom: 1px solid var(--border);
+            transition: transform 0.4s cubic-bezier(.22,1,.36,1), background-color 0.5s ease, border-color 0.5s ease;
+        }
+        .nav-bar.hide { transform: translateY(calc(-100% - 5px)); }
+        .nlink {
+            position: relative; color: var(--fg2); font-family: 'Syne',sans-serif;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+            transition: color 0.3s ease; padding: 0.2rem 0;
+        }
+        .nlink::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: var(--accent); transition: width 0.35s cubic-bezier(.22,1,.36,1);
+        }
+        .nlink:hover, .nlink.act { color: var(--fg); }
+        .nlink:hover::after, .nlink.act::after { width: 100%; }
+
+        /* Theme toggle */
+        .theme-btn {
+            width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border);
+            background: var(--card); cursor: pointer; display: flex; align-items: center;
+            justify-content: center; font-size: 1rem; color: var(--accent);
+            transition: all 0.35s ease; position: relative; overflow: hidden;
+        }
+        .theme-btn:hover { border-color: var(--accent); transform: rotate(20deg) scale(1.1); }
+        [data-theme="dark"] .theme-btn .fa-sun { display: none; }
+        [data-theme="dark"] .theme-btn .fa-moon { display: block; }
+        [data-theme="light"] .theme-btn .fa-sun { display: block; }
+        [data-theme="light"] .theme-btn .fa-moon { display: none; }
+
+        /* ===== NEON EFFECTS (dark only) ===== */
+        [data-theme="dark"] .neon-border {
+            box-shadow: 0 0 12px var(--accent-glow), inset 0 0 12px rgba(0,229,255,0.03);
+        }
+        [data-theme="dark"] .neon-text { text-shadow: 0 0 10px rgba(0,229,255,0.4), 0 0 30px rgba(0,229,255,0.1); }
+        [data-theme="dark"] .neon-border2 {
+            box-shadow: 0 0 12px rgba(255,56,96,0.15), inset 0 0 12px rgba(255,56,96,0.03);
+        }
+        [data-theme="dark"] .neon-border3 {
+            box-shadow: 0 0 12px rgba(57,255,20,0.12), inset 0 0 12px rgba(57,255,20,0.02);
+        }
+
+        /* ===== HERO ===== */
+        #heroCanvas { position: absolute; inset: 0; pointer-events: none; }
+        .hero-line { overflow: hidden; }
+        .hero-line span { display: inline-block; transform: translateY(110%); animation: hReveal 0.85s cubic-bezier(.22,1,.36,1) forwards; }
+        @keyframes hReveal { to { transform: translateY(0); } }
+        .hero-line:nth-child(2) span { animation-delay: 0.12s; }
+        .hero-line:nth-child(3) span { animation-delay: 0.24s; }
+        .scroll-ind { animation: sDot 2s ease-in-out infinite; }
+        @keyframes sDot { 0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(8px);opacity:0.2} }
+        @keyframes pulse2 { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        /* Glow blobs for hero */
+        .gblob {
+            position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.35;
+            animation: bFloat 14s ease-in-out infinite alternate;
+        }
+        @keyframes bFloat { 0%{transform:translate(0,0) scale(1)} 50%{transform:translate(25px,-35px) scale(1.08)} 100%{transform:translate(-15px,15px) scale(0.95)} }
+
+        /* ===== SECTION PILLS ===== */
+        .section-pill {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: 'Syne',sans-serif; font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+            padding: 0.35rem 0.9rem; border-radius: 999px;
+            border: 1px solid var(--accent); background: var(--accent-dim);
+        }
+        .section-num {
+            font-family: 'Syne',sans-serif; font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.1em; color: var(--fg2);
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+            transition: transform 0.45s cubic-bezier(.22,1,.36,1), border-color 0.4s ease,
+                        box-shadow 0.4s ease, background-color 0.5s ease;
+        }
+        .card:hover { transform: translateY(-5px); }
+        [data-theme="dark"] .card:hover {
+            border-color: rgba(0,229,255,0.2); box-shadow: 0 16px 50px rgba(0,0,0,0.5), 0 0 30px rgba(0,229,255,0.06);
+        }
+        [data-theme="light"] .card:hover {
+            border-color: rgba(13,124,95,0.2); box-shadow: 0 16px 50px rgba(0,0,0,0.08);
+        }
+
+        /* ===== TAGS ===== */
+        .tag {
+            display: inline-block; font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 0.04em; padding: 0.2rem 0.55rem; border-radius: 6px;
+            font-family: 'Syne',sans-serif;
+        }
+        .tag-a { background: var(--accent-dim); color: var(--accent); }
+        .tag-b { background: var(--accent2-dim); color: var(--accent2); }
+        .tag-c { background: var(--accent3-dim); color: var(--accent3); }
+
+        /* ===== BUTTONS ===== */
+        .btn-p {
+            display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent);
+            color: var(--bg); font-family: 'Syne',sans-serif; font-weight: 700;
+            font-size: 0.85rem; padding: 0.75rem 1.6rem; border-radius: 12px; border: none;
+            cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        .btn-p:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--accent-glow); }
+        .btn-o {
+            display: inline-flex; align-items: center; gap: 0.5rem; background: transparent;
+            color: var(--fg); font-family: 'Syne',sans-serif; font-weight: 600;
+            font-size: 0.8rem; padding: 0.65rem 1.4rem; border-radius: 12px;
+            border: 1px solid var(--border); cursor: pointer;
+            transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+        }
+        .btn-o:hover { border-color: var(--accent); background: var(--accent-dim); transform: translateY(-2px); }
+
+        /* ===== TIMELINE ===== */
+        .tl-line {
+            position: absolute; left: 20px; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--border), transparent);
+        }
+        .tl-dot {
+            position: absolute; left: 12px; top: 6px; width: 18px; height: 18px;
+            border-radius: 50%; border: 2px solid var(--accent); background: var(--bg);
+            z-index: 2; transition: all 0.35s ease;
+        }
+        .tl-item:hover .tl-dot { background: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+
+        /* ===== SKILL VISUAL ===== */
+        .skill-ring {
+            width: 90px; height: 90px; position: relative;
+        }
+        .skill-ring svg { transform: rotate(-90deg); }
+        .skill-ring circle {
+            fill: none; stroke-width: 4; stroke-linecap: round;
+            transition: stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1);
+        }
+        .skill-ring .track { stroke: var(--border); }
+        .skill-ring .fill-ring { stroke: var(--accent); }
+
+        /* ===== HORIZONTAL SCROLL ===== */
+        .hscroll-wrap {
+            overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; padding: 1rem 0 2rem;
+        }
+        .hscroll-wrap::-webkit-scrollbar { display: none; }
+        .hscroll-card { scroll-snap-align: start; flex-shrink: 0; }
+
+        /* ===== BRAIN CRACKER ===== */
+        .brain-card {
+            perspective: 800px; cursor: pointer;
+        }
+        .brain-inner {
+            position: relative; width: 100%; height: 100%;
+            transition: transform 0.6s cubic-bezier(.22,1,.36,1);
+            transform-style: preserve-3d;
+        }
+        .brain-card.flipped .brain-inner { transform: rotateY(180deg); }
+        .brain-front, .brain-back {
+            position: absolute; inset: 0; backface-visibility: hidden;
+            border-radius: var(--radius); padding: 1.5rem;
+        }
+        .brain-back { transform: rotateY(180deg); }
+
+        /* ===== CHATBOT ===== */
+        .chat-toggle {
+            position: fixed; bottom: 1.5rem; right: 1.5rem; width: 54px; height: 54px;
+            border-radius: 50%; background: var(--accent); border: none; cursor: pointer;
+            z-index: 95; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: var(--bg);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+        .chat-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 30px var(--accent-glow); }
+        .chat-panel {
+            position: fixed; bottom: 5.5rem; right: 1.5rem; width: 370px; max-width: calc(100vw - 2rem);
+            max-height: 480px; z-index: 96; border-radius: var(--radius);
+            background: var(--card); border: 1px solid var(--border);
+            display: flex; flex-direction: column; overflow: hidden;
+            transform: translateY(16px) scale(0.95); opacity: 0; pointer-events: none;
+            transition: all 0.4s cubic-bezier(.22,1,.36,1);
+            box-shadow: var(--shadow);
+        }
+        .chat-panel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+        .chat-msgs { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .chat-bubble {
+            max-width: 85%; padding: 0.65rem 0.9rem; border-radius: 14px;
+            font-size: 0.85rem; line-height: 1.5; animation: cFadeIn 0.3s ease;
+        }
+        @keyframes cFadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        .chat-bot { background: var(--bg2); color: var(--fg); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .chat-user { background: var(--accent); color: var(--bg); align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-typing { display: flex; gap: 4px; padding: 0.65rem 0.9rem; align-self: flex-start; background: var(--bg2); border-radius: 14px; border-bottom-left-radius: 4px; }
+        .chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--fg2); animation: tDot 1.2s infinite; }
+        .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes tDot { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.1)} }
+        .chat-input-wrap {
+            display: flex; gap: 0.5rem; padding: 0.75rem; border-top: 1px solid var(--border);
+        }
+        .chat-input {
+            flex: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+            padding: 0.55rem 0.8rem; color: var(--fg); font-family: 'Outfit',sans-serif;
+            font-size: 0.85rem; outline: none; transition: border-color 0.3s ease;
+        }
+        .chat-input:focus { border-color: var(--accent); }
+        .chat-send {
+            width: 38px; height: 38px; border-radius: 10px; background: var(--accent);
+            border: none; cursor: pointer; color: var(--bg); font-size: 0.85rem;
+            display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease;
+        }
+        .chat-send:hover { transform: scale(1.08); }
+
+        /* ===== SLIDE PANEL ===== */
+        .slide-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(10px);
+            z-index: 199; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        }
+        .slide-backdrop.open { opacity: 1; pointer-events: auto; }
+        .slide-panel {
+            position: fixed; top: 0; right: 0; width: 540px; max-width: 94vw; height: 100vh;
+            background: var(--card); border-left: 1px solid var(--border); z-index: 200;
+            transform: translateX(100%); transition: transform 0.5s cubic-bezier(.22,1,.36,1);
+            overflow-y: auto; scrollbar-width: thin;
+        }
+        .slide-panel.open { transform: translateX(0); }
+
+        /* ===== TOAST ===== */
+        .toast-el {
+            position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 0.85rem 1.3rem; display: flex; align-items: center; gap: 0.6rem;
+            z-index: 300; opacity: 0; transition: all 0.5s cubic-bezier(.22,1,.36,1);
+            box-shadow: var(--shadow); font-size: 0.85rem;
+        }
+        .toast-el.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        /* ===== FORM ===== */
+        .form-input {
+            background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+            padding: 0.8rem 1rem; color: var(--fg); font-family: 'Outfit',sans-serif;
+            font-size: 0.9rem; outline: none; width: 100%;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease;
+        }
+        .form-input::placeholder { color: var(--fg2); }
+        .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+
+        /* ===== REVEAL ANIMATIONS ===== */
+        .rv { opacity:0; transform:translateY(45px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .rv.vis { opacity:1; transform:translateY(0); }
+        .rv-l { opacity:0; transform:translateX(-50px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .rv-l.vis { opacity:1; transform:translateX(0); }
+        .rv-r { opacity:0; transform:translateX(50px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .rv-r.vis { opacity:1; transform:translateX(0); }
+        .rv-s { opacity:0; transform:scale(0.88); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .rv-s.vis { opacity:1; transform:scale(1); }
+        .stg .rv:nth-child(1){transition-delay:0s} .stg .rv:nth-child(2){transition-delay:.08s}
+        .stg .rv:nth-child(3){transition-delay:.16s} .stg .rv:nth-child(4){transition-delay:.24s}
+        .stg .rv:nth-child(5){transition-delay:.32s} .stg .rv:nth-child(6){transition-delay:.4s}
+        .stg .rv:nth-child(7){transition-delay:.48s} .stg .rv:nth-child(8){transition-delay:.56s}
+
+        /* ===== MARQUEE ===== */
+        .mtrack { display: flex; animation: mRun 28s linear infinite; white-space: nowrap; }
+        @keyframes mRun { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+        /* ===== PARALLAX ===== */
+        .par-el { transition: transform 0.1s linear; will-change: transform; }
+
+        /* ===== MOBILE MENU ===== */
+        .mob-menu {
+            position: fixed; inset: 0; background: var(--bg); z-index: 150;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+            opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
+        }
+        .mob-menu.open { opacity: 1; pointer-events: auto; }
+        .mob-menu .nlink { font-size: 1.3rem; text-transform: none; letter-spacing: 0; }
+
+        /* ===== DIVIDER ===== */
+        .sec-div { height: 1px; background: var(--border); margin: 0 auto; max-width: 200px; }
+
+        /* ===== IMAGE STYLING ===== */
+        .img-clean { border-radius: var(--radius); object-fit: cover; display: block; }
+
+        /* ===== REDUCED MOTION ===== */
+        @media(prefers-reduced-motion:reduce) {
+            *,*::before,*::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:768px) {
+            .gblob { opacity: 0.15; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+<!-- Loader -->
+<div id="loader">
+    <div class="text-center">
+        <div class="fh font-extrabold text-4xl tracking-tight" style="color:var(--accent);">VS.</div>
+        <div class="mt-4 h-[2px] w-28 mx-auto rounded overflow-hidden" style="background:var(--border);">
+            <div class="loader-bar" id="loaderBar"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Scroll Progress -->
+<div id="scrollProg"></div>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+
+<!-- Side Dots -->
+<nav class="side-dots" aria-label="Section navigation">
+    <button class="sdot active" data-target="hero" data-label="Home" aria-label="Home"></button>
+    <button class="sdot" data-target="about" data-label="About" aria-label="About"></button>
+    <button class="sdot" data-target="journey" data-label="Journey" aria-label="Journey"></button>
+    <button class="sdot" data-target="craft" data-label="Craft" aria-label="Craft"></button>
+    <button class="sdot" data-target="showcase" data-label="Showcase" aria-label="Showcase"></button>
+    <button class="sdot" data-target="credentials" data-label="Credentials" aria-label="Credentials"></button>
+    <button class="sdot" data-target="playground" data-label="Playground" aria-label="Playground"></button>
+    <button class="sdot" data-target="beyond" data-label="Beyond" aria-label="Beyond"></button>
+    <button class="sdot" data-target="connect" data-label="Connect" aria-label="Connect"></button>
+</nav>
+
+<!-- Nav -->
+<header class="nav-bar" id="navbar">
+    <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between">
+        <a href="#hero" class="fh font-extrabold text-lg tracking-tight" style="color:var(--accent);">VS<span style="color:var(--fg);">.</span></a>
+        <div class="hidden md:flex items-center gap-7">
+            <a href="#about" class="nlink" data-sec="about">About</a>
+            <a href="#journey" class="nlink" data-sec="journey">Journey</a>
+            <a href="#craft" class="nlink" data-sec="craft">Craft</a>
+            <a href="#showcase" class="nlink" data-sec="showcase">Showcase</a>
+            <a href="#credentials" class="nlink" data-sec="credentials">Credentials</a>
+            <a href="#playground" class="nlink" data-sec="playground">Playground</a>
+            <a href="#connect" class="nlink" data-sec="connect">Connect</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+                <i class="fa-solid fa-sun"></i>
+            </button>
+            <button class="md:hidden text-lg" style="color:var(--fg2);" id="mobOpen" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mob-menu" id="mobMenu">
+    <button class="absolute top-5 right-5 text-2xl" style="color:var(--fg2);" id="mobClose" aria-label="Close menu">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="#about" class="nlink mlnk">About</a>
+    <a href="#journey" class="nlink mlnk">Journey</a>
+    <a href="#craft" class="nlink mlnk">Craft</a>
+    <a href="#showcase" class="nlink mlnk">Showcase</a>
+    <a href="#credentials" class="nlink mlnk">Credentials</a>
+    <a href="#playground" class="nlink mlnk">Playground</a>
+    <a href="#beyond" class="nlink mlnk">Beyond</a>
+    <a href="#connect" class="nlink mlnk">Connect</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden" style="padding-top:4rem;">
+    <div class="gblob" style="width:500px;height:500px;top:-8%;right:-5%;background:var(--accent);"></div>
+    <div class="gblob" style="width:400px;height:400px;bottom:-8%;left:-5%;background:var(--accent2);animation-delay:-5s;"></div>
+    <div class="gblob" style="width:300px;height:300px;top:40%;left:30%;background:var(--accent3);animation-delay:-9s;opacity:0.15;"></div>
+    <canvas id="heroCanvas"></canvas>
+
+    <div class="relative z-10 text-center px-5 max-w-4xl mx-auto">
+        <div class="mb-5" style="animation: hReveal 0.7s 0.1s cubic-bezier(.22,1,.36,1) both;">
+            <span class="section-pill">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse2 2s infinite;"></span>
+                Open to Opportunities
+            </span>
+        </div>
+        <div class="hero-line">
+            <span class="fh font-extrabold tracking-tight neon-text" style="font-size:clamp(2.4rem,7vw,5.2rem);line-height:1.05;color:var(--fg);">Veeramalla</span>
+        </div>
+        <div class="hero-line">
+            <span class="fh font-extrabold tracking-tight neon-text" style="font-size:clamp(2.4rem,7vw,5.2rem);line-height:1.05;color:var(--accent);">Sai Swaroop</span>
+        </div>
+        <div class="hero-line mt-3">
+            <span class="fh font-light tracking-wide" style="font-size:clamp(0.9rem,2.2vw,1.2rem);color:var(--fg2);">ECE Student &nbsp;<span style="color:var(--accent);opacity:0.5;">/</span>&nbsp; IoT Developer &nbsp;<span style="color:var(--accent);opacity:0.5;">/</span>&nbsp; UI/UX Enthusiast</span>
+        </div>
+        <div class="mt-9 flex flex-wrap items-center justify-center gap-4" style="animation: hReveal 0.9s 0.6s cubic-bezier(.22,1,.36,1) both;">
+            <a href="#showcase" class="btn-p">Explore Showcase <i class="fa-solid fa-arrow-down" style="font-size:0.75rem;"></i></a>
+            <a href="#connect" class="btn-o">Get in Touch</a>
+        </div>
+        <div class="absolute bottom-7 left-1/2 -translate-x-1/2" style="animation: hReveal 0.9s 1s cubic-bezier(.22,1,.36,1) both;">
+            <div style="width:22px;height:38px;border:2px solid var(--border);border-radius:11px;display:flex;justify-content:center;padding-top:7px;">
+                <div class="scroll-ind" style="width:3px;height:7px;background:var(--accent);border-radius:2px;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Marquee -->
+<div style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0.8rem 0;overflow:hidden;background:var(--bg2);transition:background-color 0.5s ease;">
+    <div class="mtrack">
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">IoT Development</span>
+        <span style="color:var(--accent);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">Embedded Systems</span>
+        <span style="color:var(--accent2);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">UI/UX Design</span>
+        <span style="color:var(--accent3);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">Electronics</span>
+        <span style="color:var(--accent);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">PCB Design</span>
+        <span style="color:var(--accent2);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">Sensor Integration</span>
+        <span style="color:var(--accent3);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">Prototyping</span>
+        <span style="color:var(--accent);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">IoT Development</span>
+        <span style="color:var(--accent2);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">Embedded Systems</span>
+        <span style="color:var(--accent3);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">UI/UX Design</span>
+        <span style="color:var(--accent);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">Electronics</span>
+        <span style="color:var(--accent2);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">PCB Design</span>
+        <span style="color:var(--accent3);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">Sensor Integration</span>
+        <span style="color:var(--accent);">&#9670;</span>
+        <span class="fh font-light text-xs mx-7" style="color:var(--fg2);">Prototyping</span>
+        <span style="color:var(--accent2);">&#9670;</span>
+    </div>
+</div>
+
+<main>
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="py-20 md:py-28 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-5 gap-10 md:gap-14 items-center">
+                <div class="md:col-span-3 rv-l">
+                    <div class="flex items-center gap-3 mb-5">
+                        <span class="section-num">01 —</span>
+                        <span class="section-pill neon-border">About</span>
+                    </div>
+                    <h2 class="fh font-extrabold" style="font-size:clamp(1.6rem,3.8vw,2.6rem);line-height:1.12;">
+                        Bridging Hardware<br><span style="color:var(--accent);" class="neon-text">& Software</span>
+                    </h2>
+                    <p class="mt-5" style="color:var(--fg2);font-size:1rem;line-height:1.85;">
+                        I'm an ECE student who lives at the intersection of electronics and design. With hands-on experience in IoT and Embedded Systems, and a growing passion for UI/UX, I bring a rare ability to think across both physical and digital realms. Every project I build tells a story — from soldering circuits to crafting user interfaces.
+                    </p>
+                    <div class="mt-7 flex flex-wrap gap-3">
+                        <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl neon-border" style="background:var(--accent-dim);">
+                            <i class="fa-solid fa-microchip" style="color:var(--accent);font-size:0.85rem;"></i>
+                            <span class="fh text-xs font-semibold">IoT & Embedded</span>
+                        </div>
+                        <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl neon-border2" style="background:var(--accent2-dim);">
+                            <i class="fa-solid fa-pen-nib" style="color:var(--accent2);font-size:0.85rem;"></i>
+                            <span class="fh text-xs font-semibold">UI/UX Design</span>
+                        </div>
+                        <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl neon-border3" style="background:var(--accent3-dim);">
+                            <i class="fa-solid fa-bolt" style="color:var(--accent3);font-size:0.85rem;"></i>
+                            <span class="fh text-xs font-semibold">Electronics</span>
+                        </div>
+                    </div>
+                    <!-- Stats -->
+                    <div class="mt-9 grid grid-cols-3 gap-4">
+                        <div class="text-center p-4 rounded-xl" style="background:var(--accent-dim);">
+                            <div class="fh font-extrabold text-2xl neon-text counter" data-target="10" style="color:var(--accent);">0</div>
+                            <div class="text-xs mt-1" style="color:var(--fg2);">Projects</div>
+                        </div>
+                        <div class="text-center p-4 rounded-xl" style="background:var(--accent2-dim);">
+                            <div class="fh font-extrabold text-2xl counter" data-target="5" style="color:var(--accent2);">0</div>
+                            <div class="text-xs mt-1" style="color:var(--fg2);">Credentials</div>
+                        </div>
+                        <div class="text-center p-4 rounded-xl" style="background:var(--accent3-dim);">
+                            <div class="fh font-extrabold text-2xl counter" data-target="3" style="color:var(--accent3);">0</div>
+                            <div class="text-xs mt-1" style="color:var(--fg2);">Domains</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-2 rv-r">
+                    <div class="relative">
+                        <img src="https://picsum.photos/seed/swaroop-minimal-portrait/500/650.jpg" alt="Sai Swaroop" class="img-clean w-full" style="aspect-ratio:5/6.5;">
+                        <div class="absolute -bottom-4 -left-4 card p-3 flex items-center gap-2.5 neon-border" style="border-radius:14px;">
+                            <div style="width:36px;height:36px;border-radius:50%;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;">
+                                <i class="fa-solid fa-code" style="color:var(--accent);font-size:0.75rem;"></i>
+                            </div>
+                            <div>
+                                <div class="fh text-xs font-bold">Currently Building</div>
+                                <div class="text-xs" style="color:var(--fg2);">IoT + UI/UX Projects</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="sec-div"></div>
+
+    <!-- ===== JOURNEY ===== -->
+    <section id="journey" class="py-20 md:py-28 px-5" style="background:var(--bg2);transition:background-color 0.5s ease;">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center rv">
+                <div class="flex items-center justify-center gap-3 mb-5">
+                    <span class="section-num">02 —</span>
+                    <span class="section-pill neon-border">Journey</span>
+                </div>
+                <h2 class="fh font-extrabold" style="font-size:clamp(1.6rem,3.8vw,2.6rem);">Academic <span style="color:var(--accent);" class="neon-text">Path</span></h2>
+            </div>
+            <div class="mt-14 relative" style="padding-left:50px;">
+                <div class="tl-line"></div>
+                <div class="tl-item relative mb-10 rv" style="transition-delay:0.1s;">
+                    <div class="tl-dot"></div>
+                    <div class="card p-5 ml-3 flex gap-5 items-start">
+                        <img src="https://picsum.photos/seed/university-campus-modern/120/120.jpg" alt="University" class="img-clean flex-shrink-0 par-el" data-speed="0.03" style="width:80px;height:80px;border-radius:12px;">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <span class="tag tag-a">Current</span>
+                                <span class="text-xs" style="color:var(--fg2);">2022 — Present</span>
+                            </div>
+                            <h3 class="fh font-bold text-base">B.Tech in Electronics & Communication Engineering</h3>
+                            <p class="mt-1.5 text-sm" style="color:var(--fg2);line-height:1.7;">Deep-diving into IoT, Embedded Systems, and hardware-software integration through hands-on projects and research.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item relative mb-10 rv" style="transition-delay:0.22s;">
+                    <div class="tl-dot"></div>
+                    <div class="card p-5 ml-3 flex gap-5 items-start">
+                        <img src="https://picsum.photos/seed/math-textbooks-clean/120/120.jpg" alt="Intermediate" class="img-clean flex-shrink-0 par-el" data-speed="0.04" style="width:80px;height:80px;border-radius:12px;">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <span class="tag tag-b">Completed</span>
+                                <span class="text-xs" style="color:var(--fg2);">2020 — 2022</span>
+                            </div>
+                            <h3 class="fh font-bold text-base">Intermediate (+2) — Mathematics Stream</h3>
+                            <p class="mt-1.5 text-sm" style="color:var(--fg2);line-height:1.7;">Built analytical foundations in Mathematics, Physics, and Chemistry that power both circuit design and UI thinking.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item relative rv" style="transition-delay:0.34s;">
+                    <div class="tl-dot"></div>
+                    <div class="card p-5 ml-3 flex gap-5 items-start">
+                        <img src="https://picsum.photos/seed/school-building-minimal/120/120.jpg" alt="SSC" class="img-clean flex-shrink-0 par-el" data-speed="0.05" style="width:80px;height:80px;border-radius:12px;">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <span class="tag tag-c">Completed</span>
+                                <span class="text-xs" style="color:var(--fg2);">2020</span>
+                            </div>
+                            <h3 class="fh font-bold text-base">Secondary School Certificate (SSC)</h3>
+                            <p class="mt-1.5 text-sm" style="color:var(--fg2);line-height:1.7;">Where the curiosity for science and technology first sparked — the starting point of everything.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="sec-div"></div>
+
+    <!-- ===== CRAFT ===== -->
+    <section id="craft" class="py-20 md:py-28 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center rv">
+                <div class="flex items-center justify-center gap-3 mb-5">
+                    <span class="section-num">03 —</span>
+                    <span class="section-pill neon-border">Craft</span>
+                </div>
+                <h2 class="fh font-extrabold" style="font-size:clamp(1.6rem,3.8vw,2.6rem);">What I <span style="color:var(--accent);" class="neon-text">Wield</span></h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-7 mt-14 stg">
+                <!-- IoT Skills -->
+                <div class="card p-7 rv">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center neon-border" style="background:var(--accent-dim);">
+                            <i class="fa-solid fa-wifi" style="color:var(--accent);"></i>
+                        </div>
+                        <h3 class="fh font-bold text-base">IoT & Embedded</h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+                        <div class="flex items-center justify-between"><span class="text-xs" style="color:var(--fg2);">Arduino / ESP32</span><span class="fh text-xs font-bold" style="color:var(--accent);">88%</span></div>
+                        <div class="flex items-center justify-between"><span class="text-xs" style="color:var(--fg2);">Sensors</span><span class="fh text-xs font-bold" style="color:var(--accent);">84%</span></div>
+                        <div class="flex items-center justify-between"><span class="text-xs" style="color:var(--fg2);">Embedded C</span><span class="fh text-xs font-bold" style="color:var(--accent);">76%</span></div>
+                        <div class="flex items-center justify-between"><span class="text-xs" style="color:var(--fg2);">PCB Design</span><span class="fh text-xs font-bold" style="color:var(--accent);">72%</span></div>
+                    </div>
+                    <div class="mt-5 space-y-2.5">
+                        <div><div class="h-[4px] rounded" style="background:var(--border);"><div class="h-full rounded skill-fill" data-w="88" style="width:0;background:var(--accent);transition:width 1.3s cubic-bezier(.22,1,.36,1);"></div></div></div>
+                        <div><div class="h-[4px] rounded" style="background:var(--border);"><div class="h-full rounded skill-fill" data-w="84" style="width:0;background:var(--accent);transition:width 1.3s cubic-bezier(.22,1,.36,1) 0.1s;"></div></div></div>
+                        <div><div class="h-[4px] rounded" style="background:var(--border);"><div class="h-full rounded skill-fill" data-w="76" style="width:0;background:var(--accent);transition:width 1.3s cubic-bezier(.22,1,.36,1) 0.2s;"></div></div></div>
+                        <div><div class="h-[4px] rounded" style="background:var(--border);"><div class="h-full rounded skill-fill" data-w="72" style="width:0;background:var(--accent);transition:width 1.3s cubic-bezier(.22,1,.36,1) 0.3s;"></div></div></div>
+                    </div>
+                </div>
+                <!-- UI/UX Skills -->
+                <div class="card p-7 rv">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center neon-border2" style="background:var(--accent2-dim);">
+                            <i class="fa-solid fa-palette" style="color:var(--accent2);"></i>
+                        </div>
+                        <h3 class="fh font-bold text-base">UI/UX Design</h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+                        <div class="flex items-center justify-between"><span class="text-xs" style="color:var(--fg2);">Figma</span><span class="fh text-xs font-bold" style="color:var(--accent2);">82%</span></div>
+                        <div class="flex items-center justify-between"><span class="text-xs" style="color:var(--fg2);">Prototyping</span><span class="fh text-xs font-bold" style="color:var(--accent2);">74%</span></div>
+                        <div class="flex items-center justify-between"><span class="text-xs" style="color:var(--fg2);">User Research</span><span class="fh text-xs font-bold" style="color:var(--accent2);">68%</span></div>
+                        <div class="flex items-center justify-between"><span class="text-xs" style="color:var(--fg2);">HTML/CSS</span><span class="fh text-xs font-bold" style="color:var(--accent2);">70%</span></div>
+                    </div>
+                    <div class="mt-5 space-y-2.5">
+                        <div><div class="h-[4px] rounded" style="background:var(--border);"><div class="h-full rounded skill-fill" data-w="82" style="width:0;background:var(--accent2);transition:width 1.3s cubic-bezier(.22,1,.36,1);"></div></div></div>
+                        <div><div class="h-[4px] rounded" style="background:var(--border);"><div class="h-full rounded skill-fill" data-w="74" style="width:0;background:var(--accent2);transition:width 1.3s cubic-bezier(.22,1,.36,1) 0.1s;"></div></div></div>
+                        <div><div class="h-[4px] rounded" style="background:var(--border);"><div class="h-full rounded skill-fill" data-w="68" style="width:0;background:var(--accent2);transition:width 1.3s cubic-bezier(.22,1,.36,1) 0.2s;"></div></div></div>
+                        <div><div class="h-[4px] rounded" style="background:var(--border);"><div class="h-full rounded skill-fill" data-w="70" style="width:0;background:var(--accent2);transition:width 1.3s cubic-bezier(.22,1,.36,1) 0.3s;"></div></div></div>
+                    </div>
+                </div>
+                <!-- General -->
+                <div class="card p-7 rv md:col-span-2">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center neon-border3" style="background:var(--accent3-dim);">
+                            <i class="fa-solid fa-rocket" style="color:var(--accent3);"></i>
+                        </div>
+                        <h3 class="fh font-bold text-base">General Arsenal</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2.5">
+                        <span class="tag tag-a" style="font-size:0.72rem;padding:0.3rem 0.7rem;">Research & Browsing</span>
+                        <span class="tag tag-b" style="font-size:0.72rem;padding:0.3rem 0.7rem;">Problem Solving</span>
+                        <span class="tag tag-c" style="font-size:0.72rem;padding:0.3rem 0.7rem;">Team Collaboration</span>
+                        <span class="tag tag-a" style="font-size:0.72rem;padding:0.3rem 0.7rem;">Documentation</span>
+                        <span class="tag tag-b" style="font-size:0.72rem;padding:0.3rem 0.7rem;">Circuit Analysis</span>
+                        <span class="tag tag-c" style="font-size:0.72rem;padding:0.3rem 0.7rem;">Creative Thinking</span>
+                        <span class="tag tag-a" style="font-size:0.72rem;padding:0.3rem 0.7rem;">Adaptability</span>
+                        <span class="tag tag-b" style="font-size:0.72rem;padding:0.3rem 0.7rem;">Presentation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="sec-div"></div>
+
+    <!-- ===== SHOWCASE (Horizontal Scroll) ===== -->
+    <section id="showcase" class="py-20 md:py-28 px-5" style="background:var(--bg2);transition:background-color 0.5s ease;">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 rv">
+                <div>
+                    <div class="flex items-center gap-3 mb-5">
+                        <span class="section-num">04 —</span>
+                        <span class="section-pill neon-border">Showcase</span>
+                    </div>
+                    <h2 class="fh font-extrabold" style="font-size:clamp(1.6rem,3.8vw,2.6rem);">Selected <span style="color:var(--accent);" class="neon-text">Works</span></h2>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn-o" id="scrollLeft" aria-label="Scroll left"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="btn-o" id="scrollRight" aria-label="Scroll right"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="hscroll-wrap mt-10 pl-5 md:pl-[max(1.25rem,calc((100vw-72rem)/2+1.25rem))]" id="hscrollWrap">
+            <div class="flex gap-5 pr-5" id="hscrollTrack">
+                <!-- Cards injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <div class="sec-div"></div>
+
+    <!-- ===== CREDENTIALS ===== -->
+    <section id="credentials" class="py-20 md:py-28 px-5">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center rv">
+                <div class="flex items-center justify-center gap-3 mb-5">
+                    <span class="section-num">05 —</span>
+                    <span class="section-pill neon-border">Credentials</span>
+                </div>
+                <h2 class="fh font-extrabold" style="font-size:clamp(1.6rem,3.8vw,2.6rem);">Validated <span style="color:var(--accent);" class="neon-text">Expertise</span></h2>
+            </div>
+            <div class="space-y-3.5 mt-14 stg" id="credGrid"></div>
+        </div>
+    </section>
+
+    <div class="sec-div"></div>
+
+    <!-- ===== PLAYGROUND ===== -->
+    <section id="playground" class="py-20 md:py-28 px-5" style="background:var(--bg2);transition:background-color 0.5s ease;">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center rv">
+                <div class="flex items-center justify-center gap-3 mb-5">
+                    <span class="section-num">06 —</span>
+                    <span class="section-pill neon-border2">Playground</span>
+                </div>
+                <h2 class="fh font-extrabold" style="font-size:clamp(1.6rem,3.8vw,2.6rem);">Brain <span style="color:var(--accent2);">Crackers</span></h2>
+                <p class="mt-3 mx-auto text-sm" style="color:var(--fg2);max-width:480px;">Flip the cards to reveal answers. These challenges reflect the kind of problems I enjoy solving.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 stg" id="brainGrid"></div>
+        </div>
+    </section>
+
+    <div class="sec-div"></div>
+
+    <!-- ===== BEYOND ===== -->
+    <section id="beyond" class="py-20 md:py-28 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center rv">
+                <div class="flex items-center justify-center gap-3 mb-5">
+                    <span class="section-num">07 —</span>
+                    <span class="section-pill neon-border3">Beyond</span>
+                </div>
+                <h2 class="fh font-extrabold" style="font-size:clamp(1.6rem,3.8vw,2.6rem);">More Than <span style="color:var(--accent3);">Code</span></h2>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-14 stg" id="beyondGrid"></div>
+        </div>
+    </section>
+
+    <div class="sec-div"></div>
+
+    <!-- ===== CONNECT ===== -->
+    <section id="connect" class="py-20 md:py-28 px-5" style="background:var(--bg2);transition:background-color 0.5s ease;">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-14">
+                <div class="rv-l">
+                    <div class="flex items-center gap-3 mb-5">
+                        <span class="section-num">08 —</span>
+                        <span class="section-pill neon-border">Connect</span>
+                    </div>
+                    <h2 class="fh font-extrabold" style="font-size:clamp(1.6rem,3.8vw,2.6rem);line-height:1.12;">
+                        Let's Build<br><span style="color:var(--accent);" class="neon-text">Together</span>
+                    </h2>
+                    <p class="mt-5" style="color:var(--fg2);font-size:0.95rem;line-height:1.8;">
+                        Got a project idea, need help with IoT or UI/UX, or just want to say hello? I'm always open to meaningful conversations and collaborations.
+                    </p>
+                    <div class="mt-9 space-y-4">
+                        <a href="mailto:veeramallasaiswaroop40@gmail.com" class="flex items-center gap-4 group">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center neon-border" style="background:var(--accent-dim);">
+                                <i class="fa-solid fa-envelope" style="color:var(--accent);font-size:0.85rem;"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs fh font-semibold" style="color:var(--fg2);">Email</div>
+                                <div class="text-sm" style="word-break:break-all;">veeramallasaiswaroop40@gmail.com</div>
+                            </div>
+                        </a>
+                        <a href="tel:123456987" class="flex items-center gap-4 group">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center neon-border2" style="background:var(--accent2-dim);">
+                                <i class="fa-solid fa-phone" style="color:var(--accent2);font-size:0.85rem;"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs fh font-semibold" style="color:var(--fg2);">Phone</div>
+                                <div class="text-sm">123456987</div>
+                            </div>
+                        </a>
+                        <div class="flex items-center gap-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center neon-border3" style="background:var(--accent3-dim);">
+                                <i class="fa-solid fa-location-dot" style="color:var(--accent3);font-size:0.85rem;"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs fh font-semibold" style="color:var(--fg2);">Location</div>
+                                <div class="text-sm">India</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rv-r">
+                    <form id="contactForm" class="space-y-4">
+                        <div>
+                            <label class="block text-xs fh font-semibold mb-1.5" style="color:var(--fg2);">Your Name</label>
+                            <input type="text" class="form-input" placeholder="John Doe" required id="fName">
+                        </div>
+                        <div>
+                            <label class="block text-xs fh font-semibold mb-1.5" style="color:var(--fg2);">Your Email</label>
+                            <input type="email" class="form-input" placeholder="john@example.com" required id="fEmail">
+                        </div>
+                        <div>
+                            <label class="block text-xs fh font-semibold mb-1.5" style="color:var(--fg2);">Subject</label>
+                            <input type="text" class="form-input" placeholder="Project Collaboration" required id="fSubj">
+                        </div>
+                        <div>
+                            <label class="block text-xs fh font-semibold mb-1.5" style="color:var(--fg2);">Message</label>
+                            <textarea class="form-input" rows="4" placeholder="Tell me about your idea..." required id="fMsg" style="resize:vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="btn-p w-full justify-center">Send Message <i class="fa-solid fa-arrow-right" style="font-size:0.75rem;"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer style="border-top:1px solid var(--border);padding:1.5rem;background:var(--bg);transition:background-color 0.5s ease,border-color 0.5s ease;">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4 px-5">
+        <div class="fh font-bold text-xs" style="color:var(--fg2);">VS<span style="color:var(--accent);">.</span> 2025 — Veeramalla Sai Swaroop</div>
+        <div class="flex items-center gap-2">
+            <span class="text-xs" style="color:var(--fg2);">Navigate:</span>
+            <a href="#about" class="text-xs fh font-semibold" style="color:var(--accent);opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">About</a>
+            <a href="#showcase" class="text-xs fh font-semibold" style="color:var(--accent);opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">Showcase</a>
+            <a href="#connect" class="text-xs fh font-semibold" style="color:var(--accent);opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">Connect</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="mailto:veeramallasaiswaroop40@gmail.com" style="color:var(--fg2);transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'" aria-label="Email"><i class="fa-solid fa-envelope text-sm"></i></a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener" style="color:var(--fg2);transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
+            <a href="https://github.com" target="_blank" rel="noopener" style="color:var(--fg2);transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'" aria-label="GitHub"><i class="fa-brands fa-github text-sm"></i></a>
+        </div>
+    </div>
+</footer>
+
+<!-- Slide Panel -->
+<div class="slide-backdrop" id="slideBD"></div>
+<div class="slide-panel" id="slidePN">
+    <div class="p-7">
+        <button id="slideCL" class="w-9 h-9 rounded-lg flex items-center justify-center neon-border" style="background:var(--card);border:1px solid var(--border);color:var(--fg2);cursor:pointer;" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <div id="slideCT" class="mt-7"></div>
+    </div>
+</div>
+
+<!-- Chatbot -->
+<button class="chat-toggle" id="chatToggle" aria-label="Open chat assistant">
+    <i class="fa-solid fa-comment-dots"></i>
+</button>
+<div class="chat-panel" id="chatPanel">
+    <div class="p-4 flex items-center gap-3" style="border-bottom:1px solid var(--border);">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;">
+            <i class="fa-solid fa-robot" style="color:var(--accent);font-size:0.8rem;"></i>
+        </div>
+        <div>
+            <div class="fh text-sm font-bold">Swaroop's Assistant</div>
+            <div class="text-xs" style="color:var(--accent3);">Online</div>
+        </div>
+    </div>
+    <div class="chat-msgs" id="chatMsgs">
+        <div class="chat-bubble chat-bot">Hey! I'm the portfolio assistant. Ask me about Swaroop's skills, projects, education, or anything else!</div>
+    </div>
+    <div class="chat-input-wrap">
+        <input type="text" class="chat-input" id="chatIn" placeholder="Type a message..." aria-label="Chat message">
+        <button class="chat-send" id="chatSend" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-el" id="toast">
+    <i class="fa-solid fa-circle-check" id="toastIcon" style="color:var(--accent);font-size:1.1rem;"></i>
+    <span id="toastMsg"></span>
+</div>
+
+<script>
+/* ===== DATA ===== */
+const projects = [
+    { id:1, title:"Smart Home Automation", cat:"IoT", tc:"tag-a", img:"https://picsum.photos/seed/smarthome-clean-minimal/500/340.jpg",
+      sum:"ESP32-based home automation with real-time mobile dashboard control.",
+      desc:"Built a complete smart home system using ESP32 with temperature, humidity, motion, and light sensors connected to relays and servos. Uses MQTT protocol for cloud communication with a custom mobile-responsive dashboard.",
+      tech:["ESP32","MQTT","DHT11","PIR Sensor","Relay Modules","Blynk"],
+      feats:["Real-time sensor streaming","Remote appliance control","Automated threshold triggers","Energy tracking","Voice command support"],
+      out:"Automated 6 appliances with 95% uptime over 3 months. Reduced manual intervention by 80%." },
+    { id:2, title:"Weather Monitoring Station", cat:"Embedded", tc:"tag-a", img:"https://picsum.photos/seed/weather-station-desk/500/340.jpg",
+      sum:"Portable weather station with LCD display and SD card data logging.",
+      desc:"Battery-powered portable station using Arduino Nano measuring temperature, humidity, pressure, and UV index. Data displayed on 16x2 LCD and logged to SD card with timestamps for analysis.",
+      tech:["Arduino Nano","BME280","VEML6075","LCD 16x2","SD Card","Li-Po"],
+      feats:["48hr+ battery life","On-device LCD display","Timestamped SD logging","Low-power sleep mode","USB data export"],
+      out:"48+ hours continuous operation. Logged 10,000+ accurate data points during field testing." },
+    { id:3, title:"IoT Plant Care System", cat:"IoT", tc:"tag-a", img:"https://picsum.photos/seed/plant-care-green/500/340.jpg",
+      sum:"Automated plant watering with soil moisture sensing and mobile alerts.",
+      desc:"Intelligent plant care using NodeMCU monitoring soil moisture, ambient light, and temperature. Auto-activates water pump when moisture drops below threshold. Push notifications via Blynk app.",
+      tech:["NodeMCU","Capacitive Soil Sensor","LDR","Water Pump","Blynk IoT","Relay"],
+      feats:["Auto-watering by moisture level","Light-aware scheduling","Push notifications","Multi-zone support","Manual app override"],
+      out:"Maintained healthy moisture for 4 plant species over 2 months with zero manual watering." },
+    { id:4, title:"Healthcare App Redesign", cat:"UI/UX", tc:"tag-b", img:"https://picsum.photos/seed/healthapp-screen/500/340.jpg",
+      sum:"Complete UI/UX redesign improving user flow by 40%.",
+      desc:"Conducted UX audit of a healthcare booking app. Identified 12 pain points through user interviews and heuristic evaluation. Redesigned the complete flow from onboarding to booking with focus on accessibility.",
+      tech:["Figma","Maze.co","User Interviews","Heuristic Eval","Prototyping","Design System"],
+      feats:["7-step to 3-step booking","WCAG AA contrast","Clear status tracking","Emergency quick-access","Multi-language design"],
+      out:"40% improvement in task completion rate and 60% reduction in booking time." },
+    { id:5, title:"Smart Energy Meter", cat:"IoT", tc:"tag-a", img:"https://picsum.photos/seed/energy-meter-display/500/340.jpg",
+      sum:"IoT energy meter with web dashboard for power analytics.",
+      desc:"Smart energy monitoring using ACS712 current sensor with ESP32. Measures real-time power, calculates cost, sends data to custom web dashboard with live graphs and threshold alerts.",
+      tech:["ESP32","ACS712","ZMPT101B","WebSocket","Chart.js","HTML/CSS/JS"],
+      feats:["Real-time power display","Cost calculation","Historical interactive charts","Threshold alerts","Responsive dashboard"],
+      out:"Within 3% accuracy of utility meter. Dashboard loads in under 1.5 seconds." },
+    { id:6, title:"E-Commerce App Concept", cat:"UI/UX", tc:"tag-b", img:"https://picsum.photos/seed/ecommerce-mobile-ui/500/340.jpg",
+      sum:"End-to-end mobile app design for a boutique shopping platform.",
+      desc:"Designed complete mobile shopping experience from research to hi-fi prototypes. Created personas, journey maps, wireframes, and polished UI with warm premium aesthetic.",
+      tech:["Figma","Personas","Journey Maps","Wireframes","Hi-Fi Prototyping","Micro-interactions"],
+      feats:["Smart discovery filters","One-tap checkout","Wishlist with price alerts","Order tracking timeline","Delightful animations"],
+      out:"Stakeholder rating: 9/10 visual appeal, 8.5/10 usability. Concept adopted for development." }
+];
+
+const creds = [
+    { title:"IoT Fundamentals with Arduino", issuer:"NPTEL / IIT", date:"2023", tc:"tag-a", icon:"fa-solid fa-microchip" },
+    { title:"Introduction to Embedded Systems", issuer:"Coursera", date:"2023", tc:"tag-a", icon:"fa-solid fa-gear" },
+    { title:"Google UX Design Professional Certificate", issuer:"Google / Coursera", date:"2024", tc:"tag-b", icon:"fa-solid fa-pen-nib" },
+    { title:"Essentials of PCB Design", issuer:"Udemy", date:"2023", tc:"tag-c", icon:"fa-solid fa-layer-group" },
+    { title:"Python for IoT Applications", issuer:"Great Learning", date:"2024", tc:"tag-a", icon:"fa-brands fa-python" }
+];
+
+const brains = [
+    { q:"What component stores charge but blocks DC?", a:"Capacitor — it stores energy in an electric field and blocks steady-state DC current.", icon:"fa-solid fa-bolt" },
+    { q:"ESP32 has 34 GPIO pins. With 3 pins per sensor, how many sensors directly?", a:"11 sensors. 34 / 3 = 11.33, so 11 full sensor connections.", icon:"fa-solid fa-calculator" },
+    { q:"Which UX law says users spend most time on other sites?", a:"Jakob's Law — users prefer your site to work the same way as sites they already know.", icon:"fa-solid fa-brain" },
+    { q:"Convert binary 11010 to decimal.", a:"26. 1x16 + 1x8 + 0x4 + 1x2 + 0x1 = 16+8+2 = 26.", icon:"fa-solid fa-hashtag" },
+    { q:"What's the difference between IoT and IIoT?", a:"IoT is consumer-focused (smart homes). IIoT is Industrial IoT — manufacturing, supply chain, with stricter reliability and security.", icon:"fa-solid fa-industry" },
+    { q:"What does MQTT stand for?", a:"Message Queuing Telemetry Transport — a lightweight messaging protocol ideal for IoT devices with limited bandwidth.", icon:"fa-solid fa-tower-broadcast" }
+];
+
+const beyonds = [
+    { title:"Hackathon Warrior", desc:"Participated in 4+ hackathons building IoT prototypes under 24-48 hour constraints.", icon:"fa-solid fa-flag-checkered", tc:"tag-a" },
+    { title:"Open Source Explorer", desc:"Contributing to IoT libraries and sharing project repositories for community learning.", icon:"fa-brands fa-github", tc:"tag-b" },
+    { title:"Tech Storyteller", desc:"Writing about electronics and design concepts to make complex topics accessible.", icon:"fa-solid fa-feather-pointed", tc:"tag-c" },
+    { title:"Circuit Artisan", desc:"Designing custom PCBs from schematic to fabrication for personal and academic projects.", icon:"fa-solid fa-microchip", tc:"tag-a" },
+    { title:"Community Mentor", desc:"Helping juniors understand IoT fundamentals and guiding them through first projects.", icon:"fa-solid fa-graduation-cap", tc:"tag-b" },
+    { title:"Design Thinker", desc:"Applying design thinking methodology beyond UI — to problem solving and project planning.", icon:"fa-solid fa-lightbulb", tc:"tag-c" }
+];
+
+/* ===== RENDER SHOWCASE ===== */
+const hscrollTrack = document.getElementById('hscrollTrack');
+projects.forEach((p, i) => {
+    const d = document.createElement('div');
+    d.className = 'hscroll-card rv';
+    d.style.cssText = `width:380px;max-width:80vw;transition-delay:${i*0.07}s;`;
+    d.setAttribute('role','button'); d.setAttribute('tabindex','0');
+    d.setAttribute('aria-label','View details of '+p.title);
+    d.innerHTML = `
+        <div class="card overflow-hidden" style="cursor:pointer;">
+            <img src="${p.img}" alt="${p.title}" class="img-clean w-full" style="height:210px;" loading="lazy">
+            <div class="p-5">
+                <span class="tag ${p.tc}">${p.cat}</span>
+                <h3 class="fh font-bold text-base mt-2.5">${p.title}</h3>
+                <p class="mt-1.5 text-xs" style="color:var(--fg2);line-height:1.6;">${p.sum}</p>
+                <div class="mt-3 fh text-xs font-semibold" style="color:var(--accent);">
+                    View Details <i class="fa-solid fa-arrow-right" style="font-size:0.6rem;margin-left:0.2rem;"></i>
+                </div>
+            </div>
+        </div>`;
+    d.addEventListener('click', () => openSlide(p));
+    d.addEventListener('keydown', e => { if(e.key==='Enter') openSlide(p); });
+    hscrollTrack.appendChild(d);
+});
+
+/* ===== RENDER CREDENTIALS ===== */
+const credGrid = document.getElementById('credGrid');
+creds.forEach((c, i) => {
+    const d = document.createElement('div');
+    d.className = 'card p-4 flex items-center gap-4 rv';
+    d.style.cssText = `transition-delay:${i*0.07}s;position:relative;overflow:hidden;`;
+    d.innerHTML = `
+        <div style="position:absolute;top:0;left:0;width:3px;height:0;background:var(--accent);border-radius:0 3px 3px 0;transition:height 0.5s cubic-bezier(.22,1,.36,1);" class="cred-bar"></div>
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:${c.tc==='tag-a'?'var(--accent-dim)':c.tc==='tag-b'?'var(--accent2-dim)':'var(--accent3-dim)'};">
+            <i class="${c.icon}" style="color:${c.tc==='tag-a'?'var(--accent)':c.tc==='tag-b'?'var(--accent2)':'var(--accent3)'};font-size:0.85rem;"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+            <h4 class="fh font-bold text-sm">${c.title}</h4>
+            <p class="text-xs mt-0.5" style="color:var(--fg2);">${c.issuer}</p>
+        </div>
+        <span class="tag ${c.tc} flex-shrink-0">${c.date}</span>`;
+    d.addEventListener('mouseenter', () => d.querySelector('.cred-bar').style.height = '100%');
+    d.addEventListener('mouseleave', () => d.querySelector('.cred-bar').style.height = '0');
+    credGrid.appendChild(d);
+});
+
+/* ===== RENDER BRAIN CRACKERS ===== */
+const brainGrid = document.getElementById('brainGrid');
+brains.forEach((b, i) => {
+    const d = document.createElement('div');
+    d.className = 'brain-card rv';
+    d.style.cssText = `height:220px;transition-delay:${i*0.07}s;`;
+    d.innerHTML = `
+        <div class="brain-inner">
+            <div class="brain-front card flex flex-col items-center justify-center text-center p-5" style="background:var(--card);border:1px solid var(--border);">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style="background:var(--accent2-dim);">
+                    <i class="${b.icon}" style="color:var(--accent2);"></i>
+                </div>
+                <p class="fh font-semibold text-sm" style="line-height:1.5;">${b.q}</p>
+                <p class="text-xs mt-3" style="color:var(--fg2);">Tap to reveal</p>
+            </div>
+            <div class="brain-back card flex flex-col justify-center p-5" style="background:var(--bg2);border:1px solid var(--accent2);">
+                <p class="text-sm" style="color:var(--fg);line-height:1.7;">${b.a}</p>
+                <p class="text-xs mt-3" style="color:var(--fg2);">Tap to flip back</p>
+            </div>
+        </div>`;
+    d.addEventListener('click', () => d.classList.toggle('flipped'));
+    brainGrid.appendChild(d);
+});
+
+/* ===== RENDER BEYOND ===== */
+const beyondGrid = document.getElementById('beyondGrid');
+beyonds.forEach((b, i) => {
+    const d = document.createElement('div');
+    d.className = 'card p-6 rv';
+    d.style.cssText = `transition-delay:${i*0.07}s;`;
+    d.innerHTML = `
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style="background:${b.tc==='tag-a'?'var(--accent-dim)':b.tc==='tag-b'?'var(--accent2-dim)':'var(--accent3-dim)'};">
+            <i class="${b.icon}" style="color:${b.tc==='tag-a'?'var(--accent)':b.tc==='tag-b'?'var(--accent2)':'var(--accent3)'};"></i>
+        </div>
+        <h4 class="fh font-bold text-sm">${b.title}</h4>
+        <p class="mt-2 text-xs" style="color:var(--fg2);line-height:1.7;">${b.desc}</p>`;
+    beyondGrid.appendChild(d);
+});
+
+/* ===== SLIDE PANEL ===== */
+const slidePN = document.getElementById('slidePN');
+const slideBD = document.getElementById('slideBD');
+const slideCT = document.getElementById('slideCT');
+
+function openSlide(p) {
+    slideCT.innerHTML = `
+        <img src="${p.img}" alt="${p.title}" class="img-clean w-full mb-5" style="height:220px;" loading="lazy">
+        <span class="tag ${p.tc}">${p.cat}</span>
+        <h2 class="fh font-extrabold text-xl mt-3" style="line-height:1.2;">${p.title}</h2>
+        <p class="mt-3 text-sm" style="color:var(--fg2);line-height:1.8;">${p.desc}</p>
+        <div class="mt-6">
+            <h4 class="fh font-bold text-xs mb-2"><i class="fa-solid fa-layer-group mr-2" style="color:var(--accent);"></i>Tech Stack</h4>
+            <div class="flex flex-wrap gap-1.5">${p.tech.map(t=>`<span class="tag ${p.tc}" style="font-size:0.68rem;padding:0.25rem 0.55rem;">${t}</span>`).join('')}</div>
+        </div>
+        <div class="mt-6">
+            <h4 class="fh font-bold text-xs mb-2"><i class="fa-solid fa-list-check mr-2" style="color:var(--accent2);"></i>Key Features</h4>
+            <ul class="space-y-1.5">${p.feats.map(f=>`<li class="flex items-start gap-2 text-xs" style="color:var(--fg2);"><i class="fa-solid fa-check-circle mt-0.5 flex-shrink-0" style="color:var(--accent3);font-size:0.65rem;"></i>${f}</li>`).join('')}</ul>
+        </div>
+        <div class="mt-6 p-4 rounded-xl" style="background:var(--bg2);border:1px solid var(--border);">
+            <h4 class="fh font-bold text-xs mb-1.5"><i class="fa-solid fa-chart-line mr-2" style="color:var(--accent);"></i>Outcome</h4>
+            <p class="text-xs" style="color:var(--fg2);line-height:1.7;">${p.out}</p>
+        </div>`;
+    slidePN.classList.add('open'); slideBD.classList.add('open');
+    document.body.style.overflow = 'hidden'; slidePN.scrollTop = 0;
+}
+function closeSlide() { slidePN.classList.remove('open'); slideBD.classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('slideCL').addEventListener('click', closeSlide);
+slideBD.addEventListener('click', closeSlide);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeSlide(); });
+
+/* ===== CHATBOT ===== */
+const chatPanel = document.getElementById('chatPanel');
+const chatMsgs = document.getElementById('chatMsgs');
+const chatIn = document.getElementById('chatIn');
+const chatResponses = [
+    { keys:['hello','hi','hey','good morning','good evening','hii'], resp:"Hey there! I'm Swaroop's portfolio assistant. Ask me about skills, projects, education, or how to connect!" },
+    { keys:['skill','skills','what can','expertise','know','tech'], resp:"Swaroop excels in IoT & Embedded Systems (Arduino, ESP32, sensors, PCB design) and UI/UX Design (Figma, prototyping, user research). He's also strong in research, documentation, and problem solving." },
+    { keys:['project','projects','work','built','made','showcase'], resp:"He has 6 featured works: Smart Home Automation, Weather Station, IoT Plant Care, Healthcare App Redesign, Smart Energy Meter, and E-Commerce App Concept. Scroll to the Showcase section and click any card for full details!" },
+    { keys:['education','study','studying','college','degree','b.tech','btech'], resp:"Swaroop is pursuing B.Tech in ECE. He completed +2 in Maths stream and SSC before that. His education gives a strong foundation in both hardware and software." },
+    { keys:['contact','email','phone','reach','hire','connect'], resp:"Email: veeramallasaiswaroop40@gmail.com | Phone: 123456987 | Or use the contact form in the Connect section!" },
+    { keys:['iot','internet of things','embedded','arduino','esp','sensor'], resp:"Swaroop has deep IoT experience — smart home systems, weather stations, plant care, and energy meters using Arduino, ESP32, NodeMCU with MQTT and various sensors." },
+    { keys:['ui','ux','design','figma','user experience','interface'], resp:"He's passionate about UI/UX — redesigned a healthcare app (40% better completion), designed an e-commerce concept, and creates wireframes, prototypes, and design systems in Figma." },
+    { keys:['certificate','credential','course','certified','learning'], resp:"5 credentials: IoT Fundamentals (NPTEL), Embedded Systems (Coursera), Google UX Design, PCB Design (Udemy), Python for IoT (Great Learning)." },
+    { keys:['interest','hobby','beyond','free time'], resp:"Beyond tech: Hackathons, open source, tech writing, PCB artistry, community mentoring, and design thinking." },
+    { keys:['challenge','brain','puzzle','cracker'], resp:"Check out the Playground section for interactive brain crackers related to electronics, UX laws, and binary math. Flip the cards to reveal answers!" }
+];
+const defaultResp = "I can help with info about Swaroop's skills, projects, education, contact details, certificates, interests, or challenges. What would you like to know?";
+
+function chatReply(msg) {
+    const lower = msg.toLowerCase();
+    for (const r of chatResponses) {
+        if (r.keys.some(k => lower.includes(k))) return r.resp;
+    }
+    return defaultResp;
+}
+
+function addMsg(text, type) {
+    const div = document.createElement('div');
+    div.className = 'chat-bubble ' + (type === 'user' ? 'chat-user' : 'chat-bot');
+    div.textContent = text;
+    chatMsgs.appendChild(div);
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+}
+
+function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'chat-typing'; div.id = 'typingInd';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    chatMsgs.appendChild(div);
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+}
+
+function sendChat() {
+    const msg = chatIn.value.trim();
+    if (!msg) return;
+    addMsg(msg, 'user');
+    chatIn.value = '';
+    showTyping();
+    setTimeout(() => {
+        const t = document.getElementById('typingInd');
+        if (t) t.remove();
+        addMsg(chatReply(msg), 'bot');
+    }, 800 + Math.random() * 600);
+}
+
+document.getElementById('chatSend').addEventListener('click', sendChat);
+chatIn.addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
+document.getElementById('chatToggle').addEventListener('click', () => chatPanel.classList.toggle('open'));
+
+/* ===== THEME TOGGLE ===== */
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+    const body = document.body;
+    const next = body.dataset.theme === 'dark' ? 'light' : 'dark';
+    body.dataset.theme = next;
+    document.querySelector('meta[name="theme-color"]').content = next === 'dark' ? '#06060a' : '#f6f2ec';
+});
+
+/* ===== LOADER ===== */
+const loaderBar = document.getElementById('loaderBar');
+let loadProg = 0;
+const loadInt = setInterval(() => {
+    loadProg += Math.random() * 25 + 10;
+    if (loadProg >= 100) { loadProg = 100; loaderBar.style.width = '100%'; clearInterval(loadInt);
+        setTimeout(() => document.getElementById('loader').classList.add('hidden'), 300);
+    } else { loaderBar.style.width = loadProg + '%'; }
+}, 150);
+
+/* ===== SCROLL PROGRESS ===== */
+const scrollProg = document.getElementById('scrollProg');
+window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    scrollProg.style.width = (window.scrollY / h * 100) + '%';
+}, { passive: true });
+
+/* ===== NAV HIDE/SHOW ===== */
+const navbar = document.getElementById('navbar');
+let lastSY = 0;
+window.addEventListener('scroll', () => {
+    const sy = window.scrollY;
+    if (sy > lastSY && sy > 80) navbar.classList.add('hide');
+    else navbar.classList.remove('hide');
+    lastSY = sy;
+}, { passive: true });
+
+/* ===== ACTIVE NAV ===== */
+const secs = document.querySelectorAll('section[id]');
+const nlinks = document.querySelectorAll('.nlink[data-sec]');
+const secObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            nlinks.forEach(l => l.classList.remove('act'));
+            const al = document.querySelector(`.nlink[data-sec="${e.target.id}"]`);
+            if (al) al.classList.add('act');
+        }
+    });
+}, { threshold: 0.25, rootMargin: '-80px 0px -35% 0px' });
+secs.forEach(s => secObs.observe(s));
+
+/* ===== SIDE DOTS ===== */
+const sdots = document.querySelectorAll('.sdot');
+const dotObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            sdots.forEach(d => d.classList.remove('active'));
+            const ad = document.querySelector(`.sdot[data-target="${e.target.id}"]`);
+            if (ad) ad.classList.add('active');
+        }
+    });
+}, { threshold: 0.3, rootMargin: '-80px 0px -35% 0px' });
+secs.forEach(s => dotObs.observe(s));
+sdots.forEach(d => d.addEventListener('click', () => {
+    const t = document.getElementById(d.dataset.target);
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}));
+
+/* ===== MOBILE MENU ===== */
+const mobMenu = document.getElementById('mobMenu');
+document.getElementById('mobOpen').addEventListener('click', () => mobMenu.classList.add('open'));
+document.getElementById('mobClose').addEventListener('click', () => mobMenu.classList.remove('open'));
+document.querySelectorAll('.mlnk').forEach(l => l.addEventListener('click', () => mobMenu.classList.remove('open')));
+
+/* ===== REVEAL ON SCROLL ===== */
+const rvObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s').forEach(el => rvObs.observe(el));
+
+/* ===== SKILL BARS ===== */
+const skObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.w + '%'; skObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('.skill-fill').forEach(b => skObs.observe(b));
+
+/* ===== COUNTERS ===== */
+const ctObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            const el = e.target; const tgt = parseInt(el.dataset.target);
+            let cur = 0; const inc = Math.max(1, Math.ceil(tgt / 35));
+            const tm = setInterval(() => { cur += inc; if (cur >= tgt) { cur = tgt; clearInterval(tm); } el.textContent = cur + '+'; }, 35);
+            ctObs.unobserve(el);
+        }
+    });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(c => ctObs.observe(c));
+
+/* ===== CURSOR ===== */
+const cursor = document.getElementById('cursor');
+let mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function animC() { cx += (mx-cx)*0.07; cy += (my-cy)*0.07; cursor.style.left = cx+'px'; cursor.style.top = cy+'px'; requestAnimationFrame(animC); })();
+
+/* ===== HERO PARTICLES ===== */
+const hCanvas = document.getElementById('heroCanvas');
+const hCtx = hCanvas.getContext('2d');
+let pts = [];
+
+function resizeHC() { const h = document.getElementById('hero'); hCanvas.width = h.offsetWidth; hCanvas.height = h.offsetHeight; }
+resizeHC(); window.addEventListener('resize', resizeHC);
+
+class Pt {
+    constructor() { this.reset(); }
+    reset() { this.x = Math.random()*hCanvas.width; this.y = Math.random()*hCanvas.height; this.sz = Math.random()*1.8+0.4; this.sx = (Math.random()-0.5)*0.35; this.sy = (Math.random()-0.5)*0.35; this.op = Math.random()*0.45+0.1; }
+    update() { this.x += this.sx; this.y += this.sy; if (this.x<0||this.x>hCanvas.width||this.y<0||this.y>hCanvas.height) this.reset(); }
+    draw() { hCtx.beginPath(); hCtx.arc(this.x, this.y, Math.max(0.1,this.sz), 0, Math.PI*2); hCtx.fillStyle = `rgba(${getComputedStyle(document.body).dataset.theme==='dark'?'0,229,255':'13,124,95'},${this.op})`; hCtx.fill(); }
+}
+
+const ptCount = Math.min(70, Math.floor(window.innerWidth/16));
+for (let i = 0; i < ptCount; i++) pts.push(new Pt());
+
+function drawLines() {
+    const col = getComputedStyle(document.body).dataset.theme === 'dark' ? '0,229,255' : '13,124,95';
+    for (let i = 0; i < pts.length; i++) {
+        for (let j = i+1; j < pts.length; j++) {
+            const dx = pts[i].x-pts[j].x, dy = pts[i].y-pts[j].y;
+            const d = Math.sqrt(dx*dx+dy*dy);
+            if (d < 110) { const o = (1-d/110)*0.12; hCtx.beginPath(); hCtx.moveTo(pts[i].x,pts[i].y); hCtx.lineTo(pts[j].x,pts[j].y); hCtx.strokeStyle=`rgba(${col},${o})`; hCtx.lineWidth=0.5; hCtx.stroke(); }
+        }
+    }
+}
+
+(function animP() { hCtx.clearRect(0,0,hCanvas.width,hCanvas.height); pts.forEach(p=>{p.update();p.draw();}); drawLines(); requestAnimationFrame(animP); })();
+
+/* ===== PARALLAX ===== */
+window.addEventListener('scroll', () => {
+    const sy = window.scrollY;
+    document.querySelectorAll('.par-el').forEach(el => {
+        const sp = parseFloat(el.dataset.speed) || 0.03;
+        el.style.transform = `translateY(${sy * sp}px)`;
+    });
+}, { passive: true });
+
+/* ===== HORIZONTAL SCROLL BUTTONS ===== */
+const hWrap = document.getElementById('hscrollWrap');
+document.getElementById('scrollLeft').addEventListener('click', () => hWrap.scrollBy({ left: -400, behavior: 'smooth' }));
+document.getElementById('scrollRight').addEventListener('click', () => hWrap.scrollBy({ left: 400, behavior: 'smooth' }));
+
+/* ===== CONTACT FORM ===== */
+const contactForm = document.getElementById('contactForm');
+contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const n = document.getElementById('fName').value.trim();
+    const em = document.getElementById('fEmail').value.trim();
+    const s = document.getElementById('fSubj').value.trim();
+    const m = document.getElementById('fMsg').value.trim();
+    if (!n||!em||!s||!m) { showToast('Please fill in all fields.', false); return; }
+    const btn = contactForm.querySelector('button[type="submit"]');
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+    btn.disabled = true;
+    setTimeout(() => { showToast(`Thank you, ${n}! Message sent successfully.`, true); contactForm.reset(); btn.innerHTML = 'Send Message <i class="fa-solid fa-arrow-right" style="font-size:0.75rem;"></i>'; btn.disabled = false; }, 1500);
+});
+
+function showToast(msg, ok) {
+    const t = document.getElementById('toast');
+    const ic = document.getElementById('toastIcon');
+    document.getElementById('toastMsg').textContent = msg;
+    ic.className = ok ? 'fa-solid fa-circle-check' : 'fa-solid fa-triangle-exclamation';
+    ic.style.color = ok ? 'var(--accent)' : 'var(--accent2)';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+/* ===== SMOOTH ANCHOR ===== */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+        e.preventDefault();
+        const t = document.querySelector(this.getAttribute('href'));
+        if (t) { const top = t.getBoundingClientRect().top + window.scrollY - 75; window.scrollTo({ top, behavior: 'smooth' }); }
+    });
+});
+</script>
+</body>
+</html>

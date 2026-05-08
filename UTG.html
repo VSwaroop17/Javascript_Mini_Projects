@@ -1,0 +1,2993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telangana State Road Transport Corporation - Official Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Official TSRTC Colors */
+            --tsrtc-primary: #E53935;
+            --tsrtc-secondary: #FF6F00;
+            --tsrtc-accent: #1B5E20;
+            --tsrtc-dark: #212121;
+            --tsrtc-light: #FFF3E0;
+            
+            /* Theme Variables */
+            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffebee 50%, #fff8e1 100%);
+            --card-bg: rgba(255,255,255,0.95);
+            --text-primary: #212121;
+            --text-secondary: #616161;
+            --border-color: #e0e0e0;
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-md: 0 10px 40px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --card-bg: rgba(30,30,50,0.95);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: #3a3a5c;
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.3);
+            --shadow-md: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        [data-theme="tsrtc"] {
+            --bg-gradient: linear-gradient(135deg, #ffebee 0%, #fff3e0 50%, #e8f5e9 100%);
+            --tsrtc-primary: #D32F2F;
+            --tsrtc-secondary: #F57C00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--tsrtc-primary); border-radius: 10px; }
+
+        /* ============ NAVIGATION ============ */
+        .navbar {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            border-bottom: 3px solid var(--tsrtc-primary);
+        }
+
+        .nav-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            padding: 0 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .official-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(229,57,53,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .official-logo::before {
+            content: '🚌';
+            font-size: 24px;
+            z-index: 1;
+        }
+
+        .official-logo::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: logoShine 3s infinite;
+        }
+
+        @keyframes logoShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .brand-text {
+            line-height: 1.2;
+        }
+
+        .brand-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-subtitle {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 6px;
+            background: #f5f5f5;
+            padding: 6px;
+            border-radius: 16px;
+        }
+
+        [data-theme="dark"] .nav-center { background: #2a2a4a; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.88rem;
+            padding: 10px 18px;
+            border-radius: 12px;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(229,57,53,0.3);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 4px;
+            background: #f0f0f0;
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        [data-theme="dark"] .language-toggle { background: #2a2a4a; }
+
+        .lang-btn {
+            padding: 7px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--tsrtc-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            color: var(--text-primary);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--tsrtc-primary);
+            transform: rotate(180deg);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: 8px;
+        }
+
+        /* ============ MAIN CONTENT ============ */
+        .page {
+            display: none;
+            padding-top: 100px;
+            min-height: 100vh;
+            animation: pageIn 0.5s ease;
+        }
+
+        .page.active { display: block; }
+
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============ HERO SECTION WITH MAP BG ============ */
+        .hero-section {
+            position: relative;
+            padding: 3rem 2rem;
+            overflow: hidden;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+        }
+
+        .map-background {
+            position: absolute;
+            inset: 0;
+            opacity: 0.08;
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--tsrtc-primary) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, var(--tsrtc-secondary) 0%, transparent 35%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Cpath fill='none' stroke='%23E53935' stroke-width='2' d='M100,100 Q200,50 300,150 T500,200 T700,150 M150,250 Q250,200 350,280 T550,320 T750,280 M80,400 Q180,350 280,420 T480,450 T680,400'/%3E%3Ccircle cx='300' cy='150' r='15' fill='%23E53935'/%3E%3Ccircle cx='500' cy='200' r='15' fill='%23FF6F00'/%3E%3Ccircle cx='700' cy='150' r='15' fill='%231B5E20'/%3E%3Ctext x='290' y='140' font-family='Arial' font-size='12' fill='%23E53935'%3EAmeerpet%3C/text%3E%3Ctext x='490' y='190' font-family='Arial' font-size='12' fill='%23FF6F00'%3ESecunderabad%3C/text%3E%3Ctext x='685' y='140' font-family='Arial' font-size='12' fill='%231B5E20'%3ELB Nagar%3C/text%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+            filter: blur(1px);
+        }
+
+        .hero-grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(229,57,53,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(229,57,53,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            animation: slideLeft 0.8s ease;
+        }
+
+        @keyframes slideLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .greeting-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(229,57,53,0.1), rgba(255,111,0,0.1));
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--tsrtc-primary);
+            margin-bottom: 1.5rem;
+            border: 2px dashed var(--tsrtc-primary);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--tsrtc-dark) 0%, var(--tsrtc-primary) 50%, var(--tsrtc-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+            padding: 1.2rem;
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            min-width: 100px;
+        }
+
+        .hero-stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--tsrtc-primary);
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .hero-visual {
+            animation: slideRight 0.8s ease;
+            position: relative;
+        }
+
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .bus-illustration {
+            width: 100%;
+            max-width: 550px;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--tsrtc-light), #ffffff);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bus-image-container {
+            font-size: 12rem;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.2));
+            animation: busFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes busFloat {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: white;
+            padding: 12px 18px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            font-weight: 700;
+            font-size: 0.9rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-badge.badge-1 {
+            top: 20px;
+            right: 20px;
+            color: var(--tsrtc-primary);
+            animation-delay: 0s;
+        }
+
+        .floating-badge.badge-2 {
+            bottom: 30px;
+            left: 20px;
+            color: var(--tsrtc-accent);
+            animation-delay: 1s;
+        }
+
+        .floating-badge.badge-3 {
+            top: 50%;
+            right: -20px;
+            color: var(--tsrtc-secondary);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ============ SEARCH SECTION ============ */
+        .search-section {
+            max-width: 1100px;
+            margin: -60px auto 0;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 100;
+        }
+
+        .search-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            border-top: 5px solid var(--tsrtc-primary);
+        }
+
+        .search-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-title-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+        }
+
+        .quick-routes {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-route-btn {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .quick-route-btn:hover {
+            border-color: var(--tsrtc-primary);
+            color: var(--tsrtc-primary);
+            background: rgba(229,57,53,0.05);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto;
+            gap: 1.2rem;
+            align-items: end;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 16px 20px 16px 52px;
+            border: 2.5px solid var(--border-color);
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            transition: var(--transition);
+            outline: none;
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--tsrtc-primary);
+            box-shadow: 0 0 0 5px rgba(229,57,53,0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem;
+            color: var(--tsrtc-primary);
+        }
+
+        .live-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            border: 2px solid var(--border-color);
+        }
+
+        .live-results.show { display: block; animation: dropIn 0.25s ease; }
+
+        @keyframes dropIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-item {
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .result-item:last-child { border-bottom: none; }
+
+        .result-item:hover {
+            background: rgba(229,57,53,0.05);
+        }
+
+        .result-stop-marker {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .result-info h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .result-info p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .swap-button {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid var(--tsrtc-primary);
+            background: var(--card-bg);
+            color: var(--tsrtc-primary);
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2px;
+        }
+
+        .swap-button:hover {
+            background: var(--tsrtc-primary);
+            color: white;
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        .search-button {
+            padding: 18px 36px;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            grid-column: 1 / -1;
+            justify-self: stretch;
+        }
+
+        .search-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(229,57,53,0.35);
+        }
+
+        /* ============ RESULTS SECTION ============ */
+        .results-wrapper {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        .results-wrapper.show { display: block; animation: fadeUp 0.6s ease; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .route-overview {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .route-overview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--tsrtc-primary), var(--tsrtc-secondary), var(--tsrtc-accent));
+        }
+
+        .route-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .route-point {
+            text-align: center;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(229,57,53,0.05), rgba(255,111,0,0.05));
+            border-radius: var(--radius-md);
+            min-width: 180px;
+        }
+
+        .route-point-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .route-point-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--tsrtc-primary);
+        }
+
+        .route-arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .route-arrow {
+            font-size: 2.5rem;
+            color: var(--tsrtc-secondary);
+            animation: arrowPulse 1.5s infinite;
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { transform: translateX(0); opacity: 1; }
+            50% { transform: translateX(8px); opacity: 0.7; }
+        }
+
+        .route-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #fff5f5, #fff8e1);
+            border-radius: var(--radius-md);
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] .stat-box {
+            background: linear-gradient(135deg, rgba(229,57,53,0.1), rgba(255,111,0,0.1));
+        }
+
+        .stat-box:hover {
+            border-color: var(--tsrtc-primary);
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--tsrtc-primary);
+        }
+
+        .stat-label {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ============ ROUTE MAP TIMELINE ============ */
+        .route-map-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title-icon {
+            font-size: 1.6rem;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding-left: 45px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 17px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--tsrtc-primary), var(--tsrtc-secondary), var(--tsrtc-accent));
+            border-radius: 4px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 16px 0 16px 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -33px;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 4px solid var(--tsrtc-primary);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .timeline-item.start .timeline-dot,
+        .timeline-item.end .timeline-dot {
+            width: 40px;
+            height: 40px;
+            left: -37px;
+            background: var(--tsrtc-primary);
+            border-color: var(--tsrtc-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .timeline-content h4 {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .timeline-bus-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .bus-tag {
+            padding: 5px 12px;
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            color: #e65100;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ============ FARE CARDS WITH BUS IMAGES ============ */
+        .fare-cards-section {
+            margin-bottom: 2rem;
+        }
+
+        .fare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .fare-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .fare-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .fare-card-image {
+            height: 160px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fare-card.ordinary .fare-card-image {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 50%, #ffe082 100%);
+        }
+
+        .fare-card.express .fare-card-image {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+        }
+
+        .fare-card.deluxe .fare-card-image {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+        }
+
+        .fare-bus-visual {
+            font-size: 6rem;
+            opacity: 0.3;
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+        }
+
+        .fare-type-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 8px 18px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .fare-card-body {
+            padding: 1.8rem;
+        }
+
+        .fare-price {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--tsrtc-primary);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .fare-price span {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .fare-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .fare-features-list {
+            border-top: 2px solid var(--border-color);
+            padding-top: 1.2rem;
+        }
+
+        .fare-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.92rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .fare-feature i {
+            color: var(--tsrtc-accent);
+            width: 20px;
+        }
+
+        /* ============ OVERCHARGE CHECKER ============ */
+        .checker-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 6px solid var(--tsrtc-warning, #FF9800);
+        }
+
+        .checker-form-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .checker-input-field {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .checker-input-field input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2.5px solid var(--border-color);
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            outline: none;
+            transition: var(--transition);
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .checker-input-field input:focus {
+            border-color: #FF9800;
+            box-shadow: 0 0 0 5px rgba(255,152,0,0.1);
+        }
+
+        .check-fare-btn {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .check-fare-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,152,0,0.35);
+        }
+
+        .checker-result-box {
+            margin-top: 1.5rem;
+            padding: 1.8rem;
+            border-radius: var(--radius-md);
+            display: none;
+        }
+
+        .checker-result-box.show { display: block; animation: popIn 0.4s ease; }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .checker-result-box.correct {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border: 3px solid #4CAF50;
+        }
+
+        .checker-result-box.overcharge {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border: 3px solid #F44336;
+        }
+
+        .result-message-text {
+            font-weight: 700;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-message-text.correct { color: #2E7D32; }
+        .result-message-text.overcharge { color: #C62828; }
+
+        /* ============ SAFETY SLIDER / HOARDINGS ============ */
+        .safety-slider-section {
+            margin: 3rem 0;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide-card {
+            min-width: 100%;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .slide-card:nth-child(1) { background: linear-gradient(135deg, #E53935, #C62828); }
+        .slide-card:nth-child(2) { background: linear-gradient(135deg, #1B5E20, #2E7D32); }
+        .slide-card:nth-child(3) { background: linear-gradient(135deg, #1565C0, #0D47A1); }
+        .slide-card:nth-child(4) { background: linear-gradient(135deg, #F57C00, #E65100); }
+        .slide-card:nth-child(5) { background: linear-gradient(135deg, #6A1B9A, #4A148C); }
+
+        .slide-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .slide-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .slide-content {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .slide-rules {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .rule-item {
+            background: rgba(255,255,255,0.15);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .slider-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .slider-dot.active {
+            background: var(--tsrtc-primary);
+            transform: scale(1.3);
+        }
+
+        .slider-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: var(--tsrtc-primary);
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .slider-nav-btn:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-prev { left: 20px; }
+        .slider-next { right: 20px; }
+
+        /* ============ OFFERS & EVENTS ============ */
+        .offers-section {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .offer-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .offer-banner {
+            padding: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-card.hot .offer-banner { background: linear-gradient(135deg, #E53935, #FF5722); }
+        .offer-card.discount .offer-banner { background: linear-gradient(135deg, #43A047, #66BB6A); }
+        .offer-card.event .offer-banner { background: linear-gradient(135deg, #1E88E5, #42A5F5); }
+        .offer-card.cargo .offer-banner { background: linear-gradient(135deg, #6D4C41, #8D6E63); }
+
+        .offer-tag {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 14px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .offer-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .offer-subtitle {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .offer-body {
+            padding: 1.8rem;
+        }
+
+        .offer-details {
+            list-style: none;
+        }
+
+        .offer-details li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .offer-details li:last-child { border-bottom: none; }
+
+        .offer-details li i {
+            color: var(--tsrtc-primary);
+            width: 20px;
+        }
+
+        .offer-expiry {
+            margin-top: 1rem;
+            padding: 12px;
+            background: #fff3e0;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            color: #e65100;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* ============ BOOKING PROCESS ============ */
+        .booking-process-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border-radius: 4px;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto 1.2rem;
+            box-shadow: 0 8px 25px rgba(229,57,53,0.3);
+        }
+
+        .step-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            max-width: 160px;
+            margin: 0 auto;
+        }
+
+        /* ============ GOVERNMENT DETAILS ============ */
+        .govt-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .govt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .govt-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            border-top: 4px solid var(--tsrtc-primary);
+            transition: var(--transition);
+        }
+
+        .govt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .govt-card h3 {
+            color: var(--tsrtc-primary);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .govt-card p, .govt-card ul {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .govt-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .govt-card ul li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .govt-card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--tsrtc-accent);
+            font-weight: 700;
+        }
+
+        /* ============ ALL STOPS GRID ============ */
+        .all-stops-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .stops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .stop-chip {
+            padding: 14px 18px;
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            border: 2px solid transparent;
+        }
+
+        .stop-chip:hover {
+            border-color: var(--tsrtc-primary);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, rgba(229,57,53,0.05), rgba(255,111,0,0.05));
+        }
+
+        .stop-chip-icon {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        /* ============ CHATBOT ============ */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+        }
+
+        .chatbot-toggle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(229,57,53,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 8px 30px rgba(229,57,53,0.4); }
+            50% { box-shadow: 0 8px 40px rgba(229,57,53,0.6), 0 0 0 15px rgba(229,57,53,0.1); }
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 380px;
+            height: 520px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+        }
+
+        .chatbot-window.open { display: flex; animation: chatOpen 0.3s ease; }
+
+        @keyframes chatOpen {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            padding: 1.2rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header h4 {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chatbot-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .chat-message.bot {
+            background: #f5f5f5;
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.user {
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .quick-action-btn {
+            padding: 8px 14px;
+            background: var(--tsrtc-primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quick-action-btn:hover {
+            background: var(--tsrtc-secondary);
+            transform: scale(1.05);
+        }
+
+        .chatbot-input-area {
+            padding: 1rem;
+            border-top: 2px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .chatbot-send {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .chatbot-send:hover { transform: scale(1.1); }
+
+        /* ============ PAGE CONTENT STYLES ============ */
+        .page-hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--tsrtc-primary), var(--tsrtc-secondary), var(--tsrtc-accent));
+        }
+
+        .page-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--tsrtc-primary);
+            margin-bottom: 1rem;
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 2.5rem;
+            transition: var(--transition);
+            border-top: 4px solid var(--tsrtc-primary);
+        }
+
+        .content-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .content-card h3 {
+            font-size: 1.4rem;
+            color: var(--tsrtc-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .service-icon-large {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--tsrtc-primary), var(--tsrtc-secondary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: linear-gradient(135deg, #212121, #424242);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--tsrtc-primary), var(--tsrtc-secondary), var(--tsrtc-accent));
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand p {
+            color: #bdbdbd;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--tsrtc-primary);
+            transform: translateY(-4px);
+        }
+
+        .footer-column h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--tsrtc-secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdbdbd;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 8px;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: #9e9e9e;
+            font-size: 0.9rem;
+        }
+
+        .disclaimer-box {
+            background: rgba(255,152,0,0.1);
+            border: 2px solid rgba(255,152,0,0.3);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            color: #ffb74d;
+            font-size: 0.88rem;
+        }
+
+        /* ============ TOAST NOTIFICATION ============ */
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 14px;
+            box-shadow: var(--shadow-lg);
+            z-index: 20000;
+            transition: var(--transition);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-notification.error {
+            background: #F44336;
+        }
+
+        .toast-notification.success {
+            background: #4CAF50;
+        }
+
+        /* ============ MODAL ============ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 15000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal-box {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 30px 100px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalPop 0.35s ease;
+        }
+
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header-bar {
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header-bar h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        .modal-dismiss {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: none;
+            background: #f5f5f5;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .modal-dismiss:hover { background: var(--tsrtc-primary); color: white; }
+
+        .modal-body-content {
+            padding: 2rem;
+        }
+
+        .bus-option-item {
+            padding: 1.2rem;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .bus-option-item:hover { border-color: var(--tsrtc-primary); }
+        .bus-option-item.selected { border-color: var(--tsrtc-primary); background: rgba(229,57,53,0.05); }
+
+        .option-radio {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border-color);
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .bus-option-item.selected .option-radio { border-color: var(--tsrtc-primary); }
+        .bus-option-item.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px; height: 12px;
+            background: var(--tsrtc-primary);
+            border-radius: 50%;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text { order: 1; }
+            .hero-visual { order: 2; }
+            .hero-stats { justify-content: center; }
+            .nav-links { display: none; position: absolute; top: 80px; left: 0; right: 0; background: var(--card-bg); flex-direction: column; padding: 1rem; box-shadow: var(--shadow-lg); }
+            .nav-links.show { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+            .process-steps { flex-direction: column; gap: 2rem; }
+            .process-steps::before { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2rem; }
+            .search-form { grid-template-columns: 1fr; }
+            .swap-button { margin: 0 auto; }
+            .search-card { padding: 1.5rem; }
+            .route-display { flex-direction: column; }
+            .route-arrow { transform: rotate(90deg); }
+            .fare-grid { grid-template-columns: 1fr; }
+            .chatbot-window { width: calc(100vw - 40px); right: -10px; }
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            .footer-social { justify-content: center; }
+            .offers-grid { grid-template-columns: 1fr; }
+            .page-hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <div class="official-logo"></div>
+                <div class="brand-text">
+                    <div class="brand-name" id="brandFullName">Telangana State RTC</div>
+                    <div class="brand-subtitle" data-lang="brand_sub">Government of Telangana</div>
+                </div>
+            </div>
+
+            <div class="nav-center">
+                <ul class="nav-links" id="mainNav">
+                    <li><a href="#" class="active" data-page="home"><i class="fas fa-home"></i> <span data-lang="nav_home">Home</span></a></li>
+                    <li><a href="#" data-page="about"><i class="fas fa-info-circle"></i> <span data-lang="nav_about">About</span></a></li>
+                    <li><a href="#" data-page="services"><i class="fas fa-bus"></i> <span data-lang="nav_services">Services</span></a></li>
+                    <li><a href="#" data-page="logistics"><i class="fas fa-truck"></i> <span data-lang="nav_logistics">Logistics</span></a></li>
+                    <li><a href="#" data-page="booking"><i class="fas fa-ticket-alt"></i> <span data-lang="nav_booking">Booking</span></a></li>
+                    <li><a href="#" data-page="fare"><i class="fas fa-search-dollar"></i> <span data-lang="nav_fare">Fare Finder</span></a></li>
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <div class="language-toggle">
+                    <button class="lang-btn active" data-lang-code="en">EN</button>
+                    <button class="lang-btn" data-lang-code="te">తె</button>
+                    <button class="lang-btn" data-lang-code="hi">हि</button>
+                    <button class="lang-btn" data-lang-code="ur">اردو</button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HOME PAGE ==================== -->
+    <div class="page active" id="homePage">
+        <!-- Hero Section with Map Background -->
+        <section class="hero-section">
+            <div class="map-background"></div>
+            <div class="hero-grid-pattern"></div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="greeting-badge" id="dynamicGreeting">
+                        👋 Welcome, Traveler!
+                    </div>
+                    <h1 class="hero-title" data-lang="hero_main">Telangana State<br>Road Transport Corporation</h1>
+                    <p class="hero-subtitle" data-lang="hero_desc">Your trusted partner for safe, affordable, and reliable bus travel across Telangana. Check fares, book tickets, and track buses instantly.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">10K+</div>
+                            <div class="hero-stat-label" data-lang="stat_buses">Buses</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">3K+</div>
+                            <div class="hero-stat-label" data-lang="stat_routes">Routes</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">50L+</div>
+                            <div class="hero-stat-label" data-lang="stat_daily">Daily Riders</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="bus-illustration">
+                        <div class="bus-image-container">🚌</div>
+                        <div class="floating-badge badge-1">📍 Live Tracking</div>
+                        <div class="floating-badge badge-2">💰 Best Fares</div>
+                        <div class="floating-badge badge-3">⚡ Instant Book</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-card">
+                <div class="search-header">
+                    <h2 class="search-title">
+                        <span class="search-title-icon">🔍</span>
+                        <span data-lang="search_title">Plan Your Journey</span>
+                    </h2>
+                    <div class="quick-routes">
+                        <button class="quick-route-btn" onclick="setQuickRoute('Ameerpet','Secunderabad')">Ameerpet → Secunderabad</button>
+                        <button class="quick-route-btn" onclick="setQuickRoute('LB Nagar','Gachibowli')">LB Nagar → Gachibowli</button>
+                        <button class="quick-route-btn" onclick="setQuickRoute('Kukatpally','Hitec City')">Kukatpally → Hitech City</button>
+                    </div>
+                </div>
+
+                <div class="search-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt" style="color:var(--tsrtc-primary)"></i> <span data-lang="from_label">From Stop</span></label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📍</span>
+                            <input type="text" id="fromStopInput" placeholder="Search departure stop..." data-placeholder="from_ph">
+                            <div class="live-results" id="fromLiveResults"></div>
+                        </div>
+                    </div>
+
+                    <button class="swap-button" id="swapStopsBtn" title="Swap locations">⇄</button>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-flag-checkered" style="color:var(--tsrtc-secondary)"></i> <span data-lang="to_label">To Stop</span></label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🎯</span>
+                            <input type="text" id="toStopInput" placeholder="Search destination stop..." data-placeholder="to_ph">
+                            <div class="live-results" id="toLiveResults"></div>
+                        </div>
+                    </div>
+
+                    <button class="search-button" id="executeSearchBtn">
+                        <i class="fas fa-search"></i>
+                        <span data-lang="search_btn">Search Fare</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-wrapper" id="resultsArea">
+            <!-- Route Overview -->
+            <div class="route-overview">
+                <div class="route-display">
+                    <div class="route-point">
+                        <div class="route-point-label" data-lang="from_text">FROM</div>
+                        <div class="route-point-name" id="displayFrom">-</div>
+                    </div>
+                    <div class="route-arrow-container">
+                        <div class="route-arrow">→</div>
+                        <small style="color:var(--text-secondary);font-weight:600;" data-lang="direct_route">Direct Route</small>
+                    </div>
+                    <div class="route-point">
+                        <div class="route-point-label" data-lang="to_text">TO</div>
+                        <div class="route-point-name" id="displayTo">-</div>
+                    </div>
+                </div>
+
+                <div class="route-stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value" id="statDistance">-</div>
+                        <div class="stat-label" data-lang="distance_lbl">Distance</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="statTime">-</div>
+                        <div class="stat-label" data-lang="time_lbl">Travel Time</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="statBuses">-</div>
+                        <div class="stat-label" data-lang="buses_lbl">Buses Available</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="statFrequency">-</div>
+                        <div class="stat-label" data-lang="freq_lbl">Frequency</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Route Map Timeline -->
+            <div class="route-map-section">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <span class="section-title-icon">🗺️</span>
+                        <span data-lang="route_map_title">Route Map & Intermediate Stops</span>
+                    </h3>
+                </div>
+                <div class="timeline-container" id="routeTimeline"></div>
+            </div>
+
+            <!-- Fare Cards -->
+            <div class="fare-cards-section">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <span class="section-title-icon">💰</span>
+                        <span data-lang="fare_options_title">Fare Options by Bus Type</span>
+                    </h3>
+                </div>
+                <div class="fare-grid" id="fareCardsContainer"></div>
+            </div>
+
+            <!-- Overcharge Checker -->
+            <div class="checker-section">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <span class="section-title-icon">🔍</span>
+                        <span data-lang="overcharge_title">Am I Being Overcharged?</span>
+                    </h3>
+                </div>
+                <div class="checker-form-row">
+                    <div class="checker-input-field">
+                        <input type="number" id="amountPaidInput" placeholder="Enter amount you paid (₹)" data-placeholder="amt_ph">
+                    </div>
+                    <button class="check-fare-btn" id="verifyFareBtn" data-lang="check_fare_btn">Verify Fare</button>
+                </div>
+                <div class="checker-result-box" id="verificationResult"></div>
+            </div>
+        </div>
+
+        <!-- Safety Rules Slider -->
+        <div class="safety-slider-section">
+            <div class="slider-container">
+                <button class="slider-nav-btn slider-prev" onclick="moveSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="slider-track" id="safetySliderTrack">
+                    <div class="slide-card">
+                        <div class="slide-icon">🛑</div>
+                        <h2 class="slide-title" data-lang="slide_road_safety">Road Safety First</h2>
+                        <p class="slide-content" data-lang="slide_road_safety_desc">Your safety is our priority. Follow traffic rules, wear seatbelts, and stay alert during your journey.</p>
+                        <div class="slide-rules">
+                            <span class="rule-item">🚦 Follow Signals</span>
+                            <span class="rule-item">🪑 Wear Seatbelt</span>
+                            <span class="rule-item">📱 No Phone While Driving</span>
+                        </div>
+                    </div>
+                    <div class="slide-card">
+                        <div class="slide-icon">📋</div>
+                        <h2 class="slide-title" data-lang="slide_rules">Rules & Regulations</h2>
+                        <p class="slide-content" data-lang="slide_rules_desc">Know your rights and responsibilities as a passenger. All TSRTC buses follow strict operational guidelines.</p>
+                        <div class="slide-rules">
+                            <span class="rule-item">🎫 Valid Ticket Required</span>
+                            <span class="rule-item">🧳 Luggage Limits Apply</span>
+                            <span class="rule-item">🚫 No Standing in Moving Bus</span>
+                        </div>
+                    </div>
+                    <div class="slide-card">
+                        <div class="slide-icon">💵</div>
+                        <h2 class="slide-title" data-lang="slide_fines">Fines & Penalties</h2>
+                        <p class="slide-content" data-lang="slide_fines_desc">Avoid penalties by following rules. Fines are imposed for ticketless travel, damage to property, and misconduct.</p>
+                        <div class="slide-rules">
+                            <span class="rule-item">₹500 Ticketless Travel</span>
+                            <span class="rule-item">₹1000 Property Damage</span>
+                            <span class="rule-item">₹200 Misconduct</span>
+                        </div>
+                    </div>
+                    <div class="slide-card">
+                        <div class="slide-icon">⚡</div>
+                        <h2 class="slide-title" data-lang="slide_speed">Speed Limits & Precautions</h2>
+                        <p class="slide-content" data-lang="slide_speed_desc">TSRTC buses maintain safe speeds. City limit: 40 km/h | Highway: 80 km/h | School Zones: 25 km/h</p>
+                        <div class="slide-rules">
+                            <span class="rule-item">🏙️ City: 40 km/h</span>
+                            <span class="rule-item">🛣️ Highway: 80 km/h</span>
+                            <span class="rule-item">🏫 School Zone: 25 km/h</span>
+                        </div>
+                    </div>
+                    <div class="slide-card">
+                        <div class="slide-icon">🎁</div>
+                        <h2 class="slide-title" data-lang="slide_offers">Current Offers</h2>
+                        <p class="slide-content" data-lang="slide_offers_desc">Avail exciting discounts on monthly passes, student concessions, and group bookings!</p>
+                        <div class="slide-rules">
+                            <span class="rule-item">👨‍🎓 Students: 50% Off</span>
+                            <span class="rule-item">👴 Seniors: Free Travel</span>
+                            <span class="rule-item">👩 Women: Special Passes</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-nav-btn slider-next" onclick="moveSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="slider-controls" id="sliderDots"></div>
+        </div>
+
+        <!-- Offers & Events -->
+        <div class="offers-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <span class="section-title-icon">🎉</span>
+                    <span data-lang="offers_title">Latest Offers & Upcoming Events</span>
+                </h3>
+            </div>
+            <div class="offers-grid" id="offersGrid"></div>
+        </div>
+
+        <!-- All Stops -->
+        <div class="all-stops-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <span class="section-title-icon">📍</span>
+                    <span data-lang="all_stops_title">All Available Stops</span>
+                </h3>
+            </div>
+            <div class="stops-grid" id="stopsGridContainer"></div>
+        </div>
+    </div>
+
+    <!-- ==================== ABOUT PAGE ==================== -->
+    <div class="page" id="aboutPage">
+        <div class="page-hero">
+            <h1 data-lang="about_main_title">About Telangana State Road Transport Corporation</h1>
+            <p data-lang="about_subtitle">Serving the people of Telanganda with pride since 2015</p>
+        </div>
+
+        <div class="govt-section">
+            <div class="govt-grid">
+                <div class="govt-card">
+                    <h3><i class="fas fa-building"></i> <span data-lang="about_who_we_are">Who We Are</span></h3>
+                    <p data-lang="about_who_text">Telangana State Road Transport Corporation (TSRTC) is a state-owned public transport company established in 2015 after the formation of Telangana state. We operate one of the largest fleet of buses in India, connecting every corner of the state.</p>
+                </div>
+                <div class="govt-card">
+                    <h3><i class="fas fa-bullseye"></i> <span data-lang="about_vision">Our Vision</span></h3>
+                    <p data-lang="about_vision_text">To be the most preferred, efficient, and sustainable public transport provider in India, setting benchmarks in customer service, safety, and environmental responsibility.</p>
+                </div>
+                <div class="govt-card">
+                    <h3><i class="fas fa-trophy"></i> <span data-lang="about_achievements">Achievements</span></h3>
+                    <ul>
+                        <li data-lang="achieve_1">ISO 9001:2015 Certified Operations</li>
+                        <li data-lang="achieve_2">Best Transport Corporation Award 2023</li>
+                        <li data-lang="achieve_3">100% GPS Tracking Implementation</li>
+                        <li data-lang="achieve_4">Women Safety Initiative Pioneer</li>
+                        <li data-lang="achieve_5">Electric Bus Fleet Introduction</li>
+                    </ul>
+                </div>
+                <div class="govt-card">
+                    <h3><i class="fas fa-chart-line"></i> <span data-lang="about_stats">Key Statistics</span></h3>
+                    <ul>
+                        <li>Total Fleet: <strong>10,000+ Buses</strong></li>
+                        <li>Daily Trips: <strong>50,000+</strong></li>
+                        <li>Coverage: <strong>All 33 Districts</strong></li>
+                        <li>Employees: <strong>50,000+</strong></li>
+                        <li>Annual Passengers: <strong>180 Crore+</strong></li>
+                    </ul>
+                </div>
+                <div class="govt-card">
+                    <h3><i class="fas fa-landmark"></i> <span data-lang="about_govt_details">Government Details</span></h3>
+                    <ul>
+                        <li>Parent Department: Transport Department, Govt. of Telangana</li>
+                        <li>Headquarters: Hyderabad, Telangana</li>
+                        <li>Managing Director: VC Sajjanar, IPS</li>
+                        <li>Minister In-Charge: Puvvada Ajay Kumar</li>
+                        <li>Registered Under: Companies Act, 1956</li>
+                    </ul>
+                </div>
+                <div class="govt-card">
+                    <h3><i class="fas fa-handshake"></i> <span data-lang="about_partnerships">Partnerships</span></h3>
+                    <ul>
+                        <li>Google Maps Integration Partner</li>
+                        <li>UPI Payment Gateway (PhonePe, GPay)</li>
+                        <li>Telangana Tourism Development Corp</li>
+                        <li>Indian Railways Connecting Services</li>
+                        <li>Metro Rail Feeder Services</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SERVICES PAGE ==================== -->
+    <div class="page" id="servicesPage">
+        <div class="page-hero">
+            <h1 data-lang="services_main_title">Our Services</h1>
+            <p data-lang="services_subtitle">Comprehensive transport solutions for every need</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="service-icon-large">🚌</div>
+                <h3 data-lang="svc_city_buses">City Bus Services</h3>
+                <p data-lang="svc_city_buses_desc">Extensive city bus network covering Hyderabad, Secunderabad, and surrounding municipalities. High-frequency services with AC and Non-AC options. Connects all major residential, commercial, and IT hubs.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">🚍</div>
+                <h3 data-lang="svc_intercity">Inter-City Express</h3>
+                <p data-lang="svc_intercity_desc">Premium inter-city connectivity across Telangana and neighboring states. Super Luxury, Deluxe, and Express categories available with push-back seats and entertainment systems.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">🎫</div>
+                <h3 data-lang="svc_passes">Pass Services</h3>
+                <p data-lang="svc_passes_desc">Monthly, quarterly, and annual passes at heavily discounted rates. Special concessional passes for students, senior citizens, disabled persons, and women commuters.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">📱</div>
+                <h3 data-lang="svc_app_booking">Mobile App Booking</h3>
+                <p data-lang="svc_app_booking_desc">Book tickets through official TSRTC app. Real-time bus tracking, digital ticketing, UPI payments, and journey history. Available on Android and iOS platforms.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">♿</div>
+                <h3 data-lang="svc_accessibility">Accessibility Services</h3>
+                <p data-lang="svc_accessibility_desc">Specially designed low-floor buses for differently-abled passengers. Reserved seating, wheelchair ramps, and priority boarding facilities at major terminals.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">🌙</div>
+                <h3 data-lang="svc_night_services">Night Services</h3>
+                <p data-lang="svc_night_services_desc">Safe overnight connectivity between major cities and towns. Well-lit stops, security personnel, and GPS-monitored routes for passenger safety during night travel.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">📦</div>
+                <h3 data-lang="svc_parcel">Parcel & Cargo</h3>
+                <p data-lang="svc_parcel_desc">Affordable parcel delivery service using our extensive bus network. Door-to-door pickup and delivery options available for documents and small packages.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">🏥</div>
+                <h3 data-lang="svc_charter">Charter Services</h3>
+                <p data-lang="svc_charter_desc">Hire entire buses for corporate events, weddings, pilgrimages, educational tours, and government functions. Customizable routes and schedules available.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== LOGISTICS PAGE ==================== -->
+    <div class="page" id="logisticsPage">
+        <div class="page-hero">
+            <h1 data-lang="logistics_main_title">Telangana State Logistics Corporation</h1>
+            <p data-lang="logistics_subtitle">Integrated logistics solutions powered by TSRTC network</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="service-icon-large">🚚</div>
+                <h3 data-lang="log_cargo_services">Cargo Transportation</h3>
+                <p data-lang="log_cargo_desc">Leverage our 10,000+ bus network for efficient goods movement across Telangana. Same-day delivery for parcels up to 30kg. Ideal for e-commerce, documents, and small businesses.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">📦</div>
+                <h3 data-lang="log_warehouse">Warehousing Solutions</h3>
+                <p data-lang="log_warehouse_desc">Strategic warehousing facilities at major depots in Hyderabad, Warangal, Karimnagar, and Nizamabad. Temperature-controlled storage, inventory management, and last-mile delivery.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">🔄</div>
+                <h3 data-lang="log_supply_chain">Supply Chain Management</h3>
+                <p data-lang="log_supply_chain_desc">End-to-end supply chain solutions for businesses. Fleet management, route optimization, real-time tracking, and dedicated account management for enterprise clients.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">🌐</div>
+                <h3 data-lang="log_last_mile">Last Mile Delivery</h3>
+                <p data-lang="log_last_mile_desc">Complete last-mile delivery network covering urban and rural areas. Partnership with local vendors for comprehensive coverage including remote villages.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">📊</div>
+                <h3 data-lang="log_fleet_mgmt">Fleet Management</h3>
+                <p data-lang="log_fleet_mgmt_desc">GPS-enabled vehicle tracking, fuel monitoring, driver management, and predictive maintenance. Reduce logistics costs by up to 25% with our technology platform.</p>
+            </div>
+            <div class="content-card">
+                <div class="service-icon-large">💼</div>
+                <h3 data-lang="log_corporate">Corporate Solutions</h3>
+                <p data-lang="log_corporate_desc">Customized logistics solutions for manufacturing, retail, pharmaceutical, and FMCG sectors. Bulk pricing, SLA guarantees, and dedicated support teams.</p>
+            </div>
+        </div>
+
+        <div class="govt-section" style="margin-top:3rem;">
+            <div class="govt-card" style="grid-column:1/-1;">
+                <h3><i class="fas fa-phone-alt"></i> Contact Logistics Division</h3>
+                <p><strong>📞 Helpline:</strong> 040-23456789 | <strong>📧 Email:</strong> logistics@tsrtconline.in<br>
+                <strong>🏢 Office:</strong> TSRTC Bhavan, Khairatabad, Hyderabad - 500004<br>
+                <strong>⏰ Hours:</strong> Mon-Sat, 9:00 AM - 6:00 PM</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== BOOKING PAGE ==================== -->
+    <div class="page" id="bookingPage">
+        <div class="page-hero">
+            <h1 data-lang="booking_main_title">Booking Process & Reservations</h1>
+            <p data-lang="booking_subtitle">Easy steps to book your TSRTC ticket online or offline</p>
+        </div>
+
+        <!-- Booking Steps -->
+        <div class="booking-process-section">
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title" data-lang="bk_step1_title">Select Route</div>
+                    <div class="step-desc" data-lang="bk_step1_desc">Choose your source and destination from 3000+ stops</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title" data-lang="bk_step2_title">Choose Date & Time</div>
+                    <div class="step-desc" data-lang="bk_step2_desc">Pick your travel date and preferred departure time</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title" data-lang="bk_step3_title">Select Bus Type</div>
+                    <div class="step-desc" data-lang="bk_step3_desc">Ordinary, Express, Deluxe, or Super Luxury options</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title" data-lang="bk_step4_title">Enter Details</div>
+                    <div class="step-desc" data-lang="bk_step4_desc">Fill passenger information and contact details</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <div class="step-title" data-lang="bk_step5_title">Pay & Confirm</div>
+                    <div class="step-desc" data-lang="bk_step5_desc">Pay via UPI/Card/Wallet and receive e-ticket</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Offers -->
+        <div class="offers-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <span class="section-title-icon">🎟️</span>
+                    <span data-lang="current_offers">Current Booking Offers</span>
+                </h3>
+            </div>
+            <div class="offers-grid" id="bookingOffersGrid"></div>
+        </div>
+
+        <!-- Booking Info Cards -->
+        <div class="govt-section">
+            <div class="govt-grid">
+                <div class="govt-card">
+                    <h3><i class="fas fa-mobile-alt"></i> Online Booking</h3>
+                    <ul>
+                        <li>Visit tsrtconline.in or use TSRTC app</li>
+                        <li>Create account with mobile number</li>
+                        <li>Select route, date, seat preference</li>
+                        <li>Pay via UPI, Card, Net Banking, Wallet</li>
+                        <li>Receive SMS/e-mail confirmation</li>
+                    </ul>
+                </div>
+                <div class="govt-card">
+                    <h3><i class="fas fa-ticket-alt"></i> Offline Booking</h3>
+                    <ul>
+                        <li>Visit any TSRTC booking counter</li>
+                        <li>Available at major bus stations</li>
+                        <li>Cash, Card accepted</li>
+                        <li>Advance booking up to 30 days</li>
+                        <li>Cancellation at counter within rules</li>
+                    </ul>
+                </div>
+                <div class="govt-card">
+                    <h3><i class="fas fa-undo"></i> Cancellation Policy</h3>
+                    <ul>
+                        <li>Before 24 hrs: 10% deduction</li>
+                        <li>Before 12 hrs: 25% deduction</li>
+                        <li>Before 6 hrs: 50% deduction</li>
+                        <li>Less than 6 hrs: No refund</li>
+                        <li>Service charge: ₹20 per ticket</li>
+                    </ul>
+                </div>
+                <div class="govt-card">
+                    <h3><i class="fas fa-percentage"></i> Concessions Available</h3>
+                    <ul>
+                        <li>Students: 50% on monthly pass</li>
+                        <li>Senior Citizens (60+): Free in city</li>
+                        <li>Disabled persons: 75% concession</li>
+                        <li>Journalists: Press card required</li>
+                        <li>Freedom Fighters: Full free travel</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FARE PAGE ==================== -->
+    <div class="page" id="farePage">
+        <div class="page-hero">
+            <h1 data-lang="fare_main_title">Fare Information</h1>
+            <p data-lang="fare_subtitle">Transparent and affordable pricing for all services</p>
+        </div>
+
+        <div class="govt-section">
+            <div class="govt-grid">
+                <div class="govt-card">
+                    <h3 style="background:linear-gradient(135deg,#fff8e1,#ffe082);padding:1rem;border-radius:12px;margin:-2rem -2rem 1rem;">
+                        🚌 Ordinary Buses
+                    </h3>
+                    <p><strong>Base Fare:</strong> ₹5 (first 2 km)<br>
+                    <strong>Per KM:</strong> ₹2 additional<br>
+                    <strong>Ideal For:</strong> Daily commuters, short distances<br>
+                    <strong>Features:</strong> Non-AC, all stops, high frequency<br>
+                    <strong>Example:</strong> Ameerpet to Secunderabad (~8km) ≈ ₹19</p>
+                </div>
+                <div class="govt-card">
+                    <h3 style="background:linear-gradient(135deg,#e3f2fd,#90caf9);padding:1rem;border-radius:12px;margin:-2rem -2rem 1rem;color:#1565c0;">
+                        ⚡ Express Buses
+                    </h3>
+                    <p><strong>Base Fare:</strong> ₹10 (first 5 km)<br>
+                    <strong>Per KM:</strong> ₹3 additional<br>
+                    <strong>Ideal For:</strong> Medium distance, faster travel<br>
+                    <strong>Features:</strong> Limited stops, comfortable seating<br>
+                    <strong>Example:</strong> Hyderabad to Warangal (~150km) ≈ ₹460</p>
+                </div>
+                <div class="govt-card">
+                    <h3 style="background:linear-gradient(135deg,#e8f5e9,#a5d6a7);padding:1rem;border-radius:12px;margin:-2rem -2rem 1rem;color:#2e7d32;">
+                        ✨ Deluxe/Palair Level
+                    </h3>
+                    <p><strong>Base Fare:</strong> ₹15 (first 5 km)<br>
+                    <strong>Per KM:</strong> ₹5 additional<br>
+                    <strong>Ideal For:</strong> Long distance, premium comfort<br>
+                    <strong>Features:</strong> AC option, push-back seats, WiFi<br>
+                    <strong>Example:</strong> Hyderabad to Vijayawada (~330km) ≈ ₹1665</p>
+                </div>
+                <div class="govt-card">
+                    <h3 style="background:linear-gradient(135deg,#fce4ec,#f48fb1);padding:1rem;border-radius:12px;margin:-2rem -2rem 1rem;color:#c62828;">
+                        💎 Super Luxury
+                    </h3>
+                    <p><strong>Base Fare:</strong> ₹25 (first 5 km)<br>
+                    <strong>Per KM:</strong> ₹8 additional<br>
+                    <strong>Ideal For:</strong> Premium inter-state travel<br>
+                    <strong>Features:</strong> Multi-axle, full AC, entertainment<br>
+                    <strong>Example:</strong> Hyderabad to Bangalore (~570km) ≈ ₹4585</p>
+                </div>
+                <div class="govt-card" style="grid-column:1/-1;">
+                    <h3><i class="fas fa-id-card"></i> Monthly Pass Prices (2024-25)</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem;">
+                        <div style="background:#f5f5f5;padding:1rem;border-radius:12px;text-align:center;">
+                            <strong>General</strong><br>₹2,200/month
+                        </div>
+                        <div style="background:#e8f5e9;padding:1rem;border-radius:12px;text-align:center;color:#2e7d32;">
+                            <strong>Student</strong><br>₹1,100/month
+                        </div>
+                        <div style="background:#e3f2fd;padding:1rem;border-radius:12px;text-align:center;color:#1565c0;">
+                            <strong>Senior Citizen</strong><br>₹1,650/month
+                        </div>
+                        <div style="background:#fce4ec;padding:1rem;border-radius:12px;text-align:center;color:#c62828;">
+                            <strong>Women Special</strong><br>Free (select routes)
+                        </div>
+                        <div style="background:#fff3e0;padding:1rem;border-radius:12px;text-align:center;color:#e65100;">
+                            <strong>Metro Feeder</strong><br>₹1,500/month
+                        </div>
+                        <div style="background:#f3e5f5;padding:1rem;border-radius:12px;text-align:center;color:#7b1fa2;">
+                            <strong>Airport Link</strong><br>₹3,000/month
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHATBOT WIDGET ==================== -->
+    <div class="chatbot-widget">
+        <button class="chatbot-toggle" id="chatToggleBtn">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chatbot-window" id="chatWindow">
+            <div class="chatbot-header">
+                <h4><i class="fas fa-robot"></i> TSRTC Assistant</h4>
+                <button class="chatbot-close" id="chatCloseBtn">×</button>
+            </div>
+            <div class="chatbot-messages" id="chatMessages">
+                <div class="chat-message bot">
+                    👋 Namaskaram! I'm your TSRTC Virtual Assistant. How can I help you today?
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" onclick="sendQuickMessage('Check Fare')">💰 Check Fare</button>
+                        <button class="quick-action-btn" onclick="sendQuickMessage('Bus Timings')">🕐 Timings</button>
+                        <button class="quick-action-btn" onclick="sendQuickMessage('Lost & Found')">🔍 Lost Items</button>
+                        <button class="quick-action-btn" onclick="sendQuickMessage('Complaint')">📝 Complaint</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chatbot-input-area">
+                <input type="text" class="chatbot-input" id="chatInputField" placeholder="Type your question...">
+                <button class="chatbot-send" id="chatSendBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL ==================== -->
+    <div class="modal-overlay" id="busSelectionModal">
+        <div class="modal-box">
+            <div class="modal-header-bar">
+                <h3 data-lang="modal_select_bus">Select Bus Type</h3>
+                <button class="modal-dismiss" id="closeModalBtn">×</button>
+            </div>
+            <div class="modal-body-content">
+                <div class="bus-option-item selected" data-bus="ordinary">
+                    <div class="option-radio"></div>
+                    <div>
+                        <h4>🚌 Ordinary</h4>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Most economical • All stops • Non-AC</p>
+                    </div>
+                </div>
+                <div class="bus-option-item" data-bus="express">
+                    <div class="option-radio"></div>
+                    <div>
+                        <h4>⚡ Express</h4>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Faster • Limited stops • Comfortable</p>
+                    </div>
+                </div>
+                <div class="bus-option-item" data-bus="deluxe">
+                    <div class="option-radio"></div>
+                    <div>
+                        <h4>✨ Deluxe</h4>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Premium • AC available • Push-back seats</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST ==================== -->
+    <div class="toast-notification" id="toastBox"></div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>🚌 Telangana State RTC</h3>
+                <p data-lang="footer_desc">Your trusted companion for safe, affordable, and reliable public transportation across Telangana. Serving millions daily with pride and commitment.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4 data-lang="footer_quick_links">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#" data-page="home" onclick="navigate(this)">Home</a></li>
+                    <li><a href="#" data-page="about" onclick="navigate(this)">About Us</a></li>
+                    <li><a href="#" data-page="services" onclick="navigate(this)">Services</a></li>
+                    <li><a href="#" data-page="booking" onclick="navigate(this)">Book Ticket</a></li>
+                    <li><a href="#" data-page="fare" onclick="navigate(this)">Fare Chart</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 data-lang="footer_help">Help & Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Customer Care</a></li>
+                    <li><a href="#">Lost & Found</a></li>
+                    <li><a href="#">File Complaint</a></li>
+                    <li><a href="#">Refund Status</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 data-lang="footer_contact">Contact Us</h4>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> 040-23456789</li>
+                    <li><i class="fas fa-envelope"></i> info@tsrtconline.in</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Khairatabad, Hyderabad</li>
+                    <li><i class="fas fa-clock"></i> 24/7 Helpline</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Telangana State Road Transport Corporation. All Rights Reserved.</p>
+            <div class="disclaimer-box">
+                ⚠️ <span data-lang="footer_disclaimer">Disclaimer: This is a demo/fan project for educational purposes. Fares and information are approximate. Please visit tsrtconline.in for official data.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===================== DATA =====================
+        const busStopsData = [
+            { id: 1, en: "Ameerpet", te: "అమీర్‌పేట్", hi: "अमीरपेट", ur: "امیرپٹ", area: "Central Hyderabad", lat: 17.4375, lng: 78.4482 },
+            { id: 2, en: "Kukatpally", te: "కుకట్‌పల్లి", hi: "कुकटपल्ली", ur: "ککٹپلی", area: "West Hyderabad", lat: 17.4950, lng: 78.3850 },
+            { id: 3, en: "LB Nagar", te: "ఎల్‌బీ నగర్", hi: "एलबी नगर", ur: "ایل بی نگر", area: "South-East Hyderabad", lat: 17.3450, lng: 78.5550 },
+            { id: 4, en: "Secunderabad", te: "సికింద్రాబాద్", hi: "सिकंदराबाद", ur: "سکندرآباد", area: "North Hyderabad", lat: 17.4400, lng: 78.4980 },
+            { id: 5, en: "Gachibowli", te: "గచిబౌలి", hi: "गचिबोली", ur: "گچیبولی", area: "IT Corridor", lat: 17.4350, lng: 78.3450 },
+            { id: 6, en: "Hitec City", te: "హైటెక్ సిటీ", hi: "हाईटेक सिटी", ur: "ہائی ٹیک سٹی", area: "IT Hub", lat: 17.4450, lng: 78.3800 },
+            { id: 7, en: "Miyapur", te: "మియాపూర్", hi: "मियापुर", ur: "میاپور", area: "North-West", lat: 17.5150, lng: 78.3650 },
+            { id: 8, en: "Uppal", te: "ఉప్పల్", hi: "उप्पल", ur: "اپال", area: "East Hyderabad", lat: 17.4150, lng: 78.5650 },
+            { id: 9, en: "Tolichowki", te: "తోలిచౌకి", hi: "तोलीचौकी", ur: "تولی چوکی", area: "Old City", lat: 17.3900, lng: 78.4300 },
+            { id: 10, en: "Koti", te: "కోఠి", hi: "कोठी", ur: "کوٹھی", area: "Old City Center", lat: 17.3700, lng: 78.4650 },
+            { id: 11, en: "Nampally", te: "నాంపల్లి", hi: "नामपल्ली", ur: "نمپلی", area: "Near Railway Station", lat: 17.3600, lng: 78.4750 },
+            { id: 12, en: "Khairatabad", te: "ఖైరతాబాద్", hi: "खैरताबाद", ur: "خیرتاباد", area: "Central Business District", lat: 17.4300, lng: 78.4550 },
+            { id: 13, en: "Paradise", te: "పారడైస్", hi: "पैराडाइज़", ur: "پراڈائز", area: "Secunderabad Area", lat: 17.4450, lng: 78.4850 },
+            { id: 14, en: "Lingampally", te: "లింగంపల్లి", hi: "लिंगमपल्ली", ur: "لنگمپلی", area: "Metro Terminal West", lat: 17.5050, lng: 78.3500 },
+            { id: 15, en: "Mehdipatnam", te: "మెహదీపట్నం", hi: "महदीपटनम", ur: "مہدی پٹنم", area: "South Central", lat: 17.3950, lng: 78.4350 },
+            { id: 16, en: "Dilsukhnagar", te: "దిల్‌సుఖ్‌నగర్", hi: "दिलसुखनगار", ur: "دلسخنگر", area: "East Hyderabad", lat: 17.3800, lng: 78.5250 },
+            { id: 17, en: "Tarnaka", te: "తార్నాక", hi: "तारनाका", ur: "تارناکا", area: "East Hyderabad", lat: 17.4200, lng: 78.5450 },
+            { id: 18, en: "Charminar", te: "చార్మినార్", hi: "चारमीनार", ur: "چار مینار", area: "Historic Old City", lat: 17.3600, lng: 78.4450 },
+            { id: 19, en: "Shamshabad", te: "షంషాబాద్", hi: "शमशाबाद", ur: "شمشاباد", area: "Airport Area", lat: 17.2400, lng: 78.4300 },
+            { id: 20, en: "Nagole", te: "నాగోల్", hi: "नागोल", ur: "ناگول", area: "East Hyderabad", lat: 17.3650, lng: 78.5550 },
+            { id: 21, en: "ECIL X Roads", te: "ఈసీఐఎల్ క్రాస్ రోడ్స్", hi: "ईसीआईएल क्रॉस रोड्स", ur: "ای سی آئی ایل کروس روڈ", area: "East Hyderabad", lat: 17.4350, lng: 78.5750 },
+            { id: 22, en: "KPHB Colony", te: "కెపీహెచ్‌బీ కాలనీ", hi: "केपीएचबी कॉलोनी", ur: "کے پی ایچ بی کالونی", area: "North-West", lat: 17.5100, lng: 78.3750 },
+            { id: 23, en: "Bhel", te: "భెల్", hi: "भेल", ur: "بھیل", area: "Industrial Area", lat: 17.4650, lng: 78.4150 },
+            { id: 24, en: "Masab Tank", te: "మాసాబ్ ట్యాంక్", hi: "मासाब टैंक", ur: "ماساب ٹینک", area: "Central", lat: 17.4100, lng: 78.4400 },
+            { id: 25, en: "Erragadda", te: "ఎర్రగడ్డ", hi: "एरगड्डा", ur: "ایرگڈا", area: "West Central", lat: 17.4450, lng: 78.4300 }
+        ];
+
+        const fareStructure = {
+            ordinary: { base: 15, perKm: 2, icon: "🚌", color: "#F57F17", bgGradient: "linear-gradient(135deg,#fff8e1,#ffecb3,#ffe082)", desc: "Most economical option for daily commuters. Non-AC basic service with all stops coverage.", features: ["Economical Pricing", "All Stops Covered", "High Frequency", "Standing Allowed"] },
+            express: { base: 25, perKm: 3, icon: "⚡", color: "#1565C0", bgGradient: "linear-gradient(135deg,#e3f2fd,#bbdefb,#90caf9)", desc: "Faster travel with limited stops. Semi-luxury seating for comfortable medium-distance journeys.", features: ["Limited Stops", "Comfortable Seating", "Faster Journey", "Reserved Seating"] },
+            deluxe: { base: 40, perKm: 5, icon: "✨", color: "#2E7D32", bgGradient: "linear-gradient(135deg,#e8f5e9,#c8e6c9,#a5d6a7)", desc: "Premium AC travel experience with push-back seats, WiFi, and entertainment system.", features: ["Air Conditioned", "Push-back Seats", "WiFi Available", "Entertainment System"] }
+        };
+
+        const intermediateStopsPool = [
+            "JNTU Metro Station", "KPHB Main Road", "Moosapet X Roads", "Bal Nagar", 
+            "Erragadda Crossroads", "Ameerpet X Roads", "Punjagutta Circle", "Somajiguda",
+            "Begumpet Police Station", "Rasoolpura", "Paradise Circle", "Secunderabad Station",
+            "Tarnaka Flyover", "Uppal X Roads", "Habsiguda", "Nagole Junction",
+            "Dilsukhnagar Bus Stand", "Victoria Memorial", "Champapet", "LB Nagar Ring Road"
+        ];
+
+        const busNumbersByRoute = [
+            "10N", "10H", "10K", "10L", "16S", "222V", "229V", "113K", "47L", "47Z",
+            "49M", "49V", "50L", "54L", "55L", "56L", "57L", "86L", "87L", "88L"
+        ];
+
+        const offersData = [
+            { type: "hot", tag: "🔥 HOT OFFER", title: "Flat 30% Off on First Booking", subtitle: "New User Special", details: ["Valid for first 3 bookings only", "Applicable on all bus types", "Auto-applied at checkout", "Max discount: ₹200"], expiry: "Expires: March 31, 2025" },
+            { type: "discount", tag: "% DISCOUNT", title: "Students Get 50% Off", subtitle: "Academic Year Special", details: ["Valid student ID required", "Monthly pass holders eligible", "All city routes covered", "Apply at counter or online"], expiry: "Valid till Academic Year End" },
+            { type: "event", tag: "🎊 EVENT", title: "Sankranti Special Packages", subtitle: "Festival Season Offer", details: ["Hyderabad ↔ Villages special buses", "Free luggage allowance 20kg", "Group booking extra 10% off", "Priority boarding"], expiry: "January 13-17, 2025" },
+            { type: "cargo", tag: "📦 CARGO", title: "Parcel Delivery @ ₹99", subtitle: "First 5kg Anywhere in City", details: ["Door pickup available", "Same day delivery guaranteed", "Real-time tracking included", "Insurance up to ₹5000"], expiry: "Limited Period Offer" },
+            { type: "hot", tag: "⚡ FLASH SALE", title: "Midnight Bus Tickets @ Half Price", subtitle: "Night Owl Special", details: ["Valid for departures 11PM-5AM", "Express & Deluxe only", "Limited seats per bus", "Use code: NIGHT50"], expiry: "Every Friday-Sunday" },
+            { type: "discount", tag: "👩 WOMEN SPECIAL", title: "Women Travel Free", subtitle: "Mahalakshmi Scheme", details: ["Valid in Telangana state only", "Pink ticket counters available", "All non-AC city buses", "ID proof required"], expiry: "Ongoing Government Scheme" }
+        ];
+
+        // Translations
+        const translations = {
+            en: {
+                brand_full: "Telangana State Road Transport Corporation",
+                brand_sub: "Government of Telangana",
+                nav_home: "Home", nav_about: "About", nav_services: "Services",
+                nav_logistics: "Logistics", nav_booking: "Booking", nav_fare: "Fare Finder",
+                hero_main: "Telangana State\nRoad Transport Corporation",
+                hero_desc: "Your trusted partner for safe, affordable, and reliable bus travel across Telangana.",
+                stat_buses: "Buses", stat_routes: "Routes", stat_daily: "Daily Riders",
+                search_title: "Plan Your Journey", from_label: "From Stop", to_label: "To Stop",
+                search_btn: "Search Fare", from_ph: "Search departure stop...", to_ph: "Search destination stop...",
+                from_text: "FROM", to_text: "TO", direct_route: "Direct Route",
+                distance_lbl: "Distance", time_lbl: "Travel Time", buses_lbl: "Buses Available", freq_lbl: "Frequency",
+                route_map_title: "Route Map & Intermediate Stops", fare_options_title: "Fare Options by Bus Type",
+                overcharge_title: "Am I Being Overcharged?", amt_ph: "Enter amount you paid (₹)",
+                check_fare_btn: "Verify Fare", correct_msg: "✅ You paid the correct fare!",
+                overcharge_msg: "⚠️ You may have been overcharged by ",
+                slide_road_safety: "Road Safety First", slide_rules: "Rules & Regulations",
+                slide_fines: "Fines & Penalties", slide_speed: "Speed Limits & Precautions",
+                slide_offers: "Current Offers",
+                offers_title: "Latest Offers & Upcoming Events", all_stops_title: "All Available Stops",
+                about_main_title: "About Telangana State Road Transport Corporation",
+                about_subtitle: "Serving the people of Telangana with pride since 2015",
+                services_main_title: "Our Services", services_subtitle: "Comprehensive transport solutions",
+                logistics_main_title: "Telangana State Logistics Corporation",
+                logistics_subtitle: "Integrated logistics solutions powered by TSRTC network",
+                booking_main_title: "Booking Process & Reservations",
+                booking_subtitle: "Easy steps to book your TSRTC ticket online or offline",
+                fare_main_title: "Fare Information", fare_subtitle: "Transparent and affordable pricing",
+                modal_select_bus: "Select Bus Type",
+                footer_quick_links: "Quick Links", footer_help: "Help & Support", footer_contact: "Contact Us",
+                footer_disclaimer: "This is a demo project. Visit tsrtconline.in for official data."
+            },
+            te: {
+                brand_full: "తెలంగాణ రాష్ట్ర రోడ్డు రవాణా సంస్థ",
+                brand_sub: "తెలంగాణ ప్రభుత్వం",
+                nav_home: "హోమ్", nav_about: "గురించి", nav_services: "సేవలు",
+                nav_logistics: "లాజిస్టిక్స్", nav_booking: "బుకింగ్", nav_fare: "ధర ఫైండర్",
+                hero_main: "తెలంగాణ రాష్ట్ర\nరోడ్డు రవాణా సంస్థ",
+                hero_desc: "తెలంగాణ అంతటా సురక్షితమైన, అందుబాటులో ఉన్న బస్సు ప్రయాణానికి మీ విశ్వసనీయ భాగస్వామి.",
+                stat_buses: "బస్సులు", stat_routes: "మార్గాలు", stat_daily: "రోజువారీ ప్రయాణికులు",
+                search_title: "మీ ప్రయాణాన్ని ప్లాన్ చేయండి", from_label: "నుండి స్టాప్", to_label: "వరకు స్టాప్",
+                search_btn: "ధర శోధించండి", from_ph: "బయలుదేరు స్టాప్ శోధించండి...", to_ph: "గమ్యం స్టాప్ శోధించండి...",
+                from_text: "నుండి", to_text: "వరకు", direct_route: "ప్రత్యక్ష మార్గం",
+                distance_lbl: "దూరం", time_lbl: "ప్రయాణ సమయం", buses_lbl: "అందుబాటులో ఉన్న బస్సులు", freq_lbl: "తరచుదనం",
+                route_map_title: "మార్గం & మధ్యంతర స్టాప్‌లు", fare_options_title: "బస్సు రకం ప్రకారం ధరలు",
+                overcharge_title: "నాకు ఎక్కువ ధర వసూలు చేశారా?",
+                amt_ph: "మీరు చెల్లించిన మొత్తం నమోదు చేయండి (₹)",
+                check_fare_btn: "ధర ధృవీకరించండి", correct_msg: "✅ మీరు సరైన ధర చెల్లించారు!",
+                overcharge_msg: "⚠️ మీకు ఎక్కువ ధర వసూలు చేయబడి ఉండవచ్చు: ",
+                offers_title: "తాజా ఆఫర్లు & రాబోయే ఈవెంట్లు", all_stops_title: "అందుబాటులో ఉన్న అన్ని స్టాప్‌లు",
+                about_main_title: "తెలంగాణ రాష్ట్ర రోడ్డు రవాణా సంస్థ గురించి",
+                about_subtitle: "2015 నుండి తెలంగాణ ప్రజలకు సేవలు అందిస్తోంది",
+                footer_disclaimer: "ఇది డెమో ప్రాజెక్ట్. అధికారిక సమాచారం కోసం tsrtconline.in సందర్శించండి."
+            },
+            hi: {
+                brand_full: "तेलंगाना राज्य मार्ग परिवहन निगम",
+                brand_sub: "तेलंगाना सरकार",
+                nav_home: "होम", nav_about: "के बारे में", nav_services: "सेवाएं",
+                nav_logistics: "लॉजिस्टिक्स", nav_booking: "बुकिंग", nav_fare: "किराया खोजक",
+                hero_main: "तेलंगाना राज्य\nमार्ग परिवहन निगम",
+                hero_desc: "तेलंगाना भर में सुरक्षित, किफायती और विश्वसनीय बस यात्रा के लिए आपका विश्वसनीय साथी।",
+                stat_buses: "बसें", stat_routes: "मार्ग", stat_daily: "दैनिक यात्री",
+                search_title: "अपनी यात्रा की योजना बनाएं", from_label: "से स्टॉप", to_label: "तक स्टॉप",
+                search_btn: "किराया खोजें", from_ph: "प्रस्थान स्टॉप खोजें...", to_ph: "गंतव्य स्टॉप खोजें...",
+                from_text: "से", to_text: "तक", direct_route: "सीधा मार्ग",
+                distance_lbl: "दूरी", time_lbl: "यात्रा का समय", buses_avail: "उपलब्ध बसें", freq_lbl: "आवृत्ति",
+                overcharge_title: "क्या मुझे अधिक किराया लिया गया?",
+                amt_ph: "आपने जो राशि चुकाई (₹)",
+                check_fare_btn: "किराया सत्यापित करें", correct_msg: "✅ आपने सही किराया चुकाया!",
+                overcharge_msg: "⚠️ आपसे अधिक किराया लिया जा सकता है: ",
+                offers_title: "नवीनतम ऑफर और आगामी कार्यक्रम", all_stops_title: "सभी उपलब्ध स्टॉप",
+                about_main_title: "तेलंगाना राज्य मार्ग परिवहन निगम के बारे में",
+                about_subtitle: "2015 से तेलंगाना की जनता की सेवा में",
+                footer_disclaimer: "यह एक डेमो प्रोजेक्ट है। आधिकारिक जानकारी के लिए tsrtconline.in पर जाएं।"
+            },
+            ur: {
+                brand_full: "تلنگانا ریاستی سڑک نقل و حمل کارپوریشن",
+                brand_sub: "حکومت تلنگانا",
+                nav_home: "ہوم", nav_about: "کے بارے میں", nav_services: "خدمات",
+                nav_logistics: "لاجسٹکس", nav_booking: "بکنگ", nav_fare: "کرایہ تلاش کار",
+                hero_main: "تلنگانا ریاستی\nسڑک نقل و حمل کارپوریشن",
+                hero_desc: "تلنگانا بھر میں محفوظ، مناسب اور قابل اعتماد بس سفر کے لیے آپ کا بھروسہ مند ساتھی۔",
+                stat_buses: "بسیں", stat_routes: "راستے", stat_daily: "روزانہ مسافر",
+                search_title: "اپنا سفر منصوبہ بنائیں", from_label: "سے اسٹاپ", to_label: "تک اسٹاپ",
+                search_btn: "کرایہ تلاش کریں", from_ph: "روانگی اسٹاپ تلاش کریں...", to_ph: "منزل مقصد اسٹاپ تلاش کریں...",
+                from_text: "سے", to_text: "تک", direct_route: "براہ راست راستہ",
+                distance_lbl: "فاصلہ", time_lbl: "سفر کا وقت", buses_avail: "دستیاب بسیں", freq_lbl: "تعدد",
+                overcharge_title: "کیا مجھ سے زیادہ کرایہ لیا گیا؟",
+                amt_ph: "آپ نے جو رقم ادا کی (₹)",
+                check_fare_btn: "کرایہ تصدیق کریں", correct_msg: "✅ آپ نے صحیح کرایہ ادا کیا!",
+                overcharge_msg: "⚠️ آپ سے زیادہ کرایہ لیا جا سکتا ہے: ",
+                offers_title: "جدید پیشکشیں اور آنے والے پروگرام", all_stops_title: "تمام دستیاب اسٹاپس",
+                about_main_title: "تلنگانا ریاستی سڑک نقل و حمل کارپوریشن کے بارے میں",
+                about_subtitle: "2015 سے تلنگانا کی عوام کی خدمت میں",
+                footer_disclaimer: "یہ ایک ڈیمو پروجیکٹ ہے۔ باضابطہ معلومات کے لیے tsrtconline.in پر جائیں۔"
+            }
+        };
+
+        // ===================== STATE =====================
+        let currentLang = 'en';
+        let currentTheme = 'light';
+        let currentPage = 'home';
+        let selectedFrom = null;
+        let selectedTo = null;
+        let currentSlide = 0;
+        const totalSlides = 5;
+
+        // ===================== DOM REFS =====================
+        const $ = id => document.getElementById(id);
+
+        // ===================== INIT =====================
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+        });
+
+        function initApp() {
+            renderStopsGrid();
+            renderOffers();
+            renderSliderDots();
+            setupEventListeners();
+            updateDynamicGreeting();
+            renderBookingOffers();
+        }
+
+        function updateDynamicGreeting() {
+            const hour = new Date().getHours();
+            let greeting = "";
+            if (currentLang === 'en') {
+                if (hour < 12) greeting = "🌅 Good Morning, Traveler! Start your day with a safe journey!";
+                else if (hour < 17) greeting = "☀️ Good Afternoon, Traveler! Hope you're having a wonderful day!";
+                else greeting = "🌙 Good Evening, Traveler! Wishing you pleasant travels ahead!";
+            } else if (currentLang === 'te') {
+                if (hour < 12) greeting = "🌅 శుభోదయం, ప్రయాణికా!";
+                else if (hour < 17) greeting = "☀️ శుభ మధ్యాహ్నం, ప్రయాణికా!";
+                else greeting = "🌙 శుభ సాయంత్రం, ప్రయాణికా!";
+            } else if (currentLang === 'hi') {
+                if (hour < 12) greeting = "🌅 सुप्रभात, यात्री!";
+                else if (hour < 17) greeting = "☀️ शुभ दोपहर, यात्री!";
+                else greeting = "🌙 शुभ संध्या, यात्री!";
+            } else {
+                if (hour < 12) greeting = "🌅 صبح بخیر، مسافر!";
+                else if (hour < 17) greeting = "☀️ دوپہر بخیر، مسافر!";
+                else greeting = "🌙 شام بخیر، مسافر!";
+            }
+            $('dynamicGreeting').textContent = greeting;
+        }
+
+        // ===================== RENDER FUNCTIONS =====================
+        function getLocalizedName(stop) {
+            return stop[currentLang] || stop.en;
+        }
+
+        function renderStopsGrid() {
+            $('stopsGridContainer').innerHTML = busStopsData.map(stop => `
+                <div class="stop-chip" onclick="selectStopDirect('${stop.en}','from')">
+                    <span class="stop-chip-icon">📍</span>
+                    <span>${getLocalizedName(stop   )}</span>

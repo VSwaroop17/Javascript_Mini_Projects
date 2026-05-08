@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Telangana State Road Transport Corporation — UI (Single File)</title>
+
+  <!-- Font (supports Telugu/Urdu/Hindi well) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* “Official-like” palette (tune to exact TGSRTC site) */
+      --primary:#0B4EA2;
+      --accent:#F59E0B;
+      --danger:#C81D25;
+
+      --bg:#F6F8FC;
+      --card:#ffffff;
+      --ink:#0B1220;
+      --muted:#6B7280;
+      --border:#E5E7EB;
+
+      --shadow: 0 10px 30px rgba(2, 6, 23, 0.10);
+      --r12: 12px;
+      --r16: 16px;
+      --r20: 20px;
+      --r24: 24px;
+
+      --max: 1120px;
+    }
+
+    /* Dark theme overrides */
+    .dark{
+      --bg:#070A12;
+      --card:#0B1220;
+      --ink:#F3F4F6;
+      --muted:#A1A1AA;
+      --border:#1F2937;
+      --shadow: 0 12px 34px rgba(0,0,0,0.45);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Noto Sans","Noto Sans Telugu",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.35;
+    }
+    a{color:inherit}
+    .container{max-width:var(--max); margin:0 auto; padding:0 16px}
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(12px);
+      background: color-mix(in srgb, var(--card) 82%, transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .header-row{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:12px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; min-width:0;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      display:grid; place-items:center;
+      background:var(--primary); color:#fff;
+      font-weight:800; box-shadow:var(--shadow);
+      user-select:none;
+    }
+    .brand-text{min-width:0}
+    .brand-title{font-weight:800; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .brand-sub{font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+    nav{display:none; gap:6px; align-items:center}
+    .nav-link{
+      display:flex; align-items:center; gap:8px;
+      padding:10px 12px; border-radius:14px;
+      text-decoration:none;
+      color:var(--ink);
+    }
+    .nav-link:hover{background:color-mix(in srgb, var(--bg) 90%, transparent)}
+    .nav-ico{
+      width:18px; height:18px; display:inline-grid; place-items:center;
+      color:var(--primary);
+    }
+
+    .controls{display:flex; align-items:center; gap:8px}
+    .select, .btn{
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--ink);
+      border-radius:14px;
+      padding:10px 12px;
+      box-shadow: none;
+    }
+    .select{
+      display:flex; align-items:center; gap:8px;
+      padding:8px 10px;
+    }
+    select{
+      border:none; outline:none; background:transparent; color:var(--ink);
+      font-family:inherit;
+    }
+    .btn{
+      cursor:pointer;
+    }
+    .btn:hover{background:color-mix(in srgb, var(--bg) 92%, transparent)}
+    .btn-primary{
+      border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+      background:var(--primary);
+      color:#fff;
+      font-weight:700;
+    }
+    .btn-primary:hover{filter:brightness(0.98)}
+
+    .mobile-menu-btn{display:inline-flex}
+    .mobile-drawer{
+      display:none;
+      border-top:1px solid var(--border);
+      padding:10px 0 14px;
+    }
+    .mobile-drawer .nav-link{padding:10px 8px}
+
+    /* Hero */
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-bottom:1px solid var(--border);
+    }
+    .hero-bg{
+      position:absolute; inset:0;
+      opacity:0.95;
+    }
+    .hero-overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(to bottom,
+        color-mix(in srgb, var(--card) 65%, transparent),
+        color-mix(in srgb, var(--card) 75%, transparent),
+        var(--bg));
+    }
+    .hero-inner{position:relative; padding:26px 0 28px}
+    .hero-grid{
+      display:grid; gap:16px;
+      grid-template-columns: 1fr;
+      align-items:start;
+    }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      border-radius:999px;
+      font-size:12px;
+      width:fit-content;
+    }
+    .h1{margin:10px 0 6px; font-size:26px; font-weight:900; letter-spacing:-0.02em}
+    .lead{margin:0; color:var(--muted)}
+    .pill-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px}
+    .pill{
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius:18px;
+      padding:12px;
+      display:flex; gap:10px;
+    }
+    .pill .k{font-weight:800}
+    .pill .d{color:var(--muted); font-size:13px; margin-top:2px}
+    .tone-warning{border-color: color-mix(in srgb, var(--accent) 35%, var(--border))}
+    .tone-danger{border-color: color-mix(in srgb, var(--danger) 35%, var(--border))}
+
+    /* Cards */
+    .card{
+      border:1px solid var(--border);
+      background:var(--card);
+      border-radius: var(--r24);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card-h{
+      padding:16px 18px;
+      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+    }
+    .card-h .title{
+      font-weight:900; display:flex; align-items:center; gap:10px;
+    }
+    .card-b{padding:16px 18px}
+
+    .form-grid{display:grid; grid-template-columns:1fr; gap:12px}
+    label{display:block; font-size:13px}
+    .lbl{color:var(--muted); margin-bottom:6px}
+    input, .select2{
+      width:100%;
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      color:var(--ink);
+      border-radius: 14px;
+      padding:10px 12px;
+      outline:none;
+      font-family:inherit;
+    }
+    .select2{padding:0}
+    .select2 select{width:100%; padding:10px 12px}
+
+    .mini-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px}
+    .mini{
+      border-radius:18px;
+      padding:12px;
+      background: color-mix(in srgb, var(--bg) 75%, transparent);
+      border:1px solid var(--border);
+    }
+    .mini .k{font-weight:900}
+    .mini .d{color:var(--muted); font-size:13px; margin-top:3px}
+
+    /* Hoarding slider */
+    .dots{display:flex; gap:8px; margin-top:12px}
+    .dot{
+      height:10px; width:10px; border-radius:999px;
+      background:var(--border);
+      border:none; cursor:pointer;
+    }
+    .dot.active{width:40px; background:var(--primary)}
+
+    /* Sections */
+    section{padding:22px 0}
+    .section-title{
+      display:flex; align-items:end; justify-content:space-between;
+      gap:12px; margin-bottom:12px;
+    }
+    .section-title h2{margin:0; font-size:18px; font-weight:900}
+    .section-title p{margin:4px 0 0; color:var(--muted); font-size:13px}
+
+    /* Fare cards */
+    .fare-grid{display:grid; grid-template-columns:1fr; gap:12px}
+    .fare-top{height:92px}
+    .g1{background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 28%, transparent), transparent)}
+    .g2{background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, transparent), transparent)}
+    .g3{background: linear-gradient(135deg, color-mix(in srgb, var(--danger) 24%, transparent), transparent)}
+    .g4{background: linear-gradient(135deg, rgba(16,185,129,.18), transparent)}
+    .fare-name{font-weight:900}
+    .fare-desc{color:var(--muted); font-size:13px; margin-top:6px}
+    .fare-row{display:flex; align-items:center; justify-content:space-between; margin-top:14px}
+    .link{color:var(--primary); font-weight:800; text-decoration:none}
+    .link:hover{text-decoration:underline}
+
+    /* Updates */
+    .updates-grid{display:grid; grid-template-columns:1fr; gap:12px}
+    .tag{
+      display:inline-flex; align-items:center;
+      font-size:11px; font-weight:800;
+      padding:4px 10px; border-radius:999px;
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+    }
+    .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .date{color:var(--muted); font-size:12px}
+    .u-title{margin-top:10px; font-weight:900}
+    .u-desc{margin-top:6px; color:var(--muted); font-size:13px}
+
+    /* Govt */
+    .gov-grid{display:grid; grid-template-columns:1fr; gap:12px}
+    .note{
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:14px;
+      font-size:13px;
+    }
+    .note h3{margin:0 0 6px; font-size:14px}
+    .note ul{margin:8px 0 0; padding-left:18px; color:var(--muted)}
+    .note li{margin:6px 0}
+
+    /* Footer */
+    footer{
+      border-top:1px solid var(--border);
+      background:var(--card);
+      padding:24px 0;
+    }
+    .footer-grid{display:grid; grid-template-columns:1fr; gap:14px; font-size:13px}
+    .footer-grid .k{font-weight:900}
+    .footer-grid .muted{color:var(--muted); margin-top:6px}
+    .footer-grid ul{margin:8px 0 0; padding:0; list-style:none; color:var(--muted)}
+    .footer-grid li{margin:6px 0}
+
+    /* Chat */
+    .chat-fab{
+      position:fixed; right:16px; bottom:16px; z-index:60;
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      padding:12px 14px;
+      border-radius:999px;
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      font-weight:900;
+    }
+    .chat-fab:hover{filter:brightness(0.98)}
+    .modal{
+      position:fixed; inset:0; z-index:80;
+      display:none;
+      background:rgba(0,0,0,0.45);
+      padding:16px;
+    }
+    .modal.open{display:flex}
+    .modal-inner{
+      margin:auto;
+      width:100%;
+      max-width:560px;
+      border-radius: 22px;
+      border:1px solid var(--border);
+      background:var(--card);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal-h{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      font-weight:900;
+    }
+    .icon-btn{
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      color:var(--ink);
+      border-radius:14px;
+      padding:8px 10px;
+      cursor:pointer;
+    }
+    .icon-btn:hover{background: color-mix(in srgb, var(--bg) 90%, transparent)}
+    .chat-body{
+      height:320px;
+      overflow:auto;
+      padding:14px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .msg{
+      max-width:85%;
+      padding:10px 12px;
+      border-radius: 18px;
+      font-size:13px;
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+    }
+    .msg.user{
+      margin-left:auto;
+      background:var(--primary);
+      border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+      color:#fff;
+    }
+    .chat-in{
+      display:flex; gap:10px;
+      padding:14px;
+      border-top:1px solid var(--border);
+    }
+    .chat-in input{
+      flex:1;
+      border-radius:16px;
+    }
+
+    /* Responsive */
+    @media (min-width: 860px){
+      nav{display:flex}
+      .mobile-menu-btn{display:none}
+      .hero-grid{grid-template-columns: 1.05fr 0.95fr; gap:18px}
+      .pill-grid{grid-template-columns:1fr 1fr}
+      .form-grid{grid-template-columns:1fr 1fr}
+      .mini-grid{grid-template-columns:1fr 1fr}
+      .fare-grid{grid-template-columns: 1fr 1fr 1fr 1fr}
+      .updates-grid{grid-template-columns:1fr 1fr}
+      .gov-grid{grid-template-columns: 2fr 1fr}
+      .footer-grid{grid-template-columns: 1.6fr 1fr 1fr 1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="header-row">
+        <div class="brand">
+          <!-- Placeholder logo. Replace with an official/authorized logo file if you have rights. -->
+          <div class="logo" aria-label="Logo">TS</div>
+          <div class="brand-text">
+            <!-- Replace header "TGSRTC" with full name in all languages -->
+            <div id="brandTitle" class="brand-title">Telangana State Road Transport Corporation</div>
+            <div id="brandSub" class="brand-sub">Official-style demo UI (booking • fares • logistics • safety • updates)</div>
+          </div>
+        </div>
+
+        <nav aria-label="Primary">
+          <a class="nav-link" href="#booking"><span class="nav-ico">🎟️</span><span id="navBook">Book Tickets</span></a>
+          <a class="nav-link" href="#routes"><span class="nav-ico">📍</span><span id="navRoutes">Routes & Timings</span></a>
+          <a class="nav-link" href="#offers"><span class="nav-ico">🏷️</span><span id="navOffers">Offers</span></a>
+          <a class="nav-link" href="#logistics"><span class="nav-ico">📦</span><span id="navLogistics">Telangana State Logistics</span></a>
+          <a class="nav-link" href="#gov"><span class="nav-ico">ℹ️</span><span id="navGov">Government Details</span></a>
+        </nav>
+
+        <div class="controls">
+          <div class="select" title="Language">
+            <span aria-hidden="true">🌐</span>
+            <select id="langSel" aria-label="Language">
+              <option value="en">English</option>
+              <option value="te">తెలుగు</option>
+              <option value="ur">اردو</option>
+              <option value="hi">हिन्दी</option>
+            </select>
+          </div>
+
+          <button id="themeBtn" class="btn" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+          <button id="menuBtn" class="btn mobile-menu-btn" aria-label="Open menu" title="Menu">☰</button>
+        </div>
+      </div>
+
+      <div id="drawer" class="mobile-drawer" aria-label="Mobile navigation">
+        <a class="nav-link" href="#booking">🎟️ <span id="mNavBook">Book Tickets</span></a>
+        <a class="nav-link" href="#routes">📍 <span id="mNavRoutes">Routes & Timings</span></a>
+        <a class="nav-link" href="#offers">🏷️ <span id="mNavOffers">Offers</span></a>
+        <a class="nav-link" href="#logistics">📦 <span id="mNavLogistics">Telangana State Logistics</span></a>
+        <a class="nav-link" href="#gov">ℹ️ <span id="mNavGov">Government Details</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO with Hyderabad “map-like” background (original SVG; not copied from any site) -->
+    <div class="hero" id="routes">
+      <svg class="hero-bg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="g" x1="0" x2="1">
+            <stop offset="0" stop-color="#0B4EA2" stop-opacity="0.18"></stop>
+            <stop offset="1" stop-color="#F59E0B" stop-opacity="0.12"></stop>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="520" fill="url(#g)"></rect>
+        <path d="M-50 420 C 200 260, 420 520, 740 340 S 1180 260, 1280 120"
+              fill="none" stroke="#0B4EA2" stroke-opacity="0.28" stroke-width="10"/>
+        <path d="M-40 120 C 260 200, 300 20, 520 110 S 920 260, 1260 220"
+              fill="none" stroke="#F59E0B" stroke-opacity="0.32" stroke-width="8"/>
+        <path d="M120 520 C 320 340, 520 320, 620 210 S 860 80, 1100 40"
+              fill="none" stroke="#111827" stroke-opacity="0.16" stroke-width="6"/>
+        <g transform="translate(340,250)"><circle r="10" fill="#C81D25" fill-opacity="0.52"/><circle r="4" fill="#fff" fill-opacity="0.9"/></g>
+        <g transform="translate(520,210)"><circle r="10" fill="#C81D25" fill-opacity="0.52"/><circle r="4" fill="#fff" fill-opacity="0.9"/></g>
+        <g transform="translate(720,300)"><circle r="10" fill="#C81D25" fill-opacity="0.52"/><circle r="4" fill="#fff" fill-opacity="0.9"/></g>
+        <g transform="translate(860,190)"><circle r="10" fill="#C81D25" fill-opacity="0.52"/><circle r="4" fill="#fff" fill-opacity="0.9"/></g>
+        <text x="52" y="70" fill="#0B4EA2" fill-opacity="0.55" font-size="28" font-family="system-ui">
+          Hyderabad (background map)
+        </text>
+      </svg>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <div class="container hero-inner">
+        <div class="hero-grid">
+          <div>
+            <div class="badge">🚌 Hyderabad • Telangana • RTC Services</div>
+            <h1 id="h1" class="h1">Telangana State Road Transport Corporation</h1>
+            <p id="lead" class="lead">
+              Book buses, check fares, explore routes, logistics, safety updates — in a clean, spacious, user-friendly interface.
+            </p>
+
+            <div class="pill-grid">
+              <div class="pill">
+                <div aria-hidden="true">🎟️</div>
+                <div>
+                  <div class="k" id="pill1t">Quick Booking</div>
+                  <div class="d" id="pill1d">Minimal steps, clearer form, better spacing.</div>
+                </div>
+              </div>
+              <div class="pill tone-warning">
+                <div aria-hidden="true">📦</div>
+                <div>
+                  <div class="k" id="pill2t">Telangana State Logistics</div>
+                  <div class="d" id="pill2d">Parcel/cargo and logistics features in one place.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Search -->
+          <div class="card" id="booking">
+            <div class="card-h">
+              <div class="title">🎟️ <span id="bookTitle">Book Tickets</span></div>
+              <div class="date" id="today"></div>
+            </div>
+            <div class="card-b">
+              <div class="form-grid">
+                <label>
+                  <div class="lbl" id="lblFrom">From</div>
+                  <input id="fromInput" value="Hyderabad" />
+                </label>
+
+                <label>
+                  <div class="lbl" id="lblTo">To</div>
+                  <input id="toInput" value="Warangal" />
+                </label>
+
+                <label>
+                  <div class="lbl" id="lblDate">Date</div>
+                  <input id="dateInput" type="date" />
+                </label>
+
+                <label>
+                  <div class="lbl" id="lblService">Service Type</div>
+                  <div class="select2">
+                    <select id="serviceSel" aria-label="Service Type">
+                      <option>Express</option>
+                      <option>Super Luxury (Non-AC)</option>
+                      <option>Rajdhani (AC)</option>
+                      <option>Metro Express (City)</option>
+                    </select>
+                  </div>
+                </label>
+              </div>
+
+              <button class="btn btn-primary" id="searchBtn" style="width:100%; margin-top:12px; padding:12px 14px;">
+                Search Buses
+              </button>
+
+              <div class="mini-grid">
+                <div class="mini">
+                  <div class="k" id="mini1t">Check Fare</div>
+                  <div class="d" id="mini1d">Transparent fare cards by bus type.</div>
+                </div>
+                <div class="mini">
+                  <div class="k" id="mini2t">Bus Pass</div>
+                  <div class="d" id="mini2d">Passes and concessions in one place.</div>
+                </div>
+              </div>
+
+              <div class="note" style="margin-top:12px">
+                <h3>Note</h3>
+                This is a UI-only demo. Connect the search button to your API / official booking system.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hoardings + Booking Steps -->
+        <section style="padding:16px 0 0;">
+          <div class="hero-grid" style="grid-template-columns:1fr; gap:16px;">
+            <div class="card">
+              <div class="card-h">
+                <div class="title">🛡️ <span id="hoardTitle">Road Safety • Rules • Regulations</span></div>
+                <div class="date"><span id="slideCount">1/4</span></div>
+              </div>
+              <div class="card-b">
+                <div id="slideBox" class="pill tone-danger">
+                  <div aria-hidden="true">⚠️</div>
+                  <div>
+                    <div class="k" id="slideT">Road Safety Rules</div>
+                    <div class="d" id="slideD">Wear seat belt (where applicable). Keep aisles clear. Follow boarding instructions.</div>
+                  </div>
+                </div>
+
+                <div class="dots" aria-label="Slider dots">
+                  <button class="dot active" data-i="0" aria-label="Slide 1"></button>
+                  <button class="dot" data-i="1" aria-label="Slide 2"></button>
+                  <button class="dot" data-i="2" aria-label="Slide 3"></button>
+                  <button class="dot" data-i="3" aria-label="Slide 4"></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:16px;">
+              <div class="card-h">
+                <div class="title">✅ <span id="stepsTitle">Booking Process & Reservations</span></div>
+              </div>
+              <div class="card-b">
+                <div class="updates-grid" style="grid-template-columns:1fr;">
+                  <div class="note">
+                    <h3><span id="s1t">Step 1: Search</span></h3>
+                    <div class="u-desc" id="s1d">Choose From/To, date and passenger count.</div>
+                  </div>
+                  <div class="note">
+                    <h3><span id="s2t">Step 2: Select</span></h3>
+                    <div class="u-desc" id="s2d">Pick service, timing, and preferred seats.</div>
+                  </div>
+                  <div class="note">
+                    <h3><span id="s3t">Step 3: Pay</span></h3>
+                    <div class="u-desc" id="s3d">Secure payments with instant confirmation.</div>
+                  </div>
+                  <div class="note">
+                    <h3><span id="s4t">Step 4: Travel</span></h3>
+                    <div class="u-desc" id="s4d">Get QR/SMS ticket and enjoy your trip.</div>
+                  </div>
+                </div>
+
+                <div class="note" id="offers" style="margin-top:12px; border-color: color-mix(in srgb, var(--accent) 35%, var(--border))">
+                  <h3>Offers (UI placeholders)</h3>
+                  <ul>
+                    <li>Festival / seasonal discounts</li>
+                    <li>Early booking promos</li>
+                    <li>Special services for events and weekends</li>
+                    <li>Cargo / parcel promotions</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Fare Cards -->
+    <section class="container" id="fares">
+      <div class="section-title">
+        <div>
+          <h2>Fare Cost (by Bus Type)</h2>
+          <p>Unique backgrounds per service type (replace with licensed images later).</p>
+        </div>
+        <a class="btn" href="#offers" style="text-decoration:none; display:none" id="viewOffersBtn">🏷️ View offers</a>
+      </div>
+
+      <div class="fare-grid">
+        <div class="card">
+          <div class="fare-top g1"></div>
+          <div class="card-b">
+            <div class="fare-name">Express</div>
+            <div class="fare-desc">Fast city-to-city. Great value.</div>
+            <div class="fare-row">
+              <div class="fare-name" style="font-size:13px">₹ 250–450</div>
+              <a class="link" href="#booking">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="fare-top g2"></div>
+          <div class="card-b">
+            <div class="fare-name">Super Luxury (Non-AC)</div>
+            <div class="fare-desc">Comfort seats, fewer stops.</div>
+            <div class="fare-row">
+              <div class="fare-name" style="font-size:13px">₹ 350–650</div>
+              <a class="link" href="#booking">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="fare-top g3"></div>
+          <div class="card-b">
+            <div class="fare-name">Rajdhani (AC)</div>
+            <div class="fare-desc">AC comfort + premium service.</div>
+            <div class="fare-row">
+              <div class="fare-name" style="font-size:13px">₹ 450–900</div>
+              <a class="link" href="#booking">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="fare-top g4"></div>
+          <div class="card-b">
+            <div class="fare-name">Metro Express (City)</div>
+            <div class="fare-desc">Urban routes + frequent timings.</div>
+            <div class="fare-row">
+              <div class="fare-name" style="font-size:13px">₹ 10–60</div>
+              <a class="link" href="#booking">Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Updates -->
+    <section class="container">
+      <div class="card">
+        <div class="card-h">
+          <div class="title">📣 <span id="updatesTitle">Upcoming Events, Offers & Service Updates</span></div>
+        </div>
+        <div class="card-b">
+          <div class="updates-grid">
+            <div class="note">
+              <div class="row">
+                <span class="tag">Offer</span>
+                <span class="date">2026-05-10</span>
+              </div>
+              <div class="u-title">Festival booking discount (limited)</div>
+              <div class="u-desc">Add a “Read more” page and an admin-managed updates feed later.</div>
+            </div>
+
+            <div class="note">
+              <div class="row">
+                <span class="tag">Event</span>
+                <span class="date">2026-05-12</span>
+              </div>
+              <div class="u-title">Special services for weekend rush</div>
+              <div class="u-desc">Highlight special routes, timings and crowd advisories.</div>
+            </div>
+
+            <div class="note">
+              <div class="row">
+                <span class="tag">Cargo</span>
+                <span class="date">2026-05-15</span>
+              </div>
+              <div class="u-title">Parcel express lanes from Hyderabad hub</div>
+              <div class="u-desc">Add parcel tracking and booking integration for logistics.</div>
+            </div>
+
+            <div class="note">
+              <div class="row">
+                <span class="tag">Advisory</span>
+                <span class="date">2026-05-18</span>
+              </div>
+              <div class="u-title">Monsoon precautions & route diversions</div>
+              <div class="u-desc">Add road safety hoardings and live advisories in the map view.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logistics -->
+    <section class="container" id="logistics">
+      <div class="card">
+        <div class="card-h">
+          <div class="title">📦 Telangana State Logistics</div>
+        </div>
+        <div class="card-b">
+          <div class="gov-grid">
+            <div class="note">
+              <h3>Logistics Options (UI)</h3>
+              <ul>
+                <li>Parcel booking (Depot → Depot)</li>
+                <li>Bulk cargo enquiry</li>
+                <li>Tracking (AWB/Consignment ID)</li>
+                <li>Business account onboarding</li>
+              </ul>
+            </div>
+            <div class="note tone-warning" style="border-color: color-mix(in srgb, var(--accent) 35%, var(--border))">
+              <h3>Suggested Enhancements</h3>
+              <ul>
+                <li>Price calculator by weight/volume</li>
+                <li>Serviceability map</li>
+                <li>Pickup scheduling (where available)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Government details -->
+    <section class="container" id="gov">
+      <div class="card">
+        <div class="card-h">
+          <div class="title">ℹ️ <span id="govTitle">Government & Corporation Details</span></div>
+        </div>
+        <div class="card-b">
+          <div class="gov-grid">
+            <div style="display:flex; flex-direction:column; gap:12px">
+              <div class="note">
+                <h3>Corporation Information</h3>
+                <ul>
+                  <li>Publish official notices, policies, and advisories from verified sources only.</li>
+                  <li>Add RTI / grievance links as required.</li>
+                  <li>Accessibility: keyboard navigation, contrast, multilingual support.</li>
+                </ul>
+              </div>
+
+              <div class="note">
+                <h3>Helplines</h3>
+                <div class="u-desc">
+                  Add official customer care numbers, depot contacts, and emergency information here.
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:12px">
+              <div class="pill">
+                <div aria-hidden="true">📞</div>
+                <div>
+                  <div class="k">Support</div>
+                  <div class="d">Phone, email, grievance portal.</div>
+                </div>
+              </div>
+              <div class="pill tone-warning">
+                <div aria-hidden="true">📦</div>
+                <div>
+                  <div class="k">Logistics</div>
+                  <div class="d">Parcel/cargo booking & tracking.</div>
+                </div>
+              </div>
+              <div class="pill tone-danger">
+                <div aria-hidden="true">⚠️</div>
+                <div>
+                  <div class="k">Safety</div>
+                  <div class="d">Rules, fines, speed limits, precautions.</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="note" style="margin-top:12px">
+            <b>Logo / Images note:</b> this file uses original placeholders. If you provide the official TGSRTC logo and licensed images,
+            you can replace the placeholder "TS" block and add real images safely.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="k" id="footerBrand">Telangana State Road Transport Corporation</div>
+          <div class="muted">
+            Single-file UI template. Replace placeholders with official data and licensed assets.
+          </div>
+        </div>
+        <div>
+          <div class="k">Quick Links</div>
+          <ul>
+            <li><a href="#routes">Routes</a></li>
+            <li><a href="#fares">Fares</a></li>
+            <li><a href="#booking">Reservations</a></li>
+            <li><a href="#offers">Offers</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="k">Services</div>
+          <ul>
+            <li><a href="#logistics">Cargo/Parcel</a></li>
+            <li><a href="#logistics">Telangana State Logistics</a></li>
+            <li><a href="#routes">Safety & Rules</a></li>
+            <li><a href="#gov">Government Details</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="k">Legal</div>
+          <ul>
+            <li>Privacy</li>
+            <li>Terms</li>
+            <li>Accessibility</li>
+            <li>Sitemap</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chatbot -->
+  <button class="chat-fab" id="chatFab">Help / Chat</button>
+
+  <div class="modal" id="chatModal" role="dialog" aria-modal="true" aria-label="Chatbot">
+    <div class="modal-inner">
+      <div class="modal-h">
+        <div id="chatTitle">TGSRTC Assistant</div>
+        <button class="icon-btn" id="chatClose" aria-label="Close">✕</button>
+      </div>
+
+      <div class="chat-body" id="chatBody">
+        <div class="msg">Hello! I can help with routes, fares, refunds and safety helplines.</div>
+        <div class="msg">Try: “Hyderabad to Warangal fare” or “Refund policy”.</div>
+      </div>
+
+      <div class="chat-in">
+        <input id="chatInput" placeholder="Type your question…" />
+        <button class="btn btn-primary" id="chatSend" aria-label="Send">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ====== Strings (multilingual) ======
+    const STR = {
+      en: {
+        headerTitle: "Telangana State Road Transport Corporation",
+        subTitle: "Official-style demo UI (booking • fares • logistics • safety • updates)",
+        navBook: "Book Tickets",
+        navRoutes: "Routes & Timings",
+        navOffers: "Offers",
+        navLogistics: "Telangana State Logistics",
+        navGov: "Government Details",
+        h1: "Telangana State Road Transport Corporation",
+        lead: "Book buses, check fares, explore routes, logistics, safety updates — in a clean, spacious, user-friendly interface.",
+        pill1t: "Quick Booking",
+        pill1d: "Minimal steps, clearer form, better spacing.",
+        pill2t: "Telangana State Logistics",
+        pill2d: "Parcel/cargo and logistics features in one place.",
+        bookTitle: "Book Tickets",
+        lblFrom: "From",
+        lblTo: "To",
+        lblDate: "Date",
+        lblService: "Service Type",
+        searchBtn: "Search Buses",
+        mini1t: "Check Fare",
+        mini1d: "Transparent fare cards by bus type.",
+        mini2t: "Bus Pass",
+        mini2d: "Passes and concessions in one place.",
+        hoardTitle: "Road Safety • Rules • Regulations",
+        stepsTitle: "Booking Process & Reservations",
+        s1t: "Step 1: Search", s1d: "Choose From/To, date and passenger count.",
+        s2t: "Step 2: Select", s2d: "Pick service, timing, and preferred seats.",
+        s3t: "Step 3: Pay", s3d: "Secure payments with instant confirmation.",
+        s4t: "Step 4: Travel", s4d: "Get QR/SMS ticket and enjoy your trip.",
+        updatesTitle: "Upcoming Events, Offers & Service Updates",
+        govTitle: "Government & Corporation Details",
+        chatTitle: "TGSRTC Assistant",
+        footerBrand: "Telangana State Road Transport Corporation",
+      },
+      te: {
+        headerTitle: "తెలంగాణ రాష్ట్ర రోడ్డు రవాణా సంస్థ",
+        subTitle: "డెమో UI (బుకింగ్ • చార్జీలు • లాజిస్టిక్స్ • సేఫ్టీ • అప్‌డేట్స్)",
+        navBook: "టికెట్లు బుక్ చేయండి",
+        navRoutes: "రూట్లు & టైమింగ్స్",
+        navOffers: "ఆఫర్లు",
+        navLogistics: "తెలంగాణ స్టేట్ లాజిస్టిక్స్",
+        navGov: "ప్రభుత్వ వివరాలు",
+        h1: "తెలంగాణ రాష్ట్ర రోడ్డు రవాణా సంస్థ",
+        lead: "శుభ్రమైన, స్పేస్ ఉన్న, యూజర్-ఫ్రెండ్లీ UI లో బస్సులు బుక్ చేయండి, చార్జీలు చూడండి, రూట్లు/లాజిస్టిక్స్/సేఫ్టీ అప్‌డేట్స్ తెలుసుకోండి.",
+        pill1t: "త్వరిత బుకింగ్",
+        pill1d: "తక్కువ స్టెప్స్, స్పష్టమైన ఫారం, మెరుగైన స్పేసింగ్.",
+        pill2t: "తెలంగాణ స్టేట్ లాజిస్టిక్స్",
+        pill2d: "పార్సెల్/కార్గో మరియు లాజిస్టిక్స్ ఫీచర్లు ఒకేచోట.",
+        bookTitle: "టికెట్లు బుక్ చేయండి",
+        lblFrom: "ఎక్కడి నుండి",
+        lblTo: "ఎక్కడికి",
+        lblDate: "తేదీ",
+        lblService: "సర్వీస్ రకం",
+        searchBtn: "బస్సులు వెతకండి",
+        mini1t: "చార్జీ చూడండి",
+        mini1d: "బస్ రకం వారీగా చార్జీ కార్డులు.",
+        mini2t: "బస్ పాస్",
+        mini2d: "పాసులు, కన్సెషన్స్ ఒకేచోట.",
+        hoardTitle: "రోడ్ సేఫ్టీ • నియమాలు • నిబంధనలు",
+        stepsTitle: "బుకింగ్ ప్రాసెస్ & రిజర్వేషన్లు",
+        s1t: "స్టెప్ 1: శోధించండి", s1d: "From/To, తేదీ, ప్రయాణికుల సంఖ్య ఎంచుకోండి.",
+        s2t: "స్టెప్ 2: ఎంచుకోండి", s2d: "సర్వీస్, సమయం, సీట్లు ఎంపిక చేయండి.",
+        s3t: "స్టెప్ 3: చెల్లించండి", s3d: "సురక్షిత చెల్లింపులు, వెంటనే కన్ఫర్మేషన్.",
+        s4t: "స్టెప్ 4: ప్రయాణం", s4d: "QR/SMS టికెట్‌తో ప్రయాణించండి.",
+        updatesTitle: "రాబోయే ఈవెంట్స్, ఆఫర్లు & సర్వీస్ అప్‌డేట్స్",
+        govTitle: "ప్రభుత్వ & సంస్థ వివరాలు",
+        chatTitle: "TGSRTC అసిస్టెంట్",
+        footerBrand: "తెలంగాణ రాష్ట్ర రోడ్డు రవాణా సంస్థ",
+      },
+      ur: {
+        headerTitle: "تلنگانہ اسٹیٹ روڈ ٹرانسپورٹ کارپوریشن",
+        subTitle: "ڈیمو UI (بکنگ • کرایہ • لاجسٹکس • سیفٹی • اپڈیٹس)",
+        navBook: "ٹکٹ بک کریں",
+        navRoutes: "روٹس اور اوقات",
+        navOffers: "آفرز",
+        navLogistics: "تلنگانہ اسٹیٹ لاجسٹکس",
+        navGov: "سرکاری تفصیلات",
+        h1: "تلنگانہ اسٹیٹ روڈ ٹرانسپورٹ کارپوریشن",
+        lead: "صاف، کشادہ اور یوزر فرینڈلی UI میں بس بک کریں، کرایہ دیکھیں، روٹس/لاجسٹکس/سیفٹی اپڈیٹس جانیں۔",
+        pill1t: "فوری بکنگ",
+        pill1d: "کم مراحل، واضح فارم، بہتر اسپیسنگ۔",
+        pill2t: "تلنگانہ اسٹیٹ لاجسٹکس",
+        pill2d: "پارسل/کارگو اور لاجسٹکس فیچرز ایک جگہ۔",
+        bookTitle: "ٹکٹ بک کریں",
+        lblFrom: "کہاں سے",
+        lblTo: "کہاں تک",
+        lblDate: "تاریخ",
+        lblService: "سروس ٹائپ",
+        searchBtn: "بسیں تلاش کریں",
+        mini1t: "کرایہ دیکھیں",
+        mini1d: "بس ٹائپ کے مطابق کرایہ کارڈز۔",
+        mini2t: "بس پاس",
+        mini2d: "پاسز اور رعایتیں ایک جگہ۔",
+        hoardTitle: "روڈ سیفٹی • قوانین • ضوابط",
+        stepsTitle: "بکنگ پروسیس اور ریزرویشن",
+        s1t: "مرحلہ 1: تلاش", s1d: "From/To، تاریخ اور مسافروں کی تعداد منتخب کریں۔",
+        s2t: "مرحلہ 2: منتخب", s2d: "سروس، وقت اور سیٹ منتخب کریں۔",
+        s3t: "مرحلہ 3: ادائیگی", s3d: "محفوظ ادائیگی اور فوری تصدیق۔",
+        s4t: "مرحلہ 4: سفر", s4d: "QR/SMS ٹکٹ کے ساتھ سفر کریں۔",
+        updatesTitle: "آنے والے ایونٹس، آفرز اور سروس اپڈیٹس",
+        govTitle: "حکومتی اور ادارہ جاتی تفصیلات",
+        chatTitle: "TGSRTC اسسٹنٹ",
+        footerBrand: "تلنگانہ اسٹیٹ روڈ ٹرانسپورٹ کارپوریشن",
+      },
+      hi: {
+        headerTitle: "तेलंगाना राज्य सड़क परिवहन निगम",
+        subTitle: "डेमो UI (बुकिंग • किराया • लॉजिस्टिक्स • सेफ्टी • अपडेट्स)",
+        navBook: "टिकट बुक करें",
+        navRoutes: "रूट्स और समय",
+        navOffers: "ऑफर्स",
+        navLogistics: "तेलंगाना स्टेट लॉजिस्टिक्स",
+        navGov: "सरकारी विवरण",
+        h1: "तेलंगाना राज्य सड़क परिवहन निगम",
+        lead: "साफ, स्पेस वाला, यूज़र-फ्रेंडली UI: बस बुकिंग, किराया, रूट्स, लॉजिस्टिक्स और सेफ्टी अपडेट्स।",
+        pill1t: "क्विक बुकिंग",
+        pill1d: "कम स्टेप्स, क्लियर फॉर्म, बेहतर स्पेसिंग।",
+        pill2t: "तेलंगाना स्टेट लॉजिस्टिक्स",
+        pill2d: "पार्सल/कार्गो और लॉजिस्टिक्स फीचर्स एक जगह।",
+        bookTitle: "टिकट बुक करें",
+        lblFrom: "कहाँ से",
+        lblTo: "कहाँ तक",
+        lblDate: "तारीख",
+        lblService: "सेवा प्रकार",
+        searchBtn: "बस खोजें",
+        mini1t: "किराया देखें",
+        mini1d: "बस टाइप के अनुसार किराया कार्ड्स।",
+        mini2t: "बस पास",
+        mini2d: "पास और रियायतें एक जगह।",
+        hoardTitle: "रोड सेफ्टी • नियम • विनियम",
+        stepsTitle: "बुकिंग प्रक्रिया और आरक्षण",
+        s1t: "स्टेप 1: खोजें", s1d: "From/To, तारीख और यात्रियों की संख्या चुनें।",
+        s2t: "स्टेप 2: चुनें", s2d: "सेवा, समय और सीट चुनें।",
+        s3t: "स्टेप 3: भुगतान", s3d: "सुरक्षित भुगतान और तुरंत पुष्टि।",
+        s4t: "स्टेप 4: यात्रा", s4d: "QR/SMS टिकट के साथ यात्रा करें।",
+        updatesTitle: "आने वाले इवेंट्स, ऑफर्स और सेवा अपडेट्स",
+        govTitle: "सरकारी एवं निगम विवरण",
+        chatTitle: "TGSRTC सहायक",
+        footerBrand: "तेलंगाना राज्य सड़क परिवहन निगम",
+      }
+    };
+
+    // ====== Slider content (language independent titles can be localized later) ======
+    const SLIDES = [
+      { t:"Road Safety Rules", d:"Wear seat belt (where applicable). Keep aisles clear. Follow boarding instructions.", tone:"tone-danger" },
+      { t:"Fines & Violations", d:"No littering, no smoking, and follow conductor instructions. Penalties may apply.", tone:"tone-warning" },
+      { t:"Rules & Regulations", d:"Carry valid ID for reserved services. Keep ticket until journey ends.", tone:"" },
+      { t:"Speed Limits & Precautions", d:"Slow down in rain/fog. Maintain safe distance. Respect traffic signs.", tone:"tone-danger" }
+    ];
+
+    // ====== Helpers ======
+    const $ = (id) => document.getElementById(id);
+    function setText(id, v){ const el=$(id); if(el) el.textContent=v; }
+    function todayISO(){ return new Date().toISOString().slice(0,10); }
+
+    // ====== Theme ======
+    const themeBtn = $("themeBtn");
+    function applyTheme(theme){
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      localStorage.setItem("theme", theme);
+      themeBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+    }
+    themeBtn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      applyTheme(isDark ? "light" : "dark");
+    });
+    applyTheme(localStorage.getItem("theme") || "light");
+
+    // ====== Language ======
+    const langSel = $("langSel");
+    function applyLang(lang){
+      const t = STR[lang] || STR.en;
+      setText("brandTitle", t.headerTitle);
+      setText("brandSub", t.subTitle);
+
+      // nav
+      ["navBook","mNavBook"].forEach(id => setText(id, t.navBook));
+      ["navRoutes","mNavRoutes"].forEach(id => setText(id, t.navRoutes));
+      ["navOffers","mNavOffers"].forEach(id => setText(id, t.navOffers));
+      ["navLogistics","mNavLogistics"].forEach(id => setText(id, t.navLogistics));
+      ["navGov","mNavGov"].forEach(id => setText(id, t.navGov));
+
+      // hero
+      setText("h1", t.h1);
+      setText("lead", t.lead);
+      setText("pill1t", t.pill1t); setText("pill1d", t.pill1d);
+      setText("pill2t", t.pill2t); setText("pill2d", t.pill2d);
+
+      // booking
+      setText("bookTitle", t.bookTitle);
+      setText("lblFrom", t.lblFrom);
+      setText("lblTo", t.lblTo);
+      setText("lblDate", t.lblDate);
+      setText("lblService", t.lblService);
+      setText("searchBtn", t.searchBtn);
+      setText("mini1t", t.mini1t); setText("mini1d", t.mini1d);
+      setText("mini2t", t.mini2t); setText("mini2d", t.mini2d);
+
+      // sections
+      setText("hoardTitle", t.hoardTitle);
+      setText("stepsTitle", t.stepsTitle);
+      setText("s1t", t.s1t); setText("s1d", t.s1d);
+      setText("s2t", t.s2t); setText("s2d", t.s2d);
+      setText("s3t", t.s3t); setText("s3d", t.s3d);
+      setText("s4t", t.s4t); setText("s4d", t.s4d);
+      setText("updatesTitle", t.updatesTitle);
+      setText("govTitle", t.govTitle);
+      setText("chatTitle", t.chatTitle);
+      setText("footerBrand", t.footerBrand);
+    }
+    langSel.addEventListener("change", (e) => {
+      localStorage.setItem("lang", e.target.value);
+      applyLang(e.target.value);
+    });
+    const savedLang = localStorage.getItem("lang") || "en";
+    langSel.value = savedLang;
+    applyLang(savedLang);
+
+    // ====== Mobile drawer ======
+    const menuBtn = $("menuBtn");
+    const drawer = $("drawer");
+    menuBtn.addEventListener("click", () => {
+      const open = drawer.style.display === "block";
+      drawer.style.display = open ? "none" : "block";
+      menuBtn.textContent = open ? "☰" : "✕";
+    });
+
+    // ====== Date ======
+    $("dateInput").value = todayISO();
+    setText("today", todayISO());
+
+    // ====== Search button (demo) ======
+    $("searchBtn").addEventListener("click", () => {
+      const from = $("fromInput").value.trim();
+      const to = $("toInput").value.trim();
+      const date = $("dateInput").value;
+      const svc = $("serviceSel").value;
+      alert(`Demo search:\nFrom: ${from}\nTo: ${to}\nDate: ${date}\nService: ${svc}\n\nConnect this to your booking API.`);
+    });
+
+    // ====== Slider ======
+    let slideI = 0;
+    const dots = Array.from(document.querySelectorAll(".dot"));
+    function renderSlide(i){
+      slideI = i;
+      const s = SLIDES[i];
+      setText("slideT", s.t);
+      setText("slideD", s.d);
+      setText("slideCount", `${i+1}/${SLIDES.length}`);
+      const box = $("slideBox");
+      box.classList.remove("tone-warning","tone-danger");
+      if (s.tone) box.classList.add(s.tone);
+
+      dots.forEach(d => d.classList.toggle("active", Number(d.dataset.i) === i));
+    }
+    dots.forEach(d => d.addEventListener("click", () => renderSlide(Number(d.dataset.i))));
+    renderSlide(0);
+    setInterval(() => renderSlide((slideI + 1) % SLIDES.length), 4500);
+
+    // ====== Chatbot (UI demo) ======
+    const chatFab = $("chatFab");
+    const chatModal = $("chatModal");
+    const chatClose = $("chatClose");
+    const chatBody = $("chatBody");
+    const chatInput = $("chatInput");
+    const chatSend = $("chatSend");
+
+    function openChat(){
+      chatModal.classList.add("open");
+      setTimeout(() => chatInput.focus(), 80);
+    }
+    function closeChat(){
+      chatModal.classList.remove("open");
+    }
+    function appendMsg(text, who){
+      const div = document.createElement("div");
+      div.className = "msg" + (who === "user" ? " user" : "");
+      div.textContent = text;
+      chatBody.appendChild(div);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    chatFab.addEventListener("click", openChat);
+    chatClose.addEventListener("click", closeChat);
+    chatModal.addEventListener("click", (e) => {
+      if (e.target === chatModal) closeChat();
+    });
+
+    function sendChat(){
+      const q = chatInput.value.trim();
+      if (!q) return;
+      chatInput.value = "";
+      appendMsg(q, "user");
+
+      // Demo reply (replace with real FAQ/API)
+      setTimeout(() => {
+        appendMsg("Demo reply: I’m a UI-only chatbot widget. Connect me to your backend/FAQ data for official answers.", "bot");
+      }, 450);
+    }
+    chatSend.addEventListener("click", sendChat);
+    chatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendChat();
+      if (e.key === "Escape") closeChat();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeChat();
+    });
+  </script>
+</body>
+</html>
