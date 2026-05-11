@@ -1,0 +1,91 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JS Function Visualizer</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>JavaScript Function Visualizer</h1>
+    <p class="subtitle">
+      Learn how JavaScript functions work visually
+    </p>
+
+    <!-- FUNCTION SELECT -->
+    <div class="top-section">
+
+      <div class="input-group">
+        <label for="functionSelect">Select Function</label>
+
+        <select id="functionSelect" aria-label="Select Function">
+          <option value="square">Square Number</option>
+          <option value="cube">Cube Number</option>
+          <option value="evenodd">Even / Odd Checker</option>
+          <option value="factorial">Factorial</option>
+          <option value="palindrome">Palindrome Checker</option>
+          <option value="bmi">BMI Calculator</option>
+          <option value="temperature">Celsius to Fahrenheit</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Enter Value</label>
+        <input type="text" id="userInput" placeholder="Enter value">
+      </div>
+
+      <button id="runBtn">Run Function</button>
+
+    </div>
+
+    <!-- VISUAL FLOW -->
+    <div class="visualizer">
+
+      <div class="box input-box">
+        <h2>INPUT</h2>
+        <p id="inputDisplay">-</p>
+      </div>
+
+      <div class="arrow">
+        ➜
+      </div>
+
+      <div class="box function-box">
+        <h2>FUNCTION</h2>
+        <p id="functionDisplay">-</p>
+      </div>
+
+      <div class="arrow">
+        ➜
+      </div>
+
+      <div class="box output-box">
+        <h2>OUTPUT</h2>
+        <p id="outputDisplay">-</p>
+      </div>
+
+    </div>
+
+    <!-- STEP CONSOLE -->
+    <div class="console-section">
+
+      <h3>Execution Steps</h3>
+
+      <div id="consoleBox">
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
